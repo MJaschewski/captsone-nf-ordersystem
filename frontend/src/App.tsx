@@ -1,14 +1,12 @@
-import React from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import './App.css';
+import AddProduct from "./components/purchase/AddProduct";
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
-        <body>
-        Hello World!
-        </body>
+        <AddProduct/>
     </div>
   );
 }
