@@ -1,6 +1,6 @@
-package de.neuefische.backend.product_system.repository;
+package de.neuefische.backend.productsystem.repository;
 
-import de.neuefische.backend.product_system.model.ProductBody;
+import de.neuefische.backend.productsystem.model.ProductBody;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

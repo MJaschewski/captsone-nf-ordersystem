@@ -1,8 +1,8 @@
-package de.neuefische.backend.product_system.service;
+package de.neuefische.backend.productsystem.service;
 
-import de.neuefische.backend.product_system.model.ProductBody;
-import de.neuefische.backend.product_system.model.ProductDTO;
-import de.neuefische.backend.product_system.repository.ProductRepository;
+import de.neuefische.backend.productsystem.model.ProductBody;
+import de.neuefische.backend.productsystem.model.ProductDTO;
+import de.neuefische.backend.productsystem.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ public class ProductSystemService {
     private final ProductRepository productRepository;
     private final GenerateIdService generateIdService;
 
-    public ProductBody addProduct(ProductDTO productDTO) {
+    public ProductBody addProductBody(ProductDTO productDTO) {
         ProductBody newProduct = new ProductBody(generateIdService.generateUUID(),productDTO.getName(),productDTO.getPrice(), productDTO.getAccessLevel());
         return productRepository.save(newProduct);
     }
