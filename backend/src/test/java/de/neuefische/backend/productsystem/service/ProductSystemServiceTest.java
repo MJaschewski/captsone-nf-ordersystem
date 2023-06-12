@@ -1,5 +1,6 @@
 package de.neuefische.backend.productsystem.service;
 
+import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
@@ -21,7 +22,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInput_then_returnProductDTOWithRightProperties(){
         //Given
-            ProductDTO testInput = new ProductDTO("testName",1.00,"testLevel");
+            ProductDTO testInput = new ProductDTO("testName",1.00,AccessLevel.ALL);
             String testId = "testId";
             when(generateIdService.generateUUID()).thenReturn(testId);
             ProductBody expected = new ProductBody(testId,testInput.getName(),testInput.getPrice(),testInput.getAccessLevel());
@@ -37,7 +38,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductNegativePrice_then_returnIllegalArgumentExceptionWithMessage(){
         //Given
-            ProductDTO wrongInput = new ProductDTO("testName",-3.00,"testLevel");
+            ProductDTO wrongInput = new ProductDTO("testName",-3.00,AccessLevel.ALL);
         //When & Then
             assertThrows(IllegalArgumentException.class
                     , ()->productSystemService.addProductBody(wrongInput),"Price can't be negative");
