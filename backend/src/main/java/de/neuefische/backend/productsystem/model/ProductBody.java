@@ -15,5 +15,5 @@ public class ProductBody {
     private String id;
     private String name;
     private double price;
-    private AccessLevel accessLevel;
+    private String accessLevel;
 }

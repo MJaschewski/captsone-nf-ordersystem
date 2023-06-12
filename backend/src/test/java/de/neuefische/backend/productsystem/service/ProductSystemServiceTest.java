@@ -1,6 +1,5 @@
 package de.neuefische.backend.productsystem.service;
 
-import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
@@ -25,7 +24,7 @@ class ProductSystemServiceTest {
             ProductDTO testInput = new ProductDTO("testName", 1.00, "All");
         String testId = "testId";
             when(generateIdService.generateUUID()).thenReturn(testId);
-        ProductBody expected = new ProductBody(testId, testInput.getName(), testInput.getPrice(), AccessLevel.ALL);
+        ProductBody expected = new ProductBody(testId, testInput.getName(), testInput.getPrice(), testInput.getAccessLevel());
             when(productRepository.save(any())).thenReturn(expected);
         //When
             ProductBody actual = productSystemService.addProductBody(testInput);

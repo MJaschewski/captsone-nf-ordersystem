@@ -1,6 +1,5 @@
 package de.neuefische.backend.productsystem.service;
 
-import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
@@ -23,9 +22,9 @@ public class ProductSystemService {
         }
         ProductBody newProduct = new ProductBody();
         switch (productDTO.getAccessLevel()) {
-            case "All" -> newProduct.setAccessLevel(AccessLevel.ALL);
-            case "Purchase" -> newProduct.setAccessLevel(AccessLevel.PURCHASE);
-            case "Lead" -> newProduct.setAccessLevel(AccessLevel.LEAD);
+            case "All" -> newProduct.setAccessLevel("All");
+            case "Purchase" -> newProduct.setAccessLevel("Purchase");
+            case "Lead" -> newProduct.setAccessLevel("Lead");
             default -> throw new IllegalArgumentException("Not a valid access level");
         }
 
