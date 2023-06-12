@@ -43,7 +43,7 @@ class ProductSystemControllerTest {
     }
 
     @Test
-    void when_addProductNegativePrice_returnStatus() throws Exception {
+    void when_addProductNegativePrice_returnStatus422() throws Exception {
         //When & Then
         mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -52,6 +52,22 @@ class ProductSystemControllerTest {
                                     "name":"testBackend",
                                     "price":-1244.99,
                                     "accessLevel":"All"
+                                }
+                                """))
+                .andExpect(status().isUnprocessableEntity());
+
+    }
+
+    @Test
+    void when_addProductWrongAccessLevel_returnStatus422() throws Exception {
+        //When & Then
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"testName",
+                                    "price":1244.99,
+                                    "accessLevel":"wrongLevel"
                                 }
                                 """))
                 .andExpect(status().isUnprocessableEntity());

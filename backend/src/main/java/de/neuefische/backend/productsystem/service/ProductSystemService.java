@@ -17,9 +17,6 @@ public class ProductSystemService {
         if (productDTO.getPrice() <= 0.00) {
             throw new IllegalArgumentException("Price can't be negative");
         }
-        if (productDTO.getName().equals("")) {
-            throw new IllegalArgumentException("Name can't be empty");
-        }
         ProductBody newProduct = new ProductBody();
         switch (productDTO.getAccessLevel()) {
             case "All" -> newProduct.setAccessLevel("All");
