@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 public class ProductControllerAdvisor {
 
     @ExceptionHandler(InputMismatchException.class)
-    private ResponseEntity<Object> handleInputMismatchException(InputMismatchException inputMismatchException){
-        return new ResponseEntity<>(inputMismatchException.getMessage(), HttpStatus.BAD_REQUEST);
+    private ResponseEntity<Object> handleInputMismatchException(IllegalArgumentException illegalArgumentException){
+        return new ResponseEntity<>(illegalArgumentException.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }

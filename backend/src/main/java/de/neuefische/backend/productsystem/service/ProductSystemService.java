@@ -17,13 +17,10 @@ public class ProductSystemService {
 
     public ProductBody addProductBody(ProductDTO productDTO) {
         if(productDTO.getPrice() <= 0.00){
-            throw new InputMismatchException("Price can't be negative");
+            throw new IllegalArgumentException("Price can't be negative");
         }
         if(productDTO.getName().equals("")){
-            throw new InputMismatchException("Name can't be empty");
-        }
-        if(productDTO.getAccessLevel().equals("")){
-            throw new InputMismatchException("Access level can't be empty");
+            throw new IllegalArgumentException("Name can't be empty");
         }
         ProductBody newProduct = new ProductBody(generateIdService.generateUUID(),productDTO.getName(),productDTO.getPrice(), productDTO.getAccessLevel());
         return productRepository.save(newProduct);

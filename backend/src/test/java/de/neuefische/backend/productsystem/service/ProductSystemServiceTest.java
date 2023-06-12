@@ -5,6 +5,7 @@ import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +35,11 @@ class ProductSystemServiceTest {
     }
 
     @Test
-    void when_addProductWrongInput_then_returnErrorCode(){
-
+    void when_addProductNegativePrice_then_returnIllegalArgumentExceptionWithMessage(){
+        //Given
+            ProductDTO wrongInput = new ProductDTO("testName",-3.00,"testLevel");
+        //When & Then
+            assertThrows(IllegalArgumentException.class
+                    , ()->productSystemService.addProductBody(wrongInput),"Price can't be negative");
     }
 }
