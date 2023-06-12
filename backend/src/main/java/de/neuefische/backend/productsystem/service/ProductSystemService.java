@@ -21,7 +21,6 @@ public class ProductSystemService {
         if (productDTO.getName().equals("")) {
             throw new IllegalArgumentException("Name can't be empty");
         }
-
         ProductBody newProduct = new ProductBody();
         switch (productDTO.getAccessLevel()) {
             case "All" -> newProduct.setAccessLevel(AccessLevel.ALL);
