@@ -11,7 +11,6 @@ function App() {
                 <Route path={"/"} element={<ProductHub/>}/>
                 <Route path={"/add_product"} element={<AddProduct/>}/>
             </Routes>
-            <AddProduct/>
         </div>
   );
 }
