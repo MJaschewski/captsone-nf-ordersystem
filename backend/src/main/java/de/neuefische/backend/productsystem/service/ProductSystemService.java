@@ -6,8 +6,6 @@ import de.neuefische.backend.productsystem.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.InputMismatchException;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
