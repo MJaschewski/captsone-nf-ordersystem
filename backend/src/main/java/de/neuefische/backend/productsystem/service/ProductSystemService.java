@@ -6,6 +6,8 @@ import de.neuefische.backend.productsystem.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +32,9 @@ public class ProductSystemService {
         newProduct.setPrice(productDTO.getPrice());
 
         return productRepository.save(newProduct);
+    }
+
+    public List<ProductBody> getProductList() {
+        return productRepository.findAll();
     }
 }
