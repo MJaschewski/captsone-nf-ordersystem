@@ -1,12 +1,17 @@
 import './App.css';
 import AddProduct from "./components/purchase/AddProduct";
+import ProductHub from "./components/purchase/ProductHub";
+import {Route, Routes} from "react-router-dom";
 
 function App() {
 
-  return (
-    <div className="App">
-        <AddProduct/>
-    </div>
+    return (
+        <div className="App">
+            <Routes>
+                <Route path={"/"} element={<ProductHub/>}/>
+                <Route path={"/add_product"} element={<AddProduct/>}/>
+            </Routes>
+        </div>
   );
 }
 

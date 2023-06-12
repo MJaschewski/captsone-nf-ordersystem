@@ -4,10 +4,9 @@ import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.service.ProductSystemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +15,12 @@ public class ProductSystemController {
     private final ProductSystemService productSystemService;
 
     @PostMapping
-    public ProductBody addProductBody(@RequestBody ProductDTO productDTO){
+    public ProductBody addProductBody(@RequestBody ProductDTO productDTO) {
         return productSystemService.addProductBody(productDTO);
+    }
+
+    @GetMapping
+    public List<ProductBody> getProductList() {
+        return productSystemService.getProductList();
     }
 }
