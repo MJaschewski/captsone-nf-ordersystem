@@ -5,6 +5,8 @@ import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -80,5 +82,16 @@ class ProductSystemServiceTest {
         //When & Then
         assertThrows(IllegalArgumentException.class
                 , () -> productSystemService.addProductBody(wrongInput), "Not a valid access level");
+    }
+
+    @Test
+    void when_getProductList_returnProductList() {
+        //Given
+        List<ProductBody> expected = List.of(new ProductBody());
+        when(productRepository.findAll()).thenReturn(expected);
+        //When
+        List<ProductBody> actual = productSystemService.getProductList();
+        //Then
+        assertEquals(expected, actual);
     }
 }

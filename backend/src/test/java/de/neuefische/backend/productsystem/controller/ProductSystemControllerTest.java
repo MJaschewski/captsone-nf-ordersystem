@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -60,6 +60,7 @@ class ProductSystemControllerTest {
 
     @Test
     void when_addProductWrongAccessLevel_returnStatus422() throws Exception {
+
         //When & Then
         mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -72,6 +73,72 @@ class ProductSystemControllerTest {
                                 """))
                 .andExpect(status().isUnprocessableEntity());
 
+    }
+
+    @Test
+    void when_getProductListNoObjects_then_return200OkEmptyList() throws Exception {
+        mockMvc.perform(get("/api/productSystem"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(("[]")));
+    }
+
+    @Test
+    void when_getProductList_then_return200OkAndListProductBody() throws Exception {
+        //Given
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test1",
+                                    "price":1244.99,
+                                    "accessLevel":"All"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "name":"test1",
+                            "price":1244.99,
+                            "accessLevel":"All"
+                        }
+                        """
+                ));
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test2",
+                                    "price":1244.99,
+                                    "accessLevel":"All"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "name":"test2",
+                            "price":1244.99,
+                            "accessLevel":"All"
+                        }
+                        """
+                ));
+        mockMvc.perform(get("/api/productSystem"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(("""
+                        [
+                            {
+                                "name":"test1",
+                                "price":1244.99,
+                                "accessLevel":"All"
+                            },
+                            {
+                                "name":"test2",
+                                "price":1244.99,
+                                "accessLevel":"All"
+                            }
+                        ]
+                        """)))
+                .andExpect(jsonPath("$[0].id").isNotEmpty())
+                .andExpect(jsonPath("$[1].id").isNotEmpty());
     }
 
 }
