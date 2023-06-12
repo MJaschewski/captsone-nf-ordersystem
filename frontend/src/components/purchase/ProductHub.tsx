@@ -23,6 +23,7 @@ function ProductHub() {
     return (
         <div>
             <h1>Manage Products</h1>
+            <h2>List of Products:</h2>
             {productList.map(currentProductBody => {
                 return <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
             })}
