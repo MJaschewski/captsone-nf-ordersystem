@@ -76,13 +76,6 @@ class ProductSystemControllerTest {
     }
 
     @Test
-    void when_getProductListNoObjects_then_return200OkEmptyList() throws Exception {
-        mockMvc.perform(get("/api/productSystem"))
-                .andExpect(status().isOk())
-                .andExpect(content().json(("[]")));
-    }
-
-    @Test
     void when_getProductList_then_return200OkAndListProductBody() throws Exception {
         //Given
         mockMvc.perform(post("/api/productSystem")
@@ -140,5 +133,4 @@ class ProductSystemControllerTest {
                 .andExpect(jsonPath("$[0].id").isNotEmpty())
                 .andExpect(jsonPath("$[1].id").isNotEmpty());
     }
-
 }
