@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public enum AccessLevel {
-    ALL("All"),
-    PURCHASE("Purchase"),
-    LEAD("Lead");
+    ALL("All");
     private String level;
 }
