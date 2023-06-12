@@ -42,4 +42,20 @@ class ProductSystemControllerTest {
 
     }
 
+    @Test
+    void when_addProductNegativePrice_returnStatus() throws Exception {
+        //When & Then
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"testBackend",
+                                    "price":-1244.99,
+                                    "accessLevel":"All"
+                                }
+                                """))
+                .andExpect(status().isUnprocessableEntity());
+
+    }
+
 }
