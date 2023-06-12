@@ -1,7 +1,6 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from "axios";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+
 type ProductDTO = {
     name:string,
     price:number,

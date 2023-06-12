@@ -6,9 +6,9 @@ import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.http.HttpStatus;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -22,10 +22,10 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInput_then_returnProductDTOWithRightProperties(){
         //Given
-            ProductDTO testInput = new ProductDTO("testName",1.00,AccessLevel.ALL);
-            String testId = "testId";
+            ProductDTO testInput = new ProductDTO("testName", 1.00, "All");
+        String testId = "testId";
             when(generateIdService.generateUUID()).thenReturn(testId);
-            ProductBody expected = new ProductBody(testId,testInput.getName(),testInput.getPrice(),testInput.getAccessLevel());
+        ProductBody expected = new ProductBody(testId, testInput.getName(), testInput.getPrice(), AccessLevel.ALL);
             when(productRepository.save(any())).thenReturn(expected);
         //When
             ProductBody actual = productSystemService.addProductBody(testInput);
@@ -38,7 +38,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductNegativePrice_then_returnIllegalArgumentExceptionWithMessage(){
         //Given
-            ProductDTO wrongInput = new ProductDTO("testName",-3.00,AccessLevel.ALL);
+        ProductDTO wrongInput = new ProductDTO("testName", -3.00, "All");
         //When & Then
             assertThrows(IllegalArgumentException.class
                     , ()->productSystemService.addProductBody(wrongInput),"Price can't be negative");

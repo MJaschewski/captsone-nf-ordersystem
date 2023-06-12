@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class ProductDTO {
     private String name;
     private double price;
-    private AccessLevel accessLevel;
+    private String accessLevel;
 }
