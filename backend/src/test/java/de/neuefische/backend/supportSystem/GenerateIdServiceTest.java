@@ -1,4 +1,4 @@
-package de.neuefische.backend.generateId;
+package de.neuefische.backend.supportSystem;
 
 import org.junit.jupiter.api.Test;
 

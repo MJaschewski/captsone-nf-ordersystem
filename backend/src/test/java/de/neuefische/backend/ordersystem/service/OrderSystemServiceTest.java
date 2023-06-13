@@ -1,20 +1,26 @@
 package de.neuefische.backend.ordersystem.service;
 
-import de.neuefische.backend.generateId.GenerateIdService;
+import de.neuefische.backend.ordersystem.model.OrderBody;
+import de.neuefische.backend.ordersystem.model.OrderDTO;
+import de.neuefische.backend.ordersystem.model.OrderStatus;
+import de.neuefische.backend.ordersystem.repository.OrderSystemRepository;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.service.ProductSystemService;
+import de.neuefische.backend.supportSystem.GenerateIdService;
+import de.neuefische.backend.supportSystem.TimeService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class OrderSystemServiceTest {
     private final GenerateIdService generateIdService = mock(GenerateIdService.class);
     private final ProductSystemService productSystemService = mock(ProductSystemService.class);
-    private final OrderSystemService orderSystemService = new OrderSystemService(generateIdService, productSystemService);
+    private final TimeService timeService = mock(TimeService.class);
+    private final OrderSystemRepository orderSystemRepository = mock(OrderSystemRepository.class);
+    private final OrderSystemService orderSystemService = new OrderSystemService(timeService, generateIdService, productSystemService, orderSystemRepository);
 
     @Test
     void when_getProductList_then_getListProductBody() {
@@ -51,8 +57,55 @@ class OrderSystemServiceTest {
                 () -> orderSystemService.verifyProductList(testProductBodyList), "testNotValid is not a valid product.");
     }
 
+
     @Test
-    void when_addOrderBody_then_returnOrderBodyAndVerifyProductList() {
+    void when_addOrderBodyWrongBody_throwException() {
+        //Given
+        String testProductId = "testProductId";
+        ProductBody testProduct = new ProductBody(testProductId, "testProduct", 2.00, "All");
+        List<ProductBody> testProductBodyList = List.of(testProduct);
+        OrderDTO testOrderDTO = new OrderDTO(testProductBodyList);
+        when(productSystemService.getProductList()).thenReturn(List.of());
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.addOrderBody(testOrderDTO), "testProduct is not a valid product.");
 
     }
+
+    @Test
+    void when_addOrderBdyEmptyProductList_throwExceptionWithMessage() {
+        //Given
+        OrderDTO emptyOrderDTO = new OrderDTO(List.of());
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.addOrderBody(emptyOrderDTO), "Empty Product List.");
+    }
+
+    @Test
+    void when_addOrderBody_then_returnOrderBody() {
+        //Given
+        String testProductId = "testProductId";
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
+        List<ProductBody> testProductBodyList = List.of(testProduct1, testProduct2);
+        when(productSystemService.getProductList()).thenReturn(testProductBodyList);
+
+        OrderDTO testOrderDTO = new OrderDTO(testProductBodyList);
+        String testOrderId = "testOrderId";
+        when(generateIdService.generateOrderUUID()).thenReturn(testOrderId);
+        String testDate = "2023-01-31";
+        OrderBody expected = new OrderBody(testOrderId, testProductBodyList, 5.00, testDate, "No date yet", false, OrderStatus.REQUESTED.toString());
+
+        when(timeService.currentDate()).thenReturn(testDate);
+        when(orderSystemRepository.save(expected)).thenReturn(expected);
+        //When
+        OrderBody actual = orderSystemService.addOrderBody(testOrderDTO);
+        //Then
+        verify(productSystemService).getProductList();
+        verify(generateIdService).generateOrderUUID();
+        verify(timeService).currentDate();
+        verify(orderSystemRepository).save(expected);
+        assertEquals(expected, actual);
+    }
+
 }

@@ -1,9 +1,9 @@
 package de.neuefische.backend.productsystem.service;
 
-import de.neuefische.backend.generateId.GenerateIdService;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
+import de.neuefische.backend.supportSystem.GenerateIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class ProductSystemService {
             default -> throw new IllegalArgumentException("Not a valid access level");
         }
 
-        newProduct.setId(generateIdService.generateUUID());
+        newProduct.setId(generateIdService.generateProductUUID());
         newProduct.setName(productDTO.getName());
         newProduct.setPrice(productDTO.getPrice());
 

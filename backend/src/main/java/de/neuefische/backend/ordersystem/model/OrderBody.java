@@ -19,5 +19,5 @@ public class OrderBody {
     private String created;
     private String arrival;
     private boolean approval;
-    private OrderStatus orderStatus;
+    private String orderStatus;
 }
