@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TimeServiceTest {
-    private TimeService timeService = new TimeService();
+    private final TimeService timeService = new TimeService();
 
     @Test
     void when_CurrentDate_returnStringWithRightFormat() {
