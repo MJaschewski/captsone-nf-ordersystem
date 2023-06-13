@@ -6,10 +6,7 @@ public enum OrderStatus {
     ARRIVED("Arrived"),
     CANCELLED("Cancelled");
 
-    private String status;
-
     OrderStatus(String status) {
-        this.status = status;
     }
 }
 
