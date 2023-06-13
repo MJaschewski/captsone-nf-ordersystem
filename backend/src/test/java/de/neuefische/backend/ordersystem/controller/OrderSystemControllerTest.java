@@ -33,7 +33,7 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"All"
+                                    "accessLevel":"ALL"
                                 }
                                 """))
                 .andExpect(status().isOk())
@@ -41,7 +41,7 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"All"
+                            "accessLevel":"ALL"
                         }
                         """
                 )).andReturn();
