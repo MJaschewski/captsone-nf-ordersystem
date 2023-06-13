@@ -1,5 +1,6 @@
 package de.neuefische.backend.productsystem.service;
 
+import de.neuefische.backend.generateId.GenerateIdService;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;

@@ -1,4 +1,4 @@
-package de.neuefische.backend.productsystem.service;
+package de.neuefische.backend.generateId;
 
 import org.springframework.stereotype.Service;
 

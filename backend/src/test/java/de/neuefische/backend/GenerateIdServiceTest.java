@@ -1,7 +1,8 @@
-package de.neuefische.backend.productsystem.service;
+package de.neuefische.backend;
 
+import de.neuefische.backend.generateId.GenerateIdService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
 class GenerateIdServiceTest {
 
@@ -14,7 +15,7 @@ class GenerateIdServiceTest {
         //Then
             String secondId = generateIdService.generateUUID();
         //When
-            assertNotEquals(firstId,secondId);
+        Assertions.assertNotEquals(firstId, secondId);
     }
 
     @Test
@@ -24,7 +25,7 @@ class GenerateIdServiceTest {
         //Then
             int actual = generateIdService.generateUUID().length();
         //When
-            assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
 }
