@@ -21,7 +21,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInputAccessLevelAll_then_returnProductDTOWithRightProperties() {
         //Given
-        ProductDTO testInputAll = new ProductDTO("testName", 1.00, "All");
+        ProductDTO testInputAll = new ProductDTO("testName", 1.00, "ALL");
         String testIdAll = "testIdAll";
         when(generateIdService.generateUUID()).thenReturn(testIdAll);
         ProductBody expected = new ProductBody(testIdAll, testInputAll.getName(), testInputAll.getPrice(), testInputAll.getAccessLevel());
@@ -37,7 +37,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInputAccessLevelPurchase_then_returnProductDTOWithRightProperties() {
         //Given
-        ProductDTO testInputPurchase = new ProductDTO("testName", 1.00, "Purchase");
+        ProductDTO testInputPurchase = new ProductDTO("testName", 1.00, "PURCHASE");
         String testIdPurchase = "testIdPurchase";
         when(generateIdService.generateUUID()).thenReturn(testIdPurchase);
         ProductBody expected = new ProductBody(testIdPurchase, testInputPurchase.getName(), testInputPurchase.getPrice(), testInputPurchase.getAccessLevel());
@@ -53,7 +53,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInputAccessLevelLead_then_returnProductDTOWithRightProperties() {
         //Given
-        ProductDTO testInputLead = new ProductDTO("testName", 1.00, "Lead");
+        ProductDTO testInputLead = new ProductDTO("testName", 1.00, "LEAD");
         String testIdLead = "testIdLead";
         when(generateIdService.generateUUID()).thenReturn(testIdLead);
         ProductBody expected = new ProductBody(testIdLead, testInputLead.getName(), testInputLead.getPrice(), testInputLead.getAccessLevel());
@@ -69,7 +69,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductNegativePrice_then_returnIllegalArgumentExceptionWithMessage() {
         //Given
-        ProductDTO wrongInput = new ProductDTO("testName", -3.00, "All");
+        ProductDTO wrongInput = new ProductDTO("testName", -3.00, "ALL");
         //When & Then
         assertThrows(IllegalArgumentException.class
                 , () -> productSystemService.addProductBody(wrongInput), "Price can't be negative");

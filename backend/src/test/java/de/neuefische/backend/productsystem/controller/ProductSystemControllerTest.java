@@ -27,7 +27,7 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"All"
+                                    "accessLevel":"ALL"
                                 }
                                 """))
                 .andExpect(status().isOk())
@@ -35,7 +35,7 @@ class ProductSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"All"
+                            "accessLevel":"ALL"
                         }
                         """
                 ));
@@ -51,7 +51,7 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"testBackend",
                                     "price":-1244.99,
-                                    "accessLevel":"All"
+                                    "accessLevel":"ALL"
                                 }
                                 """))
                 .andExpect(status().isUnprocessableEntity());
@@ -84,7 +84,7 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test1",
                                     "price":1244.99,
-                                    "accessLevel":"All"
+                                    "accessLevel":"ALL"
                                 }
                                 """))
                 .andExpect(status().isOk())
@@ -92,7 +92,7 @@ class ProductSystemControllerTest {
                         {
                             "name":"test1",
                             "price":1244.99,
-                            "accessLevel":"All"
+                            "accessLevel":"ALL"
                         }
                         """
                 ));
@@ -102,7 +102,7 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test2",
                                     "price":1244.99,
-                                    "accessLevel":"All"
+                                    "accessLevel":"ALL"
                                 }
                                 """))
                 .andExpect(status().isOk())
@@ -110,7 +110,7 @@ class ProductSystemControllerTest {
                         {
                             "name":"test2",
                             "price":1244.99,
-                            "accessLevel":"All"
+                            "accessLevel":"ALL"
                         }
                         """
                 ));
@@ -121,12 +121,12 @@ class ProductSystemControllerTest {
                             {
                                 "name":"test1",
                                 "price":1244.99,
-                                "accessLevel":"All"
+                                "accessLevel":"ALL"
                             },
                             {
                                 "name":"test2",
                                 "price":1244.99,
-                                "accessLevel":"All"
+                                "accessLevel":"ALL"
                             }
                         ]
                         """)))
