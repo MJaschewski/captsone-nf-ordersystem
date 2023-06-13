@@ -4,7 +4,7 @@ import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
-import de.neuefische.backend.supportSystem.service.GenerateIdService;
+import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

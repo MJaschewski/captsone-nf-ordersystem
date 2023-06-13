@@ -1,6 +1,6 @@
-package de.neuefische.backend.supportSystem;
+package de.neuefische.backend.supportsystem;
 
-import de.neuefische.backend.supportSystem.service.TimeService;
+import de.neuefische.backend.supportsystem.service.TimeService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;

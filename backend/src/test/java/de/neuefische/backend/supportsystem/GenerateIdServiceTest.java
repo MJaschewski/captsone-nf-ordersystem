@@ -1,6 +1,6 @@
-package de.neuefische.backend.supportSystem;
+package de.neuefische.backend.supportsystem;
 
-import de.neuefische.backend.supportSystem.service.GenerateIdService;
+import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

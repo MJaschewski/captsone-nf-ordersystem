@@ -1,4 +1,4 @@
-package de.neuefische.backend.supportSystem.controller;
+package de.neuefische.backend.supportsystem.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
