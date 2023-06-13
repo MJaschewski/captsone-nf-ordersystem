@@ -1,22 +1,26 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {NavigateFunction} from "react-router-dom";
 
-type ProductDTO = {
-    name:string,
-    price:number,
-    accessLevel:string
+type Props = {
+    navigate: NavigateFunction
 }
-function AddProduct() {
-    const navigate = useNavigate();
-    const [productName, setProductName] = useState<string>("")
-    const [productPrice,setProductPrice]= useState<number>(0.00)
-    const [productAccessLevel,setProductAccessLevel]= useState<string>("")
+type ProductDTO = {
+    name: string,
+    price: number,
+    accessLevel: string
+}
 
-    function handleChangeProductName(event:ChangeEvent<HTMLInputElement>){
+function AddProduct(props: Props) {
+    const [productName, setProductName] = useState<string>("")
+    const [productPrice, setProductPrice] = useState<number>(0.00)
+    const [productAccessLevel, setProductAccessLevel] = useState<string>("")
+
+    function handleChangeProductName(event: ChangeEvent<HTMLInputElement>) {
         setProductName(event.target.value);
     }
-    function handleChangeProductPrice(event:ChangeEvent<HTMLInputElement>){
+
+    function handleChangeProductPrice(event: ChangeEvent<HTMLInputElement>) {
         setProductPrice(event.target.valueAsNumber);
     }
     function handleChangeProductAccessLevel(event:ChangeEvent<HTMLInputElement>){
@@ -30,7 +34,7 @@ function AddProduct() {
             .then(response => {
                 console.log(response.data)
             })
-            .then(() => navigate("/"))
+            .then(() => props.navigate("/"))
             .catch(error => console.log(error));
     }
     return (
@@ -50,7 +54,7 @@ function AddProduct() {
                 </label>
                 <button>Add Product</button>
             </form>
-            <button onClick={() => navigate("/")}>Cancel</button>
+            <button onClick={() => props.navigate("/")}>Cancel</button>
         </div>
     );
 }

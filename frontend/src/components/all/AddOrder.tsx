@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
+import {ProductBodyType} from "../purchase/ProductBodyType";
 import axios from "axios";
-import {ProductBodyType} from "./ProductBodyType";
-import ProductOpticalElement from "./ProductOpticalElement";
+import ProductOpticalElement from "../purchase/ProductOpticalElement";
 import {NavigateFunction} from "react-router-dom";
 
 type Props = {
     navigate: NavigateFunction
 }
 
-function ProductHub(props: Props) {
+function AddOrder(props: Props) {
+
     const [productList, setProductList] = useState<ProductBodyType[]>([])
 
     useEffect(handleProductList, [])
@@ -25,15 +26,17 @@ function ProductHub(props: Props) {
 
     return (
         <div>
-            <h1>Manage Products</h1>
+            <h1>Add Order</h1>
             <h2>List of Products:</h2>
             {productList.map(currentProductBody => {
                 return <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
             })}
-            <button onClick={() => props.navigate("/add_product")}>Add Product</button>
-            <button onClick={() => props.navigate("/")}> Cancel</button>
+            <form>
+                <button>Add Order</button>
+            </form>
+            <button onClick={() => props.navigate("/")}>Cancel</button>
         </div>
     );
 }
 
-export default ProductHub;
+export default AddOrder;
