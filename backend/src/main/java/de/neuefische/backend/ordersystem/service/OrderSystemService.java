@@ -6,8 +6,8 @@ import de.neuefische.backend.ordersystem.model.OrderStatus;
 import de.neuefische.backend.ordersystem.repository.OrderSystemRepository;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.service.ProductSystemService;
-import de.neuefische.backend.supportSystem.GenerateIdService;
-import de.neuefische.backend.supportSystem.TimeService;
+import de.neuefische.backend.supportSystem.service.GenerateIdService;
+import de.neuefische.backend.supportSystem.service.TimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

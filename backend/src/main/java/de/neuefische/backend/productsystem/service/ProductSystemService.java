@@ -3,7 +3,7 @@ package de.neuefische.backend.productsystem.service;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
-import de.neuefische.backend.supportSystem.GenerateIdService;
+import de.neuefische.backend.supportSystem.service.GenerateIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
