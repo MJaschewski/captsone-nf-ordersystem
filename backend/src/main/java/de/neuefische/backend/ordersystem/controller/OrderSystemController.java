@@ -24,6 +24,11 @@ public class OrderSystemController {
         return orderSystemService.getOrderList();
     }
 
+    @GetMapping("/{id}")
+    public OrderBody getOrderById(@PathVariable String id){
+        return orderSystemService.getOrderById(id);
+    }
+
     @PutMapping("/{orderId}")
     public OrderBody editOrder(@PathVariable String orderId,@RequestBody OrderDTO orderDTO){
         return orderSystemService.editOrder(orderId,orderDTO);

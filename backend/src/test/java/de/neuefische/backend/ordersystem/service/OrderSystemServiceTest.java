@@ -202,4 +202,26 @@ class OrderSystemServiceTest {
 
     }
 
+    @Test
+    void when_getOrderById_then_ReturnOrder(){
+        //Given
+        OrderBody expected = new OrderBody();
+        String savedOrderId = "savedOrderId";
+        expected.setId(savedOrderId);
+        when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(expected));
+       //When
+        OrderBody actual = orderSystemService.getOrderById(savedOrderId);
+        //Then
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void when_getOrderByIdWrongId_then_throwExceptionWithError(){
+        //Given
+        String wrongId = "wrongId";
+        when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.getOrderById(wrongId),"No order with "+wrongId+" found.");
+    }
 }

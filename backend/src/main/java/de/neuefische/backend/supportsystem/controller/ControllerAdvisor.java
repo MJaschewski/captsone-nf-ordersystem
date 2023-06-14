@@ -16,7 +16,7 @@ public class ControllerAdvisor {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Object> handleInputMismatchException(NoSuchElementException moSuchElementException) {
-        return new ResponseEntity<>(moSuchElementException.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Object> handleInputMismatchException(NoSuchElementException noSuchElementException) {
+        return new ResponseEntity<>(noSuchElementException.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
