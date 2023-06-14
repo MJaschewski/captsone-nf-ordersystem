@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {NavigateFunction} from "react-router-dom";
 import {OrderBodyType} from "./OrderBodyType";
 import axios from "axios";
-import OrderOpticalElement from "./OrderOpticalElement";
+
 type Props = {
     navigate: NavigateFunction
 }
