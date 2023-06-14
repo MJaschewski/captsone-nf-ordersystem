@@ -4,6 +4,7 @@ import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
+import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProductSystemService {
         AccessLevel newAccessLevel = AccessLevel.valueOf(productDTO.getAccessLevel());
         newProduct.setAccessLevel(newAccessLevel.toString());
 
-        newProduct.setId(generateIdService.generateUUID());
+        newProduct.setId(generateIdService.generateProductUUID());
         newProduct.setName(productDTO.getName());
         newProduct.setPrice(productDTO.getPrice());
 

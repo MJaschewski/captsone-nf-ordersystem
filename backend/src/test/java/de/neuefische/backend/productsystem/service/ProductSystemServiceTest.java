@@ -3,6 +3,7 @@ package de.neuefische.backend.productsystem.service;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
+import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,13 +24,13 @@ class ProductSystemServiceTest {
         //Given
         ProductDTO testInputAll = new ProductDTO("testName", 1.00, "ALL");
         String testIdAll = "testIdAll";
-        when(generateIdService.generateUUID()).thenReturn(testIdAll);
+        when(generateIdService.generateProductUUID()).thenReturn(testIdAll);
         ProductBody expected = new ProductBody(testIdAll, testInputAll.getName(), testInputAll.getPrice(), testInputAll.getAccessLevel());
         when(productRepository.save(any())).thenReturn(expected);
         //When
         ProductBody actual = productSystemService.addProductBody(testInputAll);
         //Then
-        verify(generateIdService).generateUUID();
+        verify(generateIdService).generateProductUUID();
         verify(productRepository).save(any());
         assertEquals(expected, actual);
     }
@@ -39,13 +40,13 @@ class ProductSystemServiceTest {
         //Given
         ProductDTO testInputPurchase = new ProductDTO("testName", 1.00, "PURCHASE");
         String testIdPurchase = "testIdPurchase";
-        when(generateIdService.generateUUID()).thenReturn(testIdPurchase);
+        when(generateIdService.generateProductUUID()).thenReturn(testIdPurchase);
         ProductBody expected = new ProductBody(testIdPurchase, testInputPurchase.getName(), testInputPurchase.getPrice(), testInputPurchase.getAccessLevel());
         when(productRepository.save(any())).thenReturn(expected);
         //When
         ProductBody actual = productSystemService.addProductBody(testInputPurchase);
         //Then
-        verify(generateIdService).generateUUID();
+        verify(generateIdService).generateProductUUID();
         verify(productRepository).save(any());
         assertEquals(expected, actual);
     }
@@ -55,13 +56,13 @@ class ProductSystemServiceTest {
         //Given
         ProductDTO testInputLead = new ProductDTO("testName", 1.00, "LEAD");
         String testIdLead = "testIdLead";
-        when(generateIdService.generateUUID()).thenReturn(testIdLead);
+        when(generateIdService.generateProductUUID()).thenReturn(testIdLead);
         ProductBody expected = new ProductBody(testIdLead, testInputLead.getName(), testInputLead.getPrice(), testInputLead.getAccessLevel());
         when(productRepository.save(any())).thenReturn(expected);
         //When
         ProductBody actual = productSystemService.addProductBody(testInputLead);
         //Then
-        verify(generateIdService).generateUUID();
+        verify(generateIdService).generateProductUUID();
         verify(productRepository).save(any());
         assertEquals(expected, actual);
     }
