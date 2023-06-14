@@ -11,6 +11,7 @@ import de.neuefische.backend.supportsystem.service.TimeService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -117,6 +118,18 @@ class OrderSystemServiceTest {
         List<OrderBody> actual = orderSystemService.getOrderList();
         //Then
         assertEquals(expected,actual);
+
+    }
+
+    @Test
+    void when_editOrderWrongId_then_ReturnExceptionWithMessage(){
+        //Given
+        String wrongId = "";
+        when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
+        OrderDTO testOrder = new OrderDTO();
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.editOrder(wrongId,testOrder), "No order with this id.");
 
     }
 

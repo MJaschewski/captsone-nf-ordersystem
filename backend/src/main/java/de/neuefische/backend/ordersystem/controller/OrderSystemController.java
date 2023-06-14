@@ -23,4 +23,9 @@ public class OrderSystemController {
     public List<OrderBody> getOrderList(){
         return orderSystemService.getOrderList();
     }
+
+    @PutMapping("/{orderId}")
+    public OrderBody editOrder(@PathVariable String orderId,@RequestBody OrderDTO orderDTO){
+        return orderSystemService.editOrder(orderId,orderDTO);
+    }
 }
