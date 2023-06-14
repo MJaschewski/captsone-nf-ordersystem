@@ -1,6 +1,11 @@
 import React from 'react';
+import {OrderBodyType} from "./OrderBodyType";
 
-function OrderOpticalElement(props) {
+type Props = {
+    orderBody:OrderBodyType
+}
+
+function OrderOpticalElement(props:OrderBodyType) {
     return (
         <div></div>
     );
