@@ -9,7 +9,7 @@ function FrontPage(props: Props) {
     return (
         <div>
             <h1>Order System</h1>
-            <button onClick={() => props.navigate("/add_order")}>Manage Orders</button>
+            <button onClick={() => props.navigate("/orderHub")}>Manage Orders</button>
             <button onClick={() => props.navigate("/productHub")}>Manage Products</button>
         </div>
     );

@@ -31,7 +31,7 @@ function ProductHub(props: Props) {
                 return <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
             })}
             <button onClick={() => props.navigate("/add_product")}>Add Product</button>
-            <button onClick={() => props.navigate("/")}> Cancel</button>
+            <button onClick={() => props.navigate("/productHub")}> Cancel</button>
         </div>
     );
 }
