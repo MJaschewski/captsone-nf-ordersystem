@@ -122,6 +122,11 @@ class OrderSystemServiceTest {
     }
 
     @Test
+    void when_calculatePriceListProducts_then_ReturnPrice(){
+
+    }
+
+    @Test
     void when_editOrderWrongId_then_ReturnExceptionWithMessage(){
         //Given
         String wrongId = "";
@@ -132,5 +137,7 @@ class OrderSystemServiceTest {
                 () -> orderSystemService.editOrder(wrongId,testOrder), "No order with this id.");
 
     }
+
+
 
 }
