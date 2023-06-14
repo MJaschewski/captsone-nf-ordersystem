@@ -74,12 +74,12 @@ public class OrderSystemService {
         return orderSystemRepository.findAll();
     }
 
-    public OrderBody getOrderById(String id){
-        return orderSystemRepository.findById(id).orElseThrow();
+    public OrderBody getOrderById(String orderId) {
+        return orderSystemRepository.findById(orderId).orElseThrow();
     }
 
     public OrderBody editOrder(String orderId, OrderDTO orderDTO) {
-        if(!orderSystemRepository.existsById(orderId)){
+        if (!orderSystemRepository.existsById(orderId)) {
             throw new NoSuchElementException("No order with this id.");
         }
         verifyProductList(orderDTO.getProductBodyList());

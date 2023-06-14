@@ -20,17 +20,17 @@ public class OrderSystemController {
     }
 
     @GetMapping
-    public List<OrderBody> getOrderList(){
+    public List<OrderBody> getOrderList() {
         return orderSystemService.getOrderList();
     }
 
-    @GetMapping("/{id}")
-    public OrderBody getOrderById(@PathVariable String id){
-        return orderSystemService.getOrderById(id);
+    @GetMapping("/{orderId}")
+    public OrderBody getOrderById(@PathVariable String orderId) {
+        return orderSystemService.getOrderById(orderId);
     }
 
     @PutMapping("/{orderId}")
-    public OrderBody editOrder(@PathVariable String orderId,@RequestBody OrderDTO orderDTO){
-        return orderSystemService.editOrder(orderId,orderDTO);
+    public OrderBody editOrder(@PathVariable String orderId, @RequestBody OrderDTO orderDTO) {
+        return orderSystemService.editOrder(orderId, orderDTO);
     }
 }
