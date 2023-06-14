@@ -18,7 +18,7 @@ function OrderOpticalElement(props:Props) {
                 <li>Order Status: {props.orderBody.orderStatus} </li>
                 <li>Product List:
                     <ul>{props.orderBody.productBodyList.map( currentProduct => (
-                           <li> key={currentProduct.id} {currentProduct.name } </li>
+                           <li key={currentProduct.id}>  {currentProduct.name } </li>
                         )
                     )}
                     </ul>
