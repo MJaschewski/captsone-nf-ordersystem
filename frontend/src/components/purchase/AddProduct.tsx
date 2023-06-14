@@ -65,7 +65,7 @@ function AddProduct(props: Props) {
                 </label>
                 <button>Add Product</button>
             </form>
-            <button onClick={() => props.navigate("/")}>Cancel</button>
+            <button onClick={() => props.navigate("/productHub")}>Cancel</button>
         </div>
     );
 }

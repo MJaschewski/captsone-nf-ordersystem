@@ -18,6 +18,7 @@ public class OrderBody {
     private double price;
     private String created;
     private String arrival;
-    private boolean approval;
+    private boolean approvalPurchase;
+    private boolean approvalLead;
     private String orderStatus;
 }

@@ -1,5 +1,5 @@
 import React, { FormEvent, useEffect, useState} from 'react';
-import {ProductBodyType} from "../purchase/ProductBodyType";
+import {ProductBodyType} from "../../purchase/ProductBodyType";
 import axios from "axios";
 import {NavigateFunction} from "react-router-dom";
 
@@ -70,7 +70,7 @@ function AddOrder(props: Props) {
                 </label>
                 <button>Add Order</button>
             </form>
-            <button onClick={() => props.navigate("/")}>Cancel</button>
+            <button onClick={() => props.navigate("/orderHub")}>Cancel</button>
         </div>
     );
 }

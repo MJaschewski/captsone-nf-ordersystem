@@ -94,7 +94,7 @@ class OrderSystemServiceTest {
         String testOrderId = "testOrderId";
         when(generateIdService.generateOrderUUID()).thenReturn(testOrderId);
         String testDate = "2023-01-31";
-        OrderBody expected = new OrderBody(testOrderId, testProductBodyList, 5.00, testDate, "No date yet", false, OrderStatus.REQUESTED.toString());
+        OrderBody expected = new OrderBody(testOrderId, testProductBodyList, 5.00, testDate, "No date yet", false,false, OrderStatus.REQUESTED.toString());
 
         when(timeService.currentDate()).thenReturn(testDate);
         when(orderSystemRepository.save(expected)).thenReturn(expected);
@@ -106,6 +106,18 @@ class OrderSystemServiceTest {
         verify(timeService).currentDate();
         verify(orderSystemRepository).save(expected);
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void when_getOrderList_then_returnOrderList(){
+        //Given
+        List<OrderBody> expected = List.of(new OrderBody());
+        when(orderSystemRepository.findAll()).thenReturn(expected);
+        //When
+        List<OrderBody> actual = orderSystemService.getOrderList();
+        //Then
+        assertEquals(expected,actual);
+
     }
 
 }

@@ -4,10 +4,9 @@ import de.neuefische.backend.ordersystem.model.OrderBody;
 import de.neuefische.backend.ordersystem.model.OrderDTO;
 import de.neuefische.backend.ordersystem.service.OrderSystemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +17,10 @@ public class OrderSystemController {
     @PostMapping
     public OrderBody addOrder(@RequestBody OrderDTO orderDTO) {
         return orderSystemService.addOrderBody(orderDTO);
+    }
+
+    @GetMapping
+    public List<OrderBody> getOrderList(){
+        return orderSystemService.getOrderList();
     }
 }

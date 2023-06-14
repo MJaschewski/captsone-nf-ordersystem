@@ -47,7 +47,8 @@ public class OrderSystemService {
         newOrderBody.setProductBodyList(orderDTO.getProductBodyList());
         newOrderBody.setCreated(timeService.currentDate());
         newOrderBody.setArrival("No date yet");
-        newOrderBody.setApproval(false);
+        newOrderBody.setApprovalLead(false);
+        newOrderBody.setApprovalPurchase(false);
         newOrderBody.setOrderStatus(OrderStatus.REQUESTED.toString());
 
         double orderPrice = 0;
@@ -57,5 +58,9 @@ public class OrderSystemService {
         newOrderBody.setPrice(orderPrice);
 
         return orderSystemRepository.save(newOrderBody);
+    }
+
+    public List<OrderBody> getOrderList() {
+        return orderSystemRepository.findAll();
     }
 }
