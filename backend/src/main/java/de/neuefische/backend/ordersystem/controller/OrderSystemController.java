@@ -20,7 +20,7 @@ public class OrderSystemController {
     }
 
     @GetMapping
-    public List<OrderBody> getOrders(){
-        return orderSystemService.getOrders();
+    public List<OrderBody> getOrderList(){
+        return orderSystemService.getOrderList();
     }
 }

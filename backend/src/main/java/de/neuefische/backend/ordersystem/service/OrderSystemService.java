@@ -60,7 +60,7 @@ public class OrderSystemService {
         return orderSystemRepository.save(newOrderBody);
     }
 
-    public List<OrderBody> getOrders() {
-        return null;
+    public List<OrderBody> getOrderList() {
+        return orderSystemRepository.findAll();
     }
 }
