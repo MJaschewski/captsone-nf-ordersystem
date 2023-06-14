@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -62,5 +63,13 @@ public class OrderSystemService {
 
     public List<OrderBody> getOrderList() {
         return orderSystemRepository.findAll();
+    }
+
+    public OrderBody getOrderById(String id){
+        if(orderSystemRepository.findById(id).isPresent()){
+            return orderSystemRepository.findById(id).get();
+        }
+        else {throw new NoSuchElementException("No order with "+id+" found.");
+        }
     }
 }
