@@ -78,7 +78,8 @@ class OrderSystemControllerTest {
                             "price": 1244.99,
                             "created": "%s",
                             "arrival": "No date yet",
-                            "approval": false,
+                            "approvalPurchase": false,
+                            "approvalLead": false,
                             "orderStatus": "REQUESTED"
                         }
                         """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())))
