@@ -160,49 +160,6 @@ class OrderSystemServiceTest {
     }
 
     @Test
-    void when_editOrderWrongId_then_ReturnExceptionWithMessage(){
-        //Given
-        String wrongId = "";
-        when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
-        OrderDTO testOrder = new OrderDTO();
-        //When & Then
-        assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.editOrder(wrongId,testOrder), "No order with this id.");
-
-    }
-
-    @Test
-    void when_editOrder_returnChangedOrder(){
-        //Given
-        String testProductId = "testProductId";
-        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
-        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
-        List<ProductBody> savedProductBodyList = List.of(testProduct1, testProduct2);
-        List<ProductBody> newProductBodyList = List.of(testProduct1);
-        when(productSystemService.getProductList()).thenReturn(savedProductBodyList);
-
-
-
-        OrderDTO newOrderDTO = new OrderDTO(newProductBodyList);
-        String savedOrderId = "savedOrderId";
-        when(generateIdService.generateOrderUUID()).thenReturn(savedOrderId);
-        String testDate = "2023-01-31";
-        OrderBody orderSaved = new OrderBody(savedOrderId, savedProductBodyList, 5.00, testDate, "No date yet", false,false, OrderStatus.REQUESTED.toString());
-        OrderBody expected = new OrderBody(savedOrderId, newProductBodyList, 2.00, testDate, "No date yet", false,false, OrderStatus.REQUESTED.toString());
-
-
-        //When
-        when(orderSystemRepository.existsById(savedOrderId)).thenReturn(true);
-        when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
-        when(orderSystemRepository.findById(savedOrderId).isPresent()).thenReturn(true);
-        OrderBody actual = orderSystemService.editOrder(savedOrderId,newOrderDTO);
-
-        //Then
-        assertEquals(expected,actual);
-
-    }
-
-    @Test
     void when_getOrderById_then_ReturnOrder(){
         //Given
         OrderBody expected = new OrderBody();
@@ -216,12 +173,53 @@ class OrderSystemServiceTest {
     }
 
     @Test
-    void when_getOrderByIdWrongId_then_throwExceptionWithError(){
+    void when_getOrderByIdWrongId_then_throwExceptionWithError() {
         //Given
         String wrongId = "wrongId";
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.getOrderById(wrongId),"No order with "+wrongId+" found.");
+                () -> orderSystemService.getOrderById(wrongId), "No order with " + wrongId + " found.");
+    }
+
+    @Test
+    void when_editOrderWrongId_then_ReturnExceptionWithMessage() {
+        //Given
+        String wrongId = "";
+        when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
+        OrderDTO testOrder = new OrderDTO();
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.editOrder(wrongId, testOrder), "No order with this id.");
+
+    }
+
+    @Test
+    void when_editOrder_returnChangedOrder() {
+        //Given
+        String testProductId = "testProductId";
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
+        List<ProductBody> savedProductBodyList = List.of(testProduct1, testProduct2);
+        List<ProductBody> newProductBodyList = List.of(testProduct1);
+        when(productSystemService.getProductList()).thenReturn(savedProductBodyList);
+
+
+        OrderDTO newOrderDTO = new OrderDTO(newProductBodyList);
+        String savedOrderId = "savedOrderId";
+        when(generateIdService.generateOrderUUID()).thenReturn(savedOrderId);
+        String testDate = "2023-01-31";
+        OrderBody orderSaved = new OrderBody(savedOrderId, savedProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
+        OrderBody expected = new OrderBody(savedOrderId, newProductBodyList, 2.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
+
+
+        //When
+        when(orderSystemRepository.existsById(savedOrderId)).thenReturn(true);
+        when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
+        OrderBody actual = orderSystemService.editOrder(savedOrderId, newOrderDTO);
+
+        //Then
+        assertEquals(expected, actual);
+
     }
 }
