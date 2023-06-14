@@ -66,10 +66,6 @@ public class OrderSystemService {
     }
 
     public OrderBody getOrderById(String id){
-        if(orderSystemRepository.findById(id).isPresent()){
-            return orderSystemRepository.findById(id).get();
-        }
-        else {throw new NoSuchElementException("No order with "+id+" found.");
-        }
+        return orderSystemRepository.findById(id).orElseThrow();
     }
 }
