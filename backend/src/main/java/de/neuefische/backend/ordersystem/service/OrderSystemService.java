@@ -88,6 +88,9 @@ public class OrderSystemService {
                     oldOrderBody.setApprovalPurchase(false);
                     oldOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
                 });
-        return orderSystemRepository.findById(orderId).get();
+        if(orderSystemRepository.findById(orderId).isPresent()){
+            return orderSystemRepository.findById(orderId).get();
+        }
+        else { throw new NoSuchElementException("No order with this id.");}
     }
 }
