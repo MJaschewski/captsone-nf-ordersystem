@@ -81,6 +81,7 @@ public class OrderSystemService {
         verifyProductList(orderDTO.getProductBodyList());
         orderSystemRepository.findById(orderId)
                 .ifPresent(oldOrderBody -> {
+                    oldOrderBody.setId(orderId);
                     oldOrderBody.setProductBodyList(orderDTO.getProductBodyList());
                     oldOrderBody.setOrderStatus(OrderStatus.REQUESTED.toString());
                     oldOrderBody.setArrival("No date yet");
