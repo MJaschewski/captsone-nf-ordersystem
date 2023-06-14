@@ -39,9 +39,15 @@ public class OrderSystemService {
     }
 
     public double calculatePrice(List<ProductBody> productBodyList){
+        if(productBodyList.equals(List.of())){
+            throw new IllegalArgumentException("Product list can't be empty.");
+        }
         double orderPrice = 0;
         for (ProductBody productBody : productBodyList) {
             orderPrice += productBody.getPrice();
+        }
+        if(orderPrice < 0){
+            throw new IllegalArgumentException("Price can't be negative. Change product list.");
         }
         return orderPrice;
     }

@@ -123,17 +123,39 @@ class OrderSystemServiceTest {
 
     @Test
     void when_calculatePriceListProducts_then_ReturnPrice(){
-
+        //Given
+        ProductBody testProduct1 = new ProductBody();
+        ProductBody testProduct2 = new ProductBody();
+        double testPrice1 = 1.00;
+        double testPRice2 = 2.00;
+        testProduct1.setPrice(testPrice1);
+        testProduct2.setPrice(testPRice2);
+        List<ProductBody> testList = List.of(testProduct1,testProduct2);
+        double expected = testPrice1+testPRice2;
+        //When
+        double actual = orderSystemService.calculatePrice(testList);
+        //Then
+        assertEquals(expected,actual);
     }
 
     @Test
     void when_calculatePriceNoProducts_then_ThrowException(){
-
+        //Given
+        List<ProductBody> emptyList = List.of();
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.calculatePrice(emptyList),"Product list can't be empty.");
     }
 
     @Test
     void when_calculatePriceNegativeResult_then_ThrowException(){
-
+        //Given
+        ProductBody negativePriceProduct = new ProductBody();
+        negativePriceProduct.setPrice(-1.00);
+        List<ProductBody> testList = List.of(negativePriceProduct);
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.calculatePrice(testList),"Price can't be negative. Change product list.");
     }
 
     @Test
