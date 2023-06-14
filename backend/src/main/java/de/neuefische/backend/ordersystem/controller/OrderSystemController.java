@@ -31,6 +31,6 @@ public class OrderSystemController {
 
     @PutMapping("/{orderId}")
     public OrderBody editOrder(@PathVariable String orderId, @RequestBody OrderDTO orderDTO) {
-        return orderSystemService.editOrder(orderId, orderDTO);
+        return orderSystemService.editOrderById(orderId, orderDTO);
     }
 }

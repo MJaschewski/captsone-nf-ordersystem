@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @Service
@@ -78,21 +77,19 @@ public class OrderSystemService {
         return orderSystemRepository.findById(orderId).orElseThrow();
     }
 
-    public OrderBody editOrder(String orderId, OrderDTO orderDTO) {
-        if (!orderSystemRepository.existsById(orderId)) {
-            throw new NoSuchElementException("No order with this id.");
-        }
+    public OrderBody editOrderById(String orderId, OrderDTO orderDTO) {
+        OrderBody oldOrderBody = orderSystemRepository.findById(orderId).orElseThrow();
         verifyProductList(orderDTO.getProductBodyList());
-        orderSystemRepository.findById(orderId)
-                .ifPresent(oldOrderBody -> {
-                    oldOrderBody.setId(orderId);
-                    oldOrderBody.setProductBodyList(orderDTO.getProductBodyList());
-                    oldOrderBody.setOrderStatus(OrderStatus.REQUESTED.toString());
-                    oldOrderBody.setArrival("No date yet");
-                    oldOrderBody.setApprovalPurchase(false);
-                    oldOrderBody.setApprovalPurchase(false);
-                    oldOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
-                });
-        return getOrderById(orderId);
+
+        oldOrderBody.setId(orderId);
+        oldOrderBody.setProductBodyList(orderDTO.getProductBodyList());
+        oldOrderBody.setOrderStatus(OrderStatus.REQUESTED.toString());
+        oldOrderBody.setArrival("No date yet");
+        oldOrderBody.setApprovalPurchase(false);
+        oldOrderBody.setApprovalPurchase(false);
+        oldOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
+
+        orderSystemRepository.deleteById(orderId);
+        return orderSystemRepository.save(oldOrderBody);
     }
 }

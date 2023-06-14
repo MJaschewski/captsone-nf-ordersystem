@@ -190,7 +190,7 @@ class OrderSystemServiceTest {
         OrderDTO testOrder = new OrderDTO();
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.editOrder(wrongId, testOrder), "No order with this id.");
+                () -> orderSystemService.editOrderById(wrongId, testOrder));
 
     }
 
@@ -207,18 +207,18 @@ class OrderSystemServiceTest {
 
         OrderDTO newOrderDTO = new OrderDTO(newProductBodyList);
         String savedOrderId = "savedOrderId";
-        when(generateIdService.generateOrderUUID()).thenReturn(savedOrderId);
         String testDate = "2023-01-31";
         OrderBody orderSaved = new OrderBody(savedOrderId, savedProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
         OrderBody expected = new OrderBody(savedOrderId, newProductBodyList, 2.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
-
-
-        //When
-        when(orderSystemRepository.existsById(savedOrderId)).thenReturn(true);
+        when(orderSystemRepository.save(expected)).thenReturn(expected);
         when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
-        OrderBody actual = orderSystemService.editOrder(savedOrderId, newOrderDTO);
+        //When
+        OrderBody actual = orderSystemService.editOrderById(savedOrderId, newOrderDTO);
 
         //Then
+        verify(productSystemService).getProductList();
+        verify(orderSystemRepository).save(expected);
+        verify(orderSystemRepository).deleteById(savedOrderId);
         assertEquals(expected, actual);
 
     }

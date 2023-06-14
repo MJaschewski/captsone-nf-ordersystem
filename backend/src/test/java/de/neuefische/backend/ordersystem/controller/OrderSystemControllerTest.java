@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -26,6 +27,7 @@ class OrderSystemControllerTest {
     MockMvc mockMvc;
 
     @Test
+    @DirtiesContext
     void when_addOrderBody_then_return200Ok_returnOrderBody() throws Exception {
 
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -88,6 +90,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void when_addOrderBodyInvalidProduct_then_ThrowException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -107,6 +110,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void when_getOrderList_then_return200OkAndOrderList() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -204,6 +208,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void when_getOrderById_return200OkAndOrderBody() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -290,6 +295,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void when_getOrderByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -299,6 +305,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void when_editOrderByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -321,6 +328,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     void when_editOrderById_then_return200OkAndChangedOrder() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -424,7 +432,7 @@ class OrderSystemControllerTest {
                                     "accessLevel": "%s"
                                 }
                             ],
-                            "price": 1244.99,
+                            "price": 2489.98,
                             "created": "%s",
                             "arrival": "No date yet",
                             "approvalPurchase": false,
