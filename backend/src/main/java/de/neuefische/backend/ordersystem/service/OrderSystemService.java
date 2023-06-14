@@ -92,6 +92,6 @@ public class OrderSystemService {
         if(orderSystemRepository.findById(orderId).isPresent()){
             return orderSystemRepository.findById(orderId).get();
         }
-        else { throw new NoSuchElementException("No order with this id.");}
+        else { throw new NoSuchElementException("No order with this id after edit.");}
     }
 }
