@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -170,6 +171,35 @@ class OrderSystemServiceTest {
 
     }
 
+    @Test
+    void when_editOrder_returnChangedOrder(){
+        //Given
+        String testProductId = "testProductId";
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
+        List<ProductBody> savedProductBodyList = List.of(testProduct1, testProduct2);
+        List<ProductBody> newProductBodyList = List.of(testProduct1);
+        when(productSystemService.getProductList()).thenReturn(savedProductBodyList);
 
+
+
+        OrderDTO newOrderDTO = new OrderDTO(newProductBodyList);
+        String savedOrderId = "savedOrderId";
+        when(generateIdService.generateOrderUUID()).thenReturn(savedOrderId);
+        String testDate = "2023-01-31";
+        OrderBody orderSaved = new OrderBody(savedOrderId, savedProductBodyList, 5.00, testDate, "No date yet", false,false, OrderStatus.REQUESTED.toString());
+        OrderBody expected = new OrderBody(savedOrderId, newProductBodyList, 2.00, testDate, "No date yet", false,false, OrderStatus.REQUESTED.toString());
+
+
+        //When
+        when(orderSystemRepository.existsById(savedOrderId)).thenReturn(true);
+        when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
+        when(orderSystemRepository.findById(savedOrderId).isPresent()).thenReturn(true);
+        OrderBody actual = orderSystemService.editOrder(savedOrderId,newOrderDTO);
+
+        //Then
+        assertEquals(expected,actual);
+
+    }
 
 }
