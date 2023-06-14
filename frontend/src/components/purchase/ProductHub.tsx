@@ -18,7 +18,6 @@ function ProductHub(props: Props) {
             .then(response => response.data)
             .then(data => {
                 setProductList(data);
-                console.log(data)
             })
             .catch(error => console.log(error))
     }

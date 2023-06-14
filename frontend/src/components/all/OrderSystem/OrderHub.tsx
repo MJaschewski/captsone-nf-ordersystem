@@ -25,9 +25,16 @@ function OrderHub(props:Props) {
         <div>
             <h1>Manage Your Orders</h1>
             <h2>List of Orders:</h2>
-            {orderList.map(currentOrderBody => {
-                return <OrderOpticalElement key={currentOrderBody.id} orderBody={currentOrderBody}/>
-            })}
+            <ul>{orderList.map( currentOrderBody => (
+                    <li key={currentOrderBody.id}>
+                        <p>OrderId: {currentOrderBody.id}</p>
+                        <p>Created: {currentOrderBody.created}</p>
+                        <p>Status: {currentOrderBody.orderStatus}</p>
+                        <p><button onClick={()=>props.navigate("/orderDetails/"+currentOrderBody.id)}>Details</button></p>
+                    </li>
+                )
+            )}
+            </ul>
             <button onClick={() => props.navigate("/add_order")}>Add Order</button>
             <button onClick={() => props.navigate("/")}> Cancel</button>
         </div>
