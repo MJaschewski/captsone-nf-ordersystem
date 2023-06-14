@@ -127,6 +127,16 @@ class OrderSystemServiceTest {
     }
 
     @Test
+    void when_calculatePriceNoProducts_then_ThrowException(){
+
+    }
+
+    @Test
+    void when_calculatePriceNegativeResult_then_ThrowException(){
+
+    }
+
+    @Test
     void when_editOrderWrongId_then_ReturnExceptionWithMessage(){
         //Given
         String wrongId = "";
