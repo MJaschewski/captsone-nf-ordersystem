@@ -25,7 +25,7 @@ function EditOrder() {
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.put('/api/orderSystem/' + id, orderDTO)
             .then(response => console.log(response.data))
-            .then(() => navigate("/api/orderHub"))
+            .then(() => navigate("/orderHub"))
             .catch(error => console.log(error))
     }
 
