@@ -1,14 +1,12 @@
 import React, {useEffect} from 'react';
-import {NavigateFunction, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 import OrderOpticalElement from "./OrderOpticalElement";
 import useHandleGetOrderById from "./hooks/useHandleGetOrderById";
 
-type Props = {
-    navigate:NavigateFunction
-}
 
-function OrderDetails(props:Props) {
+function OrderDetails() {
+    const navigate = useNavigate();
     const {orderBody, handleGetOrderById} = useHandleGetOrderById();
     let {id} = useParams();
 
@@ -16,10 +14,10 @@ function OrderDetails(props:Props) {
 
     return (
         <div>
-            {orderBody!==undefined?
-                <OrderOpticalElement navigate={props.navigate} orderBody={orderBody}/>
-            :<></>}
-            <button onClick={()=>props.navigate("/orderHub")}>Cancel</button>
+            {orderBody !== undefined ?
+                <OrderOpticalElement navigate={navigate} orderBody={orderBody}/>
+                : <></>}
+            <button onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>
     );
 }

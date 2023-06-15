@@ -1,15 +1,12 @@
 import React, {FormEvent, useEffect} from 'react';
 import axios from "axios";
-import {NavigateFunction} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {OrderDTO} from "./OrderDTO";
 import useHandleOrderProductList from "./hooks/useHandleOrderProductList";
 import useHandleValidProductList from "./hooks/useHandleValidProductList";
 
-type Props = {
-    navigate: NavigateFunction
-}
-
-function AddOrder(props: Props) {
+function AddOrder() {
+    const navigate = useNavigate();
     const {validProductList, handleValidProductList} = useHandleValidProductList()
     const {orderProductList, handleOrderProductList} = useHandleOrderProductList()
 
@@ -20,7 +17,7 @@ function AddOrder(props: Props) {
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.post('/api/orderSystem', orderDTO)
             .then(response => console.log(response.data))
-            .then(() => props.navigate("/api/orderHub"))
+            .then(() => navigate("/api/orderHub"))
             .catch(error => console.log(error))
     }
 
@@ -41,11 +38,11 @@ function AddOrder(props: Props) {
                             />
                             <label>{currentProduct.name}</label>
                         </div>
-                    ) )}
+                    ))}
                 </label>
                 <button>Add Order</button>
             </form>
-            <button onClick={() => props.navigate("/orderHub")}>Cancel</button>
+            <button onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>
     );
 }
