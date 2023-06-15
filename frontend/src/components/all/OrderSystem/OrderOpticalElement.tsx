@@ -1,13 +1,13 @@
 import React from 'react';
 import {OrderBodyType} from "./OrderBodyType";
-import {NavigateFunction} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 type Props = {
-    navigate: NavigateFunction,
     orderBody: OrderBodyType
 }
 
 function OrderOpticalElement(props:Props) {
+    const navigate = useNavigate();
     return (
         <div>
             <h3>OrderId: {props.orderBody.id}</h3>
@@ -26,7 +26,7 @@ function OrderOpticalElement(props:Props) {
                     </ul>
                 </li>
             </ul>
-            <button onClick={() => props.navigate("/orderHub/edit/" + props.orderBody.id)}>Edit Order</button>
+            <button onClick={() => navigate("/orderHub/edit/" + props.orderBody.id)}>Edit Order</button>
         </div>
     );
 }

@@ -15,7 +15,7 @@ function OrderDetails() {
     return (
         <div>
             {orderBody !== undefined ?
-                <OrderOpticalElement navigate={navigate} orderBody={orderBody}/>
+                <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}
             <button onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>
