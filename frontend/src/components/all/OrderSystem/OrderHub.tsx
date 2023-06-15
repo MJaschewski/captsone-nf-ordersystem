@@ -30,7 +30,10 @@ function OrderHub(props:Props) {
                         <p>OrderId: {currentOrderBody.id}</p>
                         <p>Created: {currentOrderBody.created}</p>
                         <p>Status: {currentOrderBody.orderStatus}</p>
-                        <p><button onClick={()=>props.navigate("/orderDetails/"+currentOrderBody.id)}>Details</button></p>
+                        <p>
+                            <button onClick={() => props.navigate("/orderHub/details/" + currentOrderBody.id)}>Details
+                            </button>
+                        </p>
                     </li>
                 )
             )}

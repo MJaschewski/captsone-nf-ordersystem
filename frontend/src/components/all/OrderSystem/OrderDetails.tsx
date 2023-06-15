@@ -1,36 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {NavigateFunction, useParams} from "react-router-dom";
-import axios from "axios";
-import {OrderBodyType} from "./OrderBodyType";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+
 import OrderOpticalElement from "./OrderOpticalElement";
+import useHandleGetOrderById from "./hooks/useHandleGetOrderById";
 
 type Props = {
     navigate:NavigateFunction
 }
 
 function OrderDetails(props:Props) {
-    const [orderBody,setOrderBody] = useState<OrderBodyType>()
+    const {orderBody, handleGetOrderById} = useHandleGetOrderById();
     let {id} = useParams();
 
-    useEffect(()=>handleGetById(id),[])
-
-    function handleGetById(id:string|undefined){
-        if(id!==undefined){
-            axios.get('/api/orderSystem/'+id)
-                .then(response => response.data)
-                .then(data => {
-                    setOrderBody(data);
-                })
-                .catch(error => console.log(error))
-        }
-    }
+    useEffect(() => handleGetOrderById(id), [])
 
     return (
         <div>
             {orderBody!==undefined?
-            <OrderOpticalElement orderBody={orderBody}/>
+                <OrderOpticalElement navigate={props.navigate} orderBody={orderBody}/>
             :<></>}
             <button onClick={()=>props.navigate("/orderHub")}>Cancel</button>
         </div>
