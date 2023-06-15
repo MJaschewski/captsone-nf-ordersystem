@@ -23,4 +23,9 @@ public class OrderSystemController {
     public List<OrderBody> getOrderList(){
         return orderSystemService.getOrderList();
     }
+
+    @GetMapping("/{id}")
+    public OrderBody getOrderById(@PathVariable String id){
+        return orderSystemService.getOrderById(id);
+    }
 }
