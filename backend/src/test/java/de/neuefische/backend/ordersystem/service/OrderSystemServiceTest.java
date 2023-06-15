@@ -123,6 +123,43 @@ class OrderSystemServiceTest {
     }
 
     @Test
+    void when_calculatePriceListProducts_then_ReturnPrice(){
+        //Given
+        ProductBody testProduct1 = new ProductBody();
+        ProductBody testProduct2 = new ProductBody();
+        double testPrice1 = 1.00;
+        double testPRice2 = 2.00;
+        testProduct1.setPrice(testPrice1);
+        testProduct2.setPrice(testPRice2);
+        List<ProductBody> testList = List.of(testProduct1,testProduct2);
+        double expected = testPrice1+testPRice2;
+        //When
+        double actual = orderSystemService.calculatePrice(testList);
+        //Then
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void when_calculatePriceNoProducts_then_ThrowException(){
+        //Given
+        List<ProductBody> emptyList = List.of();
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.calculatePrice(emptyList),"Product list can't be empty.");
+    }
+
+    @Test
+    void when_calculatePriceNegativeResult_then_ThrowException(){
+        //Given
+        ProductBody negativePriceProduct = new ProductBody();
+        negativePriceProduct.setPrice(-1.00);
+        List<ProductBody> testList = List.of(negativePriceProduct);
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.calculatePrice(testList),"Price can't be negative. Change product list.");
+    }
+
+    @Test
     void when_getOrderById_then_ReturnOrder(){
         //Given
         OrderBody expected = new OrderBody();
@@ -136,12 +173,53 @@ class OrderSystemServiceTest {
     }
 
     @Test
-    void when_getOrderByIdWrongId_then_throwExceptionWithError(){
+    void when_getOrderByIdWrongId_then_throwExceptionWithError() {
         //Given
         String wrongId = "wrongId";
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.getOrderById(wrongId),"No order with "+wrongId+" found.");
+                () -> orderSystemService.getOrderById(wrongId), "No order with " + wrongId + " found.");
+    }
+
+    @Test
+    void when_editOrderWrongId_then_ReturnExceptionWithMessage() {
+        //Given
+        String wrongId = "";
+        when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
+        OrderDTO testOrder = new OrderDTO();
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.editOrderById(wrongId, testOrder));
+
+    }
+
+    @Test
+    void when_editOrder_returnChangedOrder() {
+        //Given
+        String testProductId = "testProductId";
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
+        List<ProductBody> savedProductBodyList = List.of(testProduct1, testProduct2);
+        List<ProductBody> newProductBodyList = List.of(testProduct1);
+        when(productSystemService.getProductList()).thenReturn(savedProductBodyList);
+
+
+        OrderDTO newOrderDTO = new OrderDTO(newProductBodyList);
+        String savedOrderId = "savedOrderId";
+        String testDate = "2023-01-31";
+        OrderBody orderSaved = new OrderBody(savedOrderId, savedProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
+        OrderBody expected = new OrderBody(savedOrderId, newProductBodyList, 2.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
+        when(orderSystemRepository.save(expected)).thenReturn(expected);
+        when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
+        //When
+        OrderBody actual = orderSystemService.editOrderById(savedOrderId, newOrderDTO);
+
+        //Then
+        verify(productSystemService).getProductList();
+        verify(orderSystemRepository).save(expected);
+        verify(orderSystemRepository).deleteById(savedOrderId);
+        assertEquals(expected, actual);
+
     }
 }

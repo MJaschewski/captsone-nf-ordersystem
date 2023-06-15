@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 
 @Service
@@ -38,6 +37,20 @@ public class OrderSystemService {
         return true;
     }
 
+    public double calculatePrice(List<ProductBody> productBodyList){
+        if(productBodyList.equals(List.of())){
+            throw new IllegalArgumentException("Product list can't be empty.");
+        }
+        double orderPrice = 0;
+        for (ProductBody productBody : productBodyList) {
+            orderPrice += productBody.getPrice();
+        }
+        if(orderPrice < 0){
+            throw new IllegalArgumentException("Price can't be negative. Change product list.");
+        }
+        return orderPrice;
+    }
+
     public OrderBody addOrderBody(OrderDTO orderDTO) {
         if (orderDTO.getProductBodyList().equals(List.of())) {
             throw new IllegalArgumentException("Empty Product List.");
@@ -51,12 +64,7 @@ public class OrderSystemService {
         newOrderBody.setApprovalLead(false);
         newOrderBody.setApprovalPurchase(false);
         newOrderBody.setOrderStatus(OrderStatus.REQUESTED.toString());
-
-        double orderPrice = 0;
-        for (ProductBody productBody : newOrderBody.getProductBodyList()) {
-            orderPrice += productBody.getPrice();
-        }
-        newOrderBody.setPrice(orderPrice);
+        newOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
 
         return orderSystemRepository.save(newOrderBody);
     }
@@ -65,7 +73,23 @@ public class OrderSystemService {
         return orderSystemRepository.findAll();
     }
 
-    public OrderBody getOrderById(String id){
-        return orderSystemRepository.findById(id).orElseThrow();
+    public OrderBody getOrderById(String orderId) {
+        return orderSystemRepository.findById(orderId).orElseThrow();
+    }
+
+    public OrderBody editOrderById(String orderId, OrderDTO orderDTO) {
+        OrderBody oldOrderBody = orderSystemRepository.findById(orderId).orElseThrow();
+        verifyProductList(orderDTO.getProductBodyList());
+
+        oldOrderBody.setId(orderId);
+        oldOrderBody.setProductBodyList(orderDTO.getProductBodyList());
+        oldOrderBody.setOrderStatus(OrderStatus.REQUESTED.toString());
+        oldOrderBody.setArrival("No date yet");
+        oldOrderBody.setApprovalPurchase(false);
+        oldOrderBody.setApprovalPurchase(false);
+        oldOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
+
+        orderSystemRepository.deleteById(orderId);
+        return orderSystemRepository.save(oldOrderBody);
     }
 }

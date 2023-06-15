@@ -1,30 +1,45 @@
-import React, {FormEvent, useEffect} from 'react';
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {OrderDTO} from "./OrderDTO";
-import useHandleOrderProductList from "./hooks/useHandleOrderProductList";
+import {useNavigate, useParams} from "react-router-dom";
 import useHandleValidProductList from "./hooks/useHandleValidProductList";
+import useHandleOrderProductList from "./hooks/useHandleOrderProductList";
+import React, {FormEvent, useEffect} from "react";
+import useHandleGetOrderById from "./hooks/useHandleGetOrderById";
+import {OrderDTO} from "./OrderDTO";
+import axios from "axios";
 
-function AddOrder() {
+function EditOrder() {
     const navigate = useNavigate();
+    let {id} = useParams();
+    const {orderBody, handleGetOrderById} = useHandleGetOrderById();
     const {validProductList, handleValidProductList} = useHandleValidProductList()
     const {orderProductList, handleOrderProductList} = useHandleOrderProductList()
 
-    useEffect(handleValidProductList, [])
+    useEffect(handleUseEffect, [])
+
+    function handleUseEffect() {
+        handleValidProductList()
+        handleGetOrderById(id)
+    }
 
     function handleOrderSubmit(event: FormEvent) {
         event.preventDefault()
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
-        axios.post('/api/orderSystem', orderDTO)
+        axios.put('/api/orderSystem/' + id, orderDTO)
             .then(response => console.log(response.data))
-            .then(() => navigate("/api/orderHub"))
+            .then(() => navigate("/orderHub"))
             .catch(error => console.log(error))
     }
 
     return (
-
         <div>
-            <h1>Add Order</h1>
+            <h1>Edit Order: {id}</h1>
+            <h2>Previous Product List:</h2>
+            <ul>
+                {orderBody?.productBodyList.map(currentProduct => (
+                    <li key={currentProduct.id}>
+                        <p>{currentProduct.name}</p>
+                    </li>
+                ))}
+            </ul>
             <h2>List of Products:</h2>
             <form onSubmit={handleOrderSubmit}>
                 <label>
@@ -40,11 +55,11 @@ function AddOrder() {
                         </div>
                     ))}
                 </label>
-                <button>Add Order</button>
+                <button>Edit Order</button>
             </form>
-            <button onClick={() => navigate("/orderHub")}>Cancel</button>
+            <button onClick={() => navigate("/orderHub/details/" + id)}>Cancel</button>
         </div>
     );
 }
 
-export default AddOrder;
+export default EditOrder;

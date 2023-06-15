@@ -1,8 +1,10 @@
 import React from 'react';
 import {OrderBodyType} from "./OrderBodyType";
+import {NavigateFunction} from "react-router-dom";
 
 type Props = {
-    orderBody:OrderBodyType
+    navigate: NavigateFunction,
+    orderBody: OrderBodyType
 }
 
 function OrderOpticalElement(props:Props) {
@@ -17,13 +19,14 @@ function OrderOpticalElement(props:Props) {
                 <li>Approval Lead: {props.orderBody.approvalPurchase}</li>
                 <li>Order Status: {props.orderBody.orderStatus} </li>
                 <li>Product List:
-                    <ul>{props.orderBody.productBodyList.map( currentProduct => (
-                           <li key={currentProduct.id}>  {currentProduct.name } </li>
+                    <ul>{props.orderBody.productBodyList.map(currentProduct => (
+                            <li key={currentProduct.id}>  {currentProduct.name} </li>
                         )
                     )}
                     </ul>
                 </li>
             </ul>
+            <button onClick={() => props.navigate("/orderHub/edit/" + props.orderBody.id)}>Edit Order</button>
         </div>
     );
 }

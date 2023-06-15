@@ -2,13 +2,11 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {ProductBodyType} from "./ProductBodyType";
 import ProductOpticalElement from "./ProductOpticalElement";
-import {NavigateFunction} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-type Props = {
-    navigate: NavigateFunction
-}
 
-function ProductHub(props: Props) {
+function ProductHub() {
+    const navigate = useNavigate();
     const [productList, setProductList] = useState<ProductBodyType[]>([])
 
     useEffect(handleProductList, [])
@@ -29,8 +27,8 @@ function ProductHub(props: Props) {
             {productList.map(currentProductBody => {
                 return <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
             })}
-            <button onClick={() => props.navigate("/add_product")}>Add Product</button>
-            <button onClick={() => props.navigate("/")}> Cancel</button>
+            <button onClick={() => navigate("/add_product")}>Add Product</button>
+            <button onClick={() => navigate("/")}> Cancel</button>
         </div>
     );
 }

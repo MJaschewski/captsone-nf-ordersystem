@@ -1,15 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {NavigateFunction} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {OrderBodyType} from "./OrderBodyType";
 import axios from "axios";
 
-type Props = {
-    navigate: NavigateFunction
-}
-function OrderHub(props:Props) {
-    const [orderList,setOrderList] = useState<OrderBodyType[]>([])
+function OrderHub() {
+    const navigate = useNavigate();
+    const [orderList, setOrderList] = useState<OrderBodyType[]>([])
 
-    useEffect(handleOrderList,[])
+    useEffect(handleOrderList, [])
 
     function handleOrderList() {
         axios.get('/api/orderSystem')
@@ -30,13 +28,16 @@ function OrderHub(props:Props) {
                         <p>OrderId: {currentOrderBody.id}</p>
                         <p>Created: {currentOrderBody.created}</p>
                         <p>Status: {currentOrderBody.orderStatus}</p>
-                        <p><button onClick={()=>props.navigate("/orderDetails/"+currentOrderBody.id)}>Details</button></p>
+                        <p>
+                            <button onClick={() => navigate("/orderHub/details/" + currentOrderBody.id)}>Details
+                            </button>
+                        </p>
                     </li>
                 )
             )}
             </ul>
-            <button onClick={() => props.navigate("/add_order")}>Add Order</button>
-            <button onClick={() => props.navigate("/")}> Cancel</button>
+            <button onClick={() => navigate("/add_order")}>Add Order</button>
+            <button onClick={() => navigate("/")}> Cancel</button>
         </div>
     );
 }

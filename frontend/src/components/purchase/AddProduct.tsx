@@ -1,16 +1,15 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from "axios";
-import {NavigateFunction} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-type Props = {
-    navigate: NavigateFunction
-}
 type ProductDTO = {
     name: string,
     price: number,
     accessLevel: string
 }
-function AddProduct(props: Props) {
+
+function AddProduct() {
+    const navigate = useNavigate();
     const accessLevel = ["ALL", "PURCHASE", "LEAD"]
     const [productName, setProductName] = useState<string>("")
     const [productPrice, setProductPrice] = useState<number>(0.00)
@@ -34,7 +33,7 @@ function AddProduct(props: Props) {
             .then(response => {
                 console.log(response.data)
             })
-            .then(() => props.navigate("/"))
+            .then(() => navigate("/"))
             .catch(error => console.log(error));
     }
     return (
@@ -65,7 +64,7 @@ function AddProduct(props: Props) {
                 </label>
                 <button>Add Product</button>
             </form>
-            <button onClick={() => props.navigate("/productHub")}>Cancel</button>
+            <button onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );
 }
