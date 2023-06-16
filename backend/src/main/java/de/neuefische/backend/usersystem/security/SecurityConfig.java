@@ -2,7 +2,7 @@ package de.neuefische.backend.usersystem.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,14 +32,15 @@ public class SecurityConfig {
                         .csrfTokenRequestHandler(requestAttributeHandler)
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
-                .httpBasic(Customizer.withDefaults())
-                .authorizeHttpRequests()
-                .requestMatchers("api/userSystem/login").permitAll()
-                .requestMatchers("api/userSystem/**").authenticated()
-                .requestMatchers("api/productSystem/**").authenticated()
-                .requestMatchers("api/orderSystem/**").authenticated()
-                .anyRequest().authenticated()
-                .and()
+                .httpBasic(basic -> basic.authenticationEntryPoint(
+                        (request, response, authException) ->
+                                response.sendError(
+                                        HttpStatus.UNAUTHORIZED.value(),
+                                        HttpStatus.UNAUTHORIZED.getReasonPhrase()
+                                )))
+                .authorizeHttpRequests(auth -> {
+                    auth.anyRequest().authenticated();
+                })
                 .build();
     }
 

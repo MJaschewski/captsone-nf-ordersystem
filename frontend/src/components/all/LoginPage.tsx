@@ -10,9 +10,14 @@ function LoginPage(props: Props) {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
 
-    function loginOnSubmit(event: FormEvent<HTMLFormElement>) {
+    async function loginOnSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        props.login(username, password).then(() => navigate("/"))
+        try {
+            await props.login(username, password);
+            navigate("/");
+        } catch (error) {
+            console.error("Login error", error)
+        }
     }
 
     return (
