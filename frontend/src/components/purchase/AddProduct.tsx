@@ -44,7 +44,7 @@ function AddProduct() {
                     <input type="text" name="productName" value={productName} onChange={handleChangeProductName}/>
                 </label>
                 <label htmlFor="productPrice">
-                    <input type="number" min="0" inputMode="numeric" pattern="\?" name="productPrice"
+                    <input type="number" min="0.00" inputMode="numeric" pattern="\?" step="0.01" name="productPrice"
                            value={productPrice}
                            onChange={handleChangeProductPrice}/>
                 </label>

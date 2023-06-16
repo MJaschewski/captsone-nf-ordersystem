@@ -38,9 +38,7 @@ public class SecurityConfig {
                                         HttpStatus.UNAUTHORIZED.value(),
                                         HttpStatus.UNAUTHORIZED.getReasonPhrase()
                                 )))
-                .authorizeHttpRequests(auth -> {
-                    auth.anyRequest().authenticated();
-                })
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .build();
     }
 

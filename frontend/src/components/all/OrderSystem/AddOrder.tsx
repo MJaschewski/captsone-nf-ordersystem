@@ -42,7 +42,7 @@ function AddOrder() {
                 </label>
                 <button>Add Order</button>
             </form>
-            <button onClick={() => navigate("/orderHub")}>Cancel</button>
+            <button onClick={() => navigate("api/orderHub")}>Cancel</button>
         </div>
     );
 }
