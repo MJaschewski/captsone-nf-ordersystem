@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -28,6 +29,7 @@ class OrderSystemControllerTest {
     MockMvc mockMvc;
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_addOrderBody_then_return200Ok_returnOrderBody() throws Exception {
 
@@ -93,6 +95,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_addOrderBodyInvalidProduct_then_ThrowException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
@@ -115,6 +118,7 @@ class OrderSystemControllerTest {
 
     @Test
     @WithMockUser
+    @DirtiesContext
     void when_getOrderList_then_return200OkAndOrderList() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -215,6 +219,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_getOrderById_return200OkAndOrderBody() throws Exception {
         //Given
@@ -305,6 +310,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_getOrderByIdWrongId_then_return404() throws Exception {
         //Given
@@ -340,6 +346,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_editOrderById_then_return200OkAndChangedOrder() throws Exception {
         //Given

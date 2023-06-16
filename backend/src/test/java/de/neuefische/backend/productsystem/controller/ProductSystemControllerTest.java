@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -21,6 +22,7 @@ class ProductSystemControllerTest {
     MockMvc mockMvc;
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_addProductBodyProductDTO_returnProductBody() throws Exception {
         //When & Then
@@ -47,6 +49,7 @@ class ProductSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_addProductNegativePrice_returnStatus422() throws Exception {
         //When & Then
@@ -65,6 +68,7 @@ class ProductSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_addProductWrongAccessLevel_returnStatus422() throws Exception {
 
@@ -84,6 +88,7 @@ class ProductSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
     @WithMockUser
     void when_getProductList_then_return200OkAndListProductBody() throws Exception {
         //Given
