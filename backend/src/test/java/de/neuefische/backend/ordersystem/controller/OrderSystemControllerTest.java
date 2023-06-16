@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -28,6 +30,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_addOrderBody_then_return200Ok_returnOrderBody() throws Exception {
 
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -38,7 +41,8 @@ class OrderSystemControllerTest {
                                     "price":1244.99,
                                     "accessLevel":"ALL"
                                 }
-                                """))
+                                """)
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -66,7 +70,8 @@ class OrderSystemControllerTest {
                                         ]
                                     }
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
-                        ))
+                        )
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -91,6 +96,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_addOrderBodyInvalidProduct_then_ThrowException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -105,12 +111,14 @@ class OrderSystemControllerTest {
                                         }
                                         ]
                                     }
-                                """))
+                                """)
+                        .with(csrf()))
                 .andExpect(status().isUnprocessableEntity());
     }
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_getOrderList_then_return200OkAndOrderList() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -121,7 +129,8 @@ class OrderSystemControllerTest {
                                     "price":1244.99,
                                     "accessLevel":"ALL"
                                 }
-                                """))
+                                """)
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -149,7 +158,8 @@ class OrderSystemControllerTest {
                                         ]
                                     }
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
-                        ))
+                        )
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -174,17 +184,18 @@ class OrderSystemControllerTest {
         OrderBody addedOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
 
         //When & Then
-        mockMvc.perform(get("/api/orderSystem"))
+        mockMvc.perform(get("/api/orderSystem")
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                [
+                                [
+                                                        {
+                                    "id": "%s",
+                                    "productBodyList": [
                                         {
-                    "id": "%s",
-                    "productBodyList": [
-                        {
-                            "id": "%s",
-                            "name": "%s",
-                            "price": 1244.99,
+                                            "id": "%s",
+                                            "name": "%s",
+                                            "price": 1244.99,
                             "accessLevel": "%s"
                         }
                     ],
@@ -209,6 +220,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_getOrderById_return200OkAndOrderBody() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -219,7 +231,8 @@ class OrderSystemControllerTest {
                                     "price":1244.99,
                                     "accessLevel":"ALL"
                                 }
-                                """))
+                                """)
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -247,7 +260,8 @@ class OrderSystemControllerTest {
                                         ]
                                     }
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
-                        ))
+                        )
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -271,7 +285,8 @@ class OrderSystemControllerTest {
 
         OrderBody addedOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
 
-        mockMvc.perform(get("/api/orderSystem/"+addedOrder.getId()))
+        mockMvc.perform(get("/api/orderSystem/" + addedOrder.getId())
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -296,16 +311,19 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_getOrderByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
         //When & Then
-        mockMvc.perform(get("/api/orderSystem/" + wrongId))
+        mockMvc.perform(get("/api/orderSystem/" + wrongId)
+                        .with(csrf()))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_editOrderByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -323,12 +341,14 @@ class OrderSystemControllerTest {
                                         }
                                         ]
                                     }
-                                """))
+                                """)
+                        .with(csrf()))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     @DirtiesContext
+    @WithMockUser
     void when_editOrderById_then_return200OkAndChangedOrder() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -339,7 +359,8 @@ class OrderSystemControllerTest {
                                     "price":1244.99,
                                     "accessLevel":"ALL"
                                 }
-                                """))
+                                """)
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -367,7 +388,8 @@ class OrderSystemControllerTest {
                                         ]
                                     }
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
-                        ))
+                        )
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
@@ -413,7 +435,8 @@ class OrderSystemControllerTest {
                                     }
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel()
                                 , newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
-                        ))
+                        )
+                        .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
                         {
