@@ -2,10 +2,10 @@ import React from 'react';
 import {Navigate, Outlet} from "react-router-dom";
 
 type Props = {
-    username: string
+    username: string | undefined
 }
 
-function ProtectedRoutes(props: Props) {
+export default function ProtectedRoutesAll(props: Props) {
 
     const authenticated = props.username !== undefined && props.username !== "Anonymous User."
 
@@ -14,4 +14,3 @@ function ProtectedRoutes(props: Props) {
     );
 }
 
-export default ProtectedRoutes;

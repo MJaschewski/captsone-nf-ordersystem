@@ -9,22 +9,25 @@ import OrderDetails from "./components/all/OrderSystem/OrderDetails";
 import EditOrder from "./components/all/OrderSystem/EditOrder";
 import LoginPage from "./components/all/LoginPage";
 import useUserHook from "./components/all/hooks/useUserHook";
+import ProtectedRoutesAll from "./components/ProtectedRoutesAll";
 
 function App() {
 
-    const {login} = useUserHook();
+    const {login, username} = useUserHook();
 
     return (
         <div className="App">
             <Routes>
-                <Route path={"/"} element={<FrontPage/>}/>
                 <Route path={"/login"} element={<LoginPage login={login}/>}/>
-                <Route path={"/orderHub"} element={<OrderHub/>}/>
-                <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
-                <Route path={"/orderHub/edit/:id"} element={<EditOrder/>}/>
-                <Route path={"/add_order"} element={<AddOrder/>}/>
-                <Route path={"/productHub"} element={<ProductHub/>}/>
-                <Route path={"/add_product"} element={<AddProduct/>}/>
+                <Route element={<ProtectedRoutesAll username={username}/>}>
+                    <Route path={"/"} element={<FrontPage/>}/>
+                    <Route path={"/orderHub"} element={<OrderHub/>}/>
+                    <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
+                    <Route path={"/orderHub/edit/:id"} element={<EditOrder/>}/>
+                    <Route path={"/add_order"} element={<AddOrder/>}/>
+                    <Route path={"/productHub"} element={<ProductHub/>}/>
+                    <Route path={"/add_product"} element={<AddProduct/>}/>
+                </Route>
             </Routes>
         </div>
   );
