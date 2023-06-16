@@ -218,7 +218,6 @@ class OrderSystemServiceTest {
         //Then
         verify(productSystemService).getProductList();
         verify(orderSystemRepository).save(expected);
-        verify(orderSystemRepository).deleteById(savedOrderId);
         assertEquals(expected, actual);
 
     }

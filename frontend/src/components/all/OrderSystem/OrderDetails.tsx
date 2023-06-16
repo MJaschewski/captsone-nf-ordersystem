@@ -10,6 +10,7 @@ function OrderDetails() {
     const {orderBody, handleGetOrderById} = useHandleGetOrderById();
     let {id} = useParams();
 
+    // eslint-disable-next-line
     useEffect(() => handleGetOrderById(id), [])
 
     return (

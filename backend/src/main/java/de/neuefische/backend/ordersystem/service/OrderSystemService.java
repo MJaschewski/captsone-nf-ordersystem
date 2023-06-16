@@ -89,7 +89,6 @@ public class OrderSystemService {
         oldOrderBody.setApprovalPurchase(false);
         oldOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
 
-        orderSystemRepository.deleteById(orderId);
         return orderSystemRepository.save(oldOrderBody);
     }
 }
