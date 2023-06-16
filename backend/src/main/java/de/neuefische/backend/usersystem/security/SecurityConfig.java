@@ -32,6 +32,7 @@ public class SecurityConfig {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests()
+                .requestMatchers("api/userSystem/login").permitAll()
                 .requestMatchers("api/userSystem/**").authenticated()
                 .requestMatchers("api/productSystem/**").authenticated()
                 .requestMatchers("api/orderSystem/**").authenticated()
