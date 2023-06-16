@@ -17,7 +17,7 @@ function AddOrder() {
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.post('/api/orderSystem', orderDTO)
             .then(response => console.log(response.data))
-            .then(() => navigate("/api/orderHub"))
+            .then(() => navigate("/orderHub"))
             .catch(error => console.log(error))
     }
 
@@ -42,7 +42,7 @@ function AddOrder() {
                 </label>
                 <button>Add Order</button>
             </form>
-            <button onClick={() => navigate("api/orderHub")}>Cancel</button>
+            <button onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>
     );
 }
