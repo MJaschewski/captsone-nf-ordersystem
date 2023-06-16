@@ -8,14 +8,17 @@ import OrderHub from "./components/all/OrderSystem/OrderHub";
 import OrderDetails from "./components/all/OrderSystem/OrderDetails";
 import EditOrder from "./components/all/OrderSystem/EditOrder";
 import LoginPage from "./components/all/LoginPage";
+import useUserHook from "./components/all/hooks/useUserHook";
 
 function App() {
+
+    const {login} = useUserHook();
 
     return (
         <div className="App">
             <Routes>
                 <Route path={"/"} element={<FrontPage/>}/>
-                <Route path={"/login"} element={<LoginPage/>}/>
+                <Route path={"/login"} element={<LoginPage login={login}/>}/>
                 <Route path={"/orderHub"} element={<OrderHub/>}/>
                 <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
                 <Route path={"/orderHub/edit/:id"} element={<EditOrder/>}/>
