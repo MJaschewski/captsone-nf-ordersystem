@@ -34,14 +34,6 @@ class OrderSystemControllerTest {
     void when_addOrderBody_then_return200Ok_returnOrderBody() throws Exception {
 
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(""" 
-                                {
-                                    "name":"test",
-                                    "price":1244.99,
-                                    "accessLevel":"ALL"
-                                }
-                                """)
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
