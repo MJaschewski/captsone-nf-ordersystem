@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -90,5 +91,13 @@ public class OrderSystemService {
         oldOrderBody.setPrice(calculatePrice(orderDTO.getProductBodyList()));
 
         return orderSystemRepository.save(oldOrderBody);
+    }
+
+    public String deleteOrderById(String orderId) {
+        if (!orderSystemRepository.existsById(orderId)) {
+            throw new NoSuchElementException("No order with " + orderId + " found.");
+        }
+        orderSystemRepository.deleteById(orderId);
+        return "Deletion successful";
     }
 }

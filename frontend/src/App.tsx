@@ -10,6 +10,7 @@ import EditOrder from "./components/all/OrderSystem/EditOrder";
 import LoginPage from "./components/all/LoginPage";
 import useUserHook from "./components/all/hooks/useUserHook";
 import ProtectedRoutesAll from "./components/ProtectedRoutesAll";
+import DeleteOrder from "./components/all/OrderSystem/DeleteOrder";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
                     <Route path={"/"} element={<FrontPage/>}/>
                     <Route path={"/orderHub"} element={<OrderHub/>}/>
                     <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
+                    <Route path={"/orderHub/delete/:id"} element={<DeleteOrder/>}/>
                     <Route path={"/orderHub/edit/:id"} element={<EditOrder/>}/>
                     <Route path={"/add_order"} element={<AddOrder/>}/>
                     <Route path={"/productHub"} element={<ProductHub/>}/>

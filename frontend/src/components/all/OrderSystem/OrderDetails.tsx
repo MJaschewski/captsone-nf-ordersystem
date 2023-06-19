@@ -19,6 +19,7 @@ function OrderDetails() {
                 <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}
             <button onClick={() => navigate("/orderHub")}>Cancel</button>
+            <button onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order</button>
         </div>
     );
 }

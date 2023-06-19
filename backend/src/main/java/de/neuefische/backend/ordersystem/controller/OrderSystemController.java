@@ -33,4 +33,9 @@ public class OrderSystemController {
     public OrderBody editOrder(@PathVariable String orderId, @RequestBody OrderDTO orderDTO) {
         return orderSystemService.editOrderById(orderId, orderDTO);
     }
+
+    @DeleteMapping("/{orderId}")
+    public String deleteOrderById(@PathVariable String orderId) {
+        return orderSystemService.deleteOrderById(orderId);
+    }
 }
