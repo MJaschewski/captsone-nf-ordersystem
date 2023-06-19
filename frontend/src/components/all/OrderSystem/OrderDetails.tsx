@@ -10,12 +10,13 @@ function OrderDetails() {
     const {orderBody, handleGetOrderById} = useHandleGetOrderById();
     let {id} = useParams();
 
+    // eslint-disable-next-line
     useEffect(() => handleGetOrderById(id), [])
 
     return (
         <div>
             {orderBody !== undefined ?
-                <OrderOpticalElement navigate={navigate} orderBody={orderBody}/>
+                <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}
             <button onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>

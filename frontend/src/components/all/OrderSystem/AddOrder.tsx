@@ -17,7 +17,7 @@ function AddOrder() {
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.post('/api/orderSystem', orderDTO)
             .then(response => console.log(response.data))
-            .then(() => navigate("/api/orderHub"))
+            .then(() => navigate("/orderHub"))
             .catch(error => console.log(error))
     }
 
