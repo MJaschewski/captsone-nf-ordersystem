@@ -91,4 +91,13 @@ public class OrderSystemService {
 
         return orderSystemRepository.save(oldOrderBody);
     }
+
+    public String deleteOrderById(String orderId) {
+        orderSystemRepository.deleteById(orderId);
+        if (orderSystemRepository.existsById(orderId)) {
+            return "Deletion failed";
+        } else {
+            return "Deletion successful";
+        }
+    }
 }
