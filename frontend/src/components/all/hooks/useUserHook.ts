@@ -1,5 +1,6 @@
 import axios from "axios";
 import {useState} from "react";
+import secureLocalStorage from "react-secure-storage";
 
 export default function useUserHook() {
 
@@ -12,6 +13,7 @@ export default function useUserHook() {
                     ? setUsername(response.data)
                     : setUsername("Anonymous User.")
             })
+            .then(() => secureLocalStorage.setItem("username", username))
             .catch(error => console.log(error))
     }
 

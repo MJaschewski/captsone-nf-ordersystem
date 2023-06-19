@@ -1,13 +1,11 @@
 import React from 'react';
 import {Navigate, Outlet} from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
-type Props = {
-    username: string | undefined
-}
 
-export default function ProtectedRoutesAll(props: Props) {
+export default function ProtectedRoutesAll() {
 
-    const authenticated = props.username !== undefined && props.username !== "Anonymous User."
+    const authenticated = secureLocalStorage.getItem("username") !== "Anonymous User." && typeof secureLocalStorage.getItem("username") === "string"
 
     return (
         authenticated ? <Outlet/> : <Navigate to={"/login"}/>

@@ -13,13 +13,13 @@ import ProtectedRoutesAll from "./components/ProtectedRoutesAll";
 
 function App() {
 
-    const {login, username} = useUserHook();
+    const {login} = useUserHook();
 
     return (
         <div className="App">
             <Routes>
                 <Route path={"/login"} element={<LoginPage login={login}/>}/>
-                <Route element={<ProtectedRoutesAll username={username}/>}>
+                <Route element={<ProtectedRoutesAll/>}>
                     <Route path={"/"} element={<FrontPage/>}/>
                     <Route path={"/orderHub"} element={<OrderHub/>}/>
                     <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
