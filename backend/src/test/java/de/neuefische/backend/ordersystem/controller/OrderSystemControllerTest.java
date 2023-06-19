@@ -554,6 +554,20 @@ class OrderSystemControllerTest {
 
         //When&Then
         mockMvc.perform(delete("/api/orderSystem/" + addedOrder.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .with(csrf())
+                        .content("""
+                                    {
+                                    "productBodyList":[
+                                        {
+                                            "id": "wrongId",
+                                            "name": "testWrong",
+                                            "price": 1244.99,
+                                            "accessLevel": "wrongLevel"
+                                        }
+                                        ]
+                                    }
+                                """)
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().string("Deletion successful"));
