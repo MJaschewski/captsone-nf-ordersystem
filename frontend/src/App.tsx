@@ -14,8 +14,8 @@ import {useHookLogout} from "./components/all/hooks/useHookLogout";
 
 function App() {
 
-    const {login, setUsername} = useUserHook();
-    const {logout} = useHookLogout(setUsername);
+    const {login, setCurrentUsername} = useUserHook();
+    const {logout} = useHookLogout(setCurrentUsername);
 
     return (
         <div className="App">
