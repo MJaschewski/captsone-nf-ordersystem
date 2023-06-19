@@ -481,20 +481,7 @@ class OrderSystemControllerTest {
         String wrongId = "wrongId";
         //When & Then
         mockMvc.perform(delete("/api/orderSystem/" + wrongId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                    {
-                                    "productBodyList":[
-                                        {
-                                            "id": "wrongId",
-                                            "name": "testWrong",
-                                            "price": 1244.99,
-                                            "accessLevel": "wrongLevel"
-                                        }
-                                        ]
-                                    }
-                                """)
-                        .with(csrf()))
+                        .with(csrf())
                 .andExpect(status().isNotFound());
     }
 
