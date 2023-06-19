@@ -40,7 +40,7 @@ class UserControllerTest {
     @DirtiesContext
     @WithMockUser(username = "username", password = "password")
     void when_logout_then_return200AndMessage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/logout")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/logout")
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Logged out"));
