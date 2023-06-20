@@ -20,7 +20,7 @@ class UserControllerTest {
 
     @Test
     @DirtiesContext
-    void when_loginWrongUser_then_return_401() throws Exception {
+    void when_loginWrongUser_then_return401() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/login")
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -29,10 +29,20 @@ class UserControllerTest {
     @Test
     @DirtiesContext
     @WithMockUser(username = "username", password = "password")
-    void when_loginCorrectUser_then_return_200AndUsername() throws Exception {
+    void when_loginCorrectUser_then_return200AndUsername() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/login")
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("username"));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(username = "username", password = "password")
+    void when_logout_then_return200AndMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/logout")
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Logged out"));
     }
 }
