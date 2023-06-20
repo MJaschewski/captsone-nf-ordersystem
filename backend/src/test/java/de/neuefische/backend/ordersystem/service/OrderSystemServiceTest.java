@@ -10,7 +10,6 @@ import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import de.neuefische.backend.supportsystem.service.TimeService;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -255,20 +254,22 @@ class OrderSystemServiceTest {
     void when_approveOrderByIdWithAuthorityWrongId_then_Throw() {
         //Given
         String wrongId = "";
+        List<String> authorities = List.of("testAuthority");
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.approveOrderByIdWithAuthority(wrongId, new ArrayList<>()), "No order with " + wrongId + " found.");
+                () -> orderSystemService.approveOrderByIdWithAuthority(wrongId, authorities), "No order with " + wrongId + " found.");
     }
 
     @Test
     void when_approveOrderByIdWithAuthorityWrongAuthority_then_Throw() {
         //Given
         String wrongId = "";
+        List<String> authorities = List.of("testAuthority");
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.of(new OrderBody()));
         //When & Then
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.approveOrderByIdWithAuthority(wrongId, new ArrayList<>()), "Can't read authority.");
+                () -> orderSystemService.approveOrderByIdWithAuthority(wrongId, authorities), "Can't read authority.");
     }
 
     @Test
