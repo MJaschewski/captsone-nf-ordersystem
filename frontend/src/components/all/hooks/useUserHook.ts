@@ -11,7 +11,11 @@ export default function useUserHook() {
                     ? secureLocalStorage.setItem("username", response.data)
                     : secureLocalStorage.setItem("username", "Anonymous User.")
             })
-            .catch(error => console.log(error))
+            .catch(error => {
+                    console.log(error)
+                    secureLocalStorage.setItem("username", "Anonymous User.")
+                }
+            )
     }
 
     return {login}
