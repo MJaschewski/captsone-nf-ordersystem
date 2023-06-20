@@ -42,8 +42,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
-                        .requestMatchers("api/orderSystem").hasAuthority("All")
-                        .anyRequest().authenticated());
+                        .requestMatchers("api/userSystem/logout").authenticated()
+                        .requestMatchers("api/oderSystem/**").hasAuthority("All")
+                        .requestMatchers("api/productSystem/**").hasAuthority("Purchase")
+                        .anyRequest().denyAll());
         return httpSecurity.build();
     }
 
