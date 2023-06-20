@@ -1,5 +1,6 @@
 package de.neuefische.backend.usersystem.security;
 
+import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class SecurityConfig {
         CsrfTokenRequestAttributeHandler requestAttributeHandler = new CsrfTokenRequestAttributeHandler();
         requestAttributeHandler.setCsrfRequestAttributeName(null);
 
-        return httpSecurity
+        httpSecurity
                 .csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(requestAttributeHandler)
@@ -38,8 +39,12 @@ public class SecurityConfig {
                                         HttpStatus.UNAUTHORIZED.value(),
                                         HttpStatus.UNAUTHORIZED.getReasonPhrase()
                                 )))
-                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-                .build();
+                .authorizeHttpRequests(auth -> auth
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+                        .requestMatchers("api/userSystem/login").authenticated()
+                        .requestMatchers("api/orderSystem").hasAuthority("All")
+                        .anyRequest().authenticated());
+        return httpSecurity.build();
     }
 
 
