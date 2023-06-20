@@ -11,10 +11,27 @@
     "_class": "de.neuefische.backend.usersystem.model.UserBody"
   },
   {
-    "_id": "u50342703-b3c2-4171-a739-9b15d3196b70",
-    "username": "testLead",
-    "password": "$argon2id$v=19$m=16384,t=2,p=1$Beg8Z82ZrLO7iMBkgGuutA$z0cw4Sx1d+lS7Djf+pzF1mEFThQLODRJPXAU6O5I+ko",
+    "_id": "ucf7a6a85-5542-4a45-b455-9464f46fa1a2",
+    "username": "testPurchase",
+    "password": "$argon2id$v=19$m=16384,t=2,p=1$GaImc/C8QolrvgsBz6rrTw$m443zSuS180AfMaXGA0cYGws9c6HUqw98qJ4WU9YgLQ",
     "roles": [
+      {
+        "role": "All"
+      },
+      {
+        "role": "Purchase"
+      }
+    ],
+    "_class": "de.neuefische.backend.usersystem.model.UserBody"
+  },
+  {
+    "_id": "u3a2bd057-7153-48ee-a2a1-9fc1a43b23e4",
+    "username": "testLead",
+    "password": "$argon2id$v=19$m=16384,t=2,p=1$4AqKK6oNcJe9phMNtIdd9g$RSacxLB9RuavjH4UPlR367mflTvVv9NGO/XayjE6Wfk",
+    "roles": [
+      {
+        "role": "All"
+      },
       {
         "role": "Lead"
       }
@@ -22,12 +39,18 @@
     "_class": "de.neuefische.backend.usersystem.model.UserBody"
   },
   {
-    "_id": "u7e338f80-ab38-43bd-b660-7c134c173718",
-    "username": "testPurchase",
-    "password": "$argon2id$v=19$m=16384,t=2,p=1$Emyr+8OQ2GD4HH/M458zbQ$kZwZzxOEGxEEK9mhJ/3ciwoD041cN7arejWyn+cVIts",
+    "_id": "ubfa46b37-a50f-40f8-a078-5fcdc9a38a08",
+    "username": "testAdmin",
+    "password": "$argon2id$v=19$m=16384,t=2,p=1$sKc8/aNF3R7+ugHuZfPG2A$Bm4lcWkczU/YivR+TY4FGdUZEYvp7Exvmj+fo23rPPM",
     "roles": [
       {
+        "role": "All"
+      },
+      {
         "role": "Purchase"
+      },
+      {
+        "role": "Lead"
       }
     ],
     "_class": "de.neuefische.backend.usersystem.model.UserBody"
