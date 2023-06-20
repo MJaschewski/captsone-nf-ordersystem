@@ -28,12 +28,17 @@ class UserControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(username = "username", password = "password")
+    @WithMockUser(username = "username", password = "password", authorities = "All")
     void when_loginCorrectUser_then_return200AndUsername() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/login")
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("username"));
+                .andExpect(MockMvcResultMatchers.content().json("""
+                         {"username":"username",
+                         "authorities":["All"]
+                         }
+                        """
+                ));
     }
 
     @Test

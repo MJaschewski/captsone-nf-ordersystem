@@ -1,5 +1,6 @@
 package de.neuefische.backend.usersystem.controller;
 
+import de.neuefische.backend.usersystem.model.LoginDTO;
 import de.neuefische.backend.usersystem.service.UserSystemService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,17 @@ public class UserController {
     private final UserSystemService userSystemService;
 
     @PostMapping("/login")
-    public String login() {
-        return SecurityContextHolder
+    public LoginDTO login() {
+        return new LoginDTO(SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getName();
+                .getName()
+                ,
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getAuthorities()
+                        .stream().map(Object::toString).toList());
     }
 
     @GetMapping("/logout")

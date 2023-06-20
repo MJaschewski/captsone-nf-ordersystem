@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public class UserBody {
     private String id;
     private String username;
     private String password;
-    private List<String> roles;
+    private List<SimpleGrantedAuthority> roles;
 }
