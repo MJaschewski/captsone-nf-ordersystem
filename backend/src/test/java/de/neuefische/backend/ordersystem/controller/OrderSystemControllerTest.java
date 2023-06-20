@@ -583,4 +583,197 @@ class OrderSystemControllerTest {
 
     }
 
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = {"All", "Purchase"})
+    void when_approveOrderWithAuthorityPurchase_returnApprovedOrder() throws Exception {
+        //Given
+        MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "name":"test",
+                            "price":1244.99,
+                            "accessLevel":"ALL"
+                        }
+                        """
+                )).andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductBody newProduct = objectMapper.readValue(postProduct.getResponse().getContentAsString(), ProductBody.class);
+
+        MvcResult orderResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                    "productBodyList":[
+                                        {
+                                            "id": "%s",
+                                            "name": "%s",
+                                            "price": 1244.99,
+                                            "accessLevel": "%s"
+                                        }
+                                        ]
+                                    }
+                                """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
+                        )
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": false,
+                            "approvalLead": false,
+                            "orderStatus": "REQUESTED"
+                        }
+                        """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())))
+                .andExpect(jsonPath("$.productBodyList[0].id").isNotEmpty()).andReturn();
+
+        OrderBody addedOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
+        //When&Then
+        mockMvc.perform(put("/api/orderSystem/approve/" + addedOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "id": "%s",
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": true,
+                            "approvalLead": false,
+                            "orderStatus": "REQUESTED"
+                        }
+                        """.formatted(addedOrder.getId(), newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())));
+
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = {"All", "Purchase", "Lead"})
+    void when_approveOrderWithAuthorityLead_returnApprovedOrder() throws Exception {
+        //Given
+        MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "name":"test",
+                            "price":1244.99,
+                            "accessLevel":"ALL"
+                        }
+                        """
+                )).andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductBody newProduct = objectMapper.readValue(postProduct.getResponse().getContentAsString(), ProductBody.class);
+
+        MvcResult orderResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                    "productBodyList":[
+                                        {
+                                            "id": "%s",
+                                            "name": "%s",
+                                            "price": 1244.99,
+                                            "accessLevel": "%s"
+                                        }
+                                        ]
+                                    }
+                                """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
+                        )
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": false,
+                            "approvalLead": false,
+                            "orderStatus": "REQUESTED"
+                        }
+                        """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())))
+                .andExpect(jsonPath("$.productBodyList[0].id").isNotEmpty()).andReturn();
+
+        OrderBody addedOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
+        //When&Then
+        mockMvc.perform(put("/api/orderSystem/approve/" + addedOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "id": "%s",
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": false,
+                            "approvalLead": true,
+                            "orderStatus": "REQUESTED"
+                        }
+                        """.formatted(addedOrder.getId(), newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())));
+
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = "All")
+    void when_approveOrderWithAuthorityWrong_returnIsForbidden() throws Exception {
+        //When&Then
+        mockMvc.perform(put("/api/orderSystem/approve/" + "testId")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
 }
