@@ -22,8 +22,34 @@ class ProductSystemControllerTest {
     MockMvc mockMvc;
 
     @Test
+    @WithMockUser
+    @DirtiesContext
+    void _when_addProductWrongAuthorities_return403() throws Exception {
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     @DirtiesContext
     @WithMockUser
+    void _when_getProductsWrongAuthorities_return403() throws Exception {
+        mockMvc.perform(get("/api/productSystem")
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = "Purchase")
     void when_addProductBodyProductDTO_returnProductBody() throws Exception {
         //When & Then
         mockMvc.perform(post("/api/productSystem")
@@ -50,7 +76,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser
+    @WithMockUser(authorities = "Purchase")
     void when_addProductNegativePrice_returnStatus422() throws Exception {
         //When & Then
         mockMvc.perform(post("/api/productSystem")
@@ -69,7 +95,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser
+    @WithMockUser(authorities = "Purchase")
     void when_addProductWrongAccessLevel_returnStatus422() throws Exception {
 
         //When & Then
@@ -89,7 +115,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser
+    @WithMockUser(authorities = "Purchase")
     void when_getProductList_then_return200OkAndListProductBody() throws Exception {
         //Given
         mockMvc.perform(post("/api/productSystem")
