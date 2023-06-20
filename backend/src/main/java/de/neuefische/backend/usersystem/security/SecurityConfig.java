@@ -13,6 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
+import static org.springframework.security.authorization.AuthorityAuthorizationManager.hasAuthority;
+import static org.springframework.security.authorization.AuthorizationManagers.allOf;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -43,6 +46,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
+                        .requestMatchers("api/orderSystem/approve/**").access(allOf(hasAuthority("Purchase"), hasAuthority("Lead")))
                         .requestMatchers("api/orderSystem/**").hasAuthority("All")
                         .requestMatchers("api/productSystem/**").hasAuthority("Purchase")
                         .anyRequest().denyAll());

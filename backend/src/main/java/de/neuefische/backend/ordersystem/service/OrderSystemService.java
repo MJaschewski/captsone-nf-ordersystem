@@ -100,4 +100,14 @@ public class OrderSystemService {
         orderSystemRepository.deleteById(orderId);
         return "Deletion successful";
     }
+
+    public OrderBody approveOrderByIdWithAuthority(String orderId, List<String> authorities) {
+        OrderBody approvingOrder = orderSystemRepository.findById(orderId).orElseThrow();
+        if (authorities.contains("Lead")) {
+            approvingOrder.setApprovalLead(true);
+        } else if (authorities.contains("Purchase")) {
+            approvingOrder.setApprovalPurchase(true);
+        } else throw new IllegalArgumentException("Can't read authority.");
+        return orderSystemRepository.save(approvingOrder);
+    }
 }
