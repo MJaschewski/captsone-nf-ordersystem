@@ -1,0 +1,35 @@
+[
+  {
+    "_id": "u5461f332-ddc0-414e-a753-e66885dfeacf",
+    "username": "testAll",
+    "password": "$argon2id$v=19$m=16384,t=2,p=1$763VVpE0Lx0EQznWdkbKkw$jOEwXj1O5ZXm2xEmqlQXKL1b0HZjw301S8BZNCK5x/Q",
+    "roles": [
+      {
+        "role": "All"
+      }
+    ],
+    "_class": "de.neuefische.backend.usersystem.model.UserBody"
+  },
+  {
+    "_id": "u50342703-b3c2-4171-a739-9b15d3196b70",
+    "username": "testLead",
+    "password": "$argon2id$v=19$m=16384,t=2,p=1$Beg8Z82ZrLO7iMBkgGuutA$z0cw4Sx1d+lS7Djf+pzF1mEFThQLODRJPXAU6O5I+ko",
+    "roles": [
+      {
+        "role": "Lead"
+      }
+    ],
+    "_class": "de.neuefische.backend.usersystem.model.UserBody"
+  },
+  {
+    "_id": "u7e338f80-ab38-43bd-b660-7c134c173718",
+    "username": "testPurchase",
+    "password": "$argon2id$v=19$m=16384,t=2,p=1$Emyr+8OQ2GD4HH/M458zbQ$kZwZzxOEGxEEK9mhJ/3ciwoD041cN7arejWyn+cVIts",
+    "roles": [
+      {
+        "role": "Purchase"
+      }
+    ],
+    "_class": "de.neuefische.backend.usersystem.model.UserBody"
+  }
+]
