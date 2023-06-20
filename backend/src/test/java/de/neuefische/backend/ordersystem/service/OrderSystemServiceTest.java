@@ -221,4 +221,32 @@ class OrderSystemServiceTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    void when_deleteOrderById_then_returnMessage() {
+        //Given
+        String orderId = "testId";
+        when(orderSystemRepository.existsById(orderId)).thenReturn(true);
+        doNothing().doThrow(new RuntimeException()).when(orderSystemRepository).deleteById(orderId);
+        String expected = "Deletion successful";
+
+        //When
+        String actual = orderSystemService.deleteOrderById(orderId);
+
+        //Then
+        verify(orderSystemRepository).existsById(orderId);
+        verify(orderSystemRepository).deleteById(orderId);
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void when_deleteOrderByIdWrongId_then_Throw() {
+        //Given
+        String wrongId = "wrongId";
+        when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.deleteOrderById(wrongId), "No order with " + wrongId + " found.");
+    }
 }
