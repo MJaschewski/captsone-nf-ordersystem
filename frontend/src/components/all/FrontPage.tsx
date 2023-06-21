@@ -17,7 +17,7 @@ function FrontPage(props: Props) {
     return (
         <div>
             <h1>Order System</h1>
-            <button onClick={() => navigate("/orderHub")}>Manage Orders</button>
+            <button onClick={() => navigate("/orderHub")}>Manage Your Orders</button>
             {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "Purchase")
                 ? <button onClick={() => navigate("/productHub")}>Manage Products</button>
                 : <></>}
