@@ -163,13 +163,11 @@ class OrderSystemServiceTest {
     void when_getOrderById_then_ReturnOrder() throws IllegalAccessException {
         //Given
         OrderBody expected = new OrderBody();
-        String testOwner = "testOwner";
-        expected.setOwner(testOwner);
         String savedOrderId = "savedOrderId";
         expected.setId(savedOrderId);
         when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(expected));
         //When
-        OrderBody actual = orderSystemService.getOrderById(testOwner, savedOrderId);
+        OrderBody actual = orderSystemService.getOrderById(savedOrderId);
         //Then
         assertEquals(expected, actual);
     }
@@ -181,7 +179,7 @@ class OrderSystemServiceTest {
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.getOrderById("testOwner", wrongId), "No order with " + wrongId + " found.");
+                () -> orderSystemService.getOrderById(wrongId), "No order with " + wrongId + " found.");
     }
 
     @Test
@@ -327,19 +325,6 @@ class OrderSystemServiceTest {
         verify(orderSystemRepository).findById(orderID);
         verify(orderSystemRepository).save(any());
         assertEquals(approvingOrder, actual);
-    }
-
-    @Test
-    void when_getOrderByIdWrongOwner_then_throwException() {
-        //Given
-        String wrongOwner = "wrongOwner";
-        String orderId = "orderId";
-        OrderBody savedOrder = new OrderBody();
-        savedOrder.setId(orderId);
-        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
-        //When & Then
-        assertThrows(IllegalAccessException.class,
-                () -> orderSystemService.getOrderById(wrongOwner, orderId), "You don't own this order.");
     }
 
     @Test

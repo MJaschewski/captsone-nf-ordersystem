@@ -78,10 +78,7 @@ public class OrderSystemService {
         return orderSystemRepository.findAll();
     }
 
-    public OrderBody getOrderById(String username, String orderId) throws IllegalAccessException {
-        if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
-            throw new IllegalAccessException(illegalAccessMessage);
-        }
+    public OrderBody getOrderById(String orderId) {
         return orderSystemRepository.findById(orderId).orElseThrow();
     }
 

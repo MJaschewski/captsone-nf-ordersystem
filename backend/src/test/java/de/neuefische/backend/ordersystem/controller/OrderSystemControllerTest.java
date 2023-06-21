@@ -854,17 +854,6 @@ class OrderSystemControllerTest {
     @Test
     @Order(2)
     @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
-    void when_getOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
-        //When & Then
-        mockMvc.perform(get("/api/orderSystem/" + tempOrder.getId())
-                        .with(csrf()))
-                .andExpect(status().isForbidden());
-
-    }
-
-    @Test
-    @Order(2)
-    @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
     void when_editOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
         mockMvc.perform(put("/api/orderSystem/" + tempOrder.getId())
