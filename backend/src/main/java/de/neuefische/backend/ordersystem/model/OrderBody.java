@@ -14,6 +14,7 @@ import java.util.List;
 @Document("OrderList")
 public class OrderBody {
     private String id;
+    private String owner;
     private List<ProductBody> productBodyList;
     private double price;
     private String created;

@@ -3,6 +3,7 @@ package de.neuefische.backend.usersystem.security;
 import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,10 +46,9 @@ public class SecurityConfig {
                         .requestMatchers("api/userSystem/logout").authenticated()
                         .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority("Purchase", "Lead")
                         .requestMatchers("api/orderSystem/**").hasAuthority("All")
-                        .requestMatchers("api/productSystem/**").hasAuthority("Purchase")
+                        .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority("All")
+                        .requestMatchers(HttpMethod.POST, "api/productSystem").hasAuthority("Purchase")
                         .anyRequest().denyAll());
         return httpSecurity.build();
     }
-
-
 }
