@@ -1,6 +1,7 @@
 import React from 'react';
 import {OrderBodyType} from '../all/OrderSystem/OrderBodyType';
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 type Props = {
     orderBody: OrderBodyType
@@ -8,6 +9,13 @@ type Props = {
 
 function ApproveOrderOpticalElement(props: Props) {
     const navigate = useNavigate();
+
+    function handleApproval() {
+        axios.put("/api/orderSystem/approve/" + props.orderBody.id)
+            .then(() => navigate("/orderHub/approval"))
+            .catch(error => console.log(error))
+    }
+
     return (
         <div>
             <h3>OrderId: {props.orderBody.id}</h3>
@@ -26,7 +34,7 @@ function ApproveOrderOpticalElement(props: Props) {
                     </ul>
                 </li>
             </ul>
-            <button onClick={() => console.log("test")}>Approve Order</button>
+            <button onClick={handleApproval}>Approve Order</button>
         </div>
     );
 }
