@@ -25,7 +25,6 @@ public class OrderSystemService {
     private final GenerateIdService generateIdService;
     private final ProductSystemService productSystemService;
     private final OrderSystemRepository orderSystemRepository;
-    private final static String illegalAccessMessage = "You don't own this order";
 
     public List<ProductBody> getProductList() {
         return productSystemService.getProductList();
@@ -85,7 +84,7 @@ public class OrderSystemService {
     public OrderBody editOrderById(String username, String orderId, OrderDTO orderDTO) throws IllegalAccessException {
         OrderBody oldOrderBody = orderSystemRepository.findById(orderId).orElseThrow();
         if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
-            throw new IllegalAccessException(illegalAccessMessage);
+            throw new IllegalAccessException("Can not edit Order you don't own.");
         }
         verifyProductList(orderDTO.getProductBodyList());
 
@@ -105,7 +104,7 @@ public class OrderSystemService {
             throw new NoSuchElementException("No order with " + orderId + " found.");
         }
         if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
-            throw new IllegalAccessException(illegalAccessMessage);
+            throw new IllegalAccessException("You can't delete orders you don't own.");
         }
         orderSystemRepository.deleteById(orderId);
         return "Deletion successful";
