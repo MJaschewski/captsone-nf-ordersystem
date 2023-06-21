@@ -19,4 +19,9 @@ public class ControllerAdvisor {
     public ResponseEntity<Object> handleInputMismatchException(NoSuchElementException noSuchElementException) {
         return new ResponseEntity<>(noSuchElementException.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(IllegalAccessException.class)
+    public ResponseEntity<Object> handleInputMismatchException(IllegalAccessException illegalAccessException) {
+        return new ResponseEntity<>(illegalAccessException.getMessage(), HttpStatus.FORBIDDEN);
+    }
 }

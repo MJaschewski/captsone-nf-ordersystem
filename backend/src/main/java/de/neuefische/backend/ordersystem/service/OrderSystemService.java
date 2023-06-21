@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 
 @Service
@@ -52,12 +53,13 @@ public class OrderSystemService {
         return orderPrice;
     }
 
-    public OrderBody addOrderBody(OrderDTO orderDTO) {
+    public OrderBody addOrderBody(String username, OrderDTO orderDTO) {
         if (orderDTO.getProductBodyList().equals(List.of())) {
             throw new IllegalArgumentException("Empty Product List.");
         }
         verifyProductList(orderDTO.getProductBodyList());
         OrderBody newOrderBody = new OrderBody();
+        newOrderBody.setOwner(username);
         newOrderBody.setId(generateIdService.generateOrderUUID());
         newOrderBody.setProductBodyList(orderDTO.getProductBodyList());
         newOrderBody.setCreated(timeService.currentDate());
@@ -74,12 +76,18 @@ public class OrderSystemService {
         return orderSystemRepository.findAll();
     }
 
-    public OrderBody getOrderById(String orderId) {
+    public OrderBody getOrderById(String username, String orderId) throws IllegalAccessException {
+        if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
+            throw new IllegalAccessException("You don't own this order.");
+        }
         return orderSystemRepository.findById(orderId).orElseThrow();
     }
 
-    public OrderBody editOrderById(String orderId, OrderDTO orderDTO) {
+    public OrderBody editOrderById(String username, String orderId, OrderDTO orderDTO) throws IllegalAccessException {
         OrderBody oldOrderBody = orderSystemRepository.findById(orderId).orElseThrow();
+        if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
+            throw new IllegalAccessException("You don't own this order.");
+        }
         verifyProductList(orderDTO.getProductBodyList());
 
         oldOrderBody.setId(orderId);
@@ -93,9 +101,12 @@ public class OrderSystemService {
         return orderSystemRepository.save(oldOrderBody);
     }
 
-    public String deleteOrderById(String orderId) {
+    public String deleteOrderById(String username, String orderId) throws IllegalAccessException {
         if (!orderSystemRepository.existsById(orderId)) {
             throw new NoSuchElementException("No order with " + orderId + " found.");
+        }
+        if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
+            throw new IllegalAccessException("You don't own this order.");
         }
         orderSystemRepository.deleteById(orderId);
         return "Deletion successful";
@@ -109,5 +120,10 @@ public class OrderSystemService {
             approvingOrder.setApprovalPurchase(true);
         } else throw new IllegalArgumentException("Can't read authority.");
         return orderSystemRepository.save(approvingOrder);
+    }
+
+    public List<OrderBody> getOwnOrderList(String username) {
+        List<OrderBody> allOrders = orderSystemRepository.findAll();
+        return allOrders.stream().filter(orderBody -> orderBody.getOwner().equals(username)).toList();
     }
 }

@@ -70,7 +70,7 @@ class OrderSystemServiceTest {
         when(productSystemService.getProductList()).thenReturn(List.of());
         //When & Then
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.addOrderBody(testOrderDTO), "testProduct is not a valid product.");
+                () -> orderSystemService.addOrderBody("testOwner", testOrderDTO), "testProduct is not a valid product.");
 
     }
 
@@ -80,7 +80,7 @@ class OrderSystemServiceTest {
         OrderDTO emptyOrderDTO = new OrderDTO(List.of());
         //When & Then
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.addOrderBody(emptyOrderDTO), "Empty Product List.");
+                () -> orderSystemService.addOrderBody("testOwner", emptyOrderDTO), "Empty Product List.");
     }
 
     @Test
@@ -96,12 +96,12 @@ class OrderSystemServiceTest {
         String testOrderId = "testOrderId";
         when(generateIdService.generateOrderUUID()).thenReturn(testOrderId);
         String testDate = "2023-01-31";
-        OrderBody expected = new OrderBody(testOrderId, testProductBodyList, 5.00, testDate, "No date yet", false,false, OrderStatus.REQUESTED.toString());
+        OrderBody expected = new OrderBody(testOrderId, "testOwner", testProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
 
         when(timeService.currentDate()).thenReturn(testDate);
         when(orderSystemRepository.save(expected)).thenReturn(expected);
         //When
-        OrderBody actual = orderSystemService.addOrderBody(testOrderDTO);
+        OrderBody actual = orderSystemService.addOrderBody("testOwner", testOrderDTO);
         //Then
         verify(productSystemService).getProductList();
         verify(generateIdService).generateOrderUUID();
@@ -160,16 +160,18 @@ class OrderSystemServiceTest {
     }
 
     @Test
-    void when_getOrderById_then_ReturnOrder(){
+    void when_getOrderById_then_ReturnOrder() throws IllegalAccessException {
         //Given
         OrderBody expected = new OrderBody();
+        String testOwner = "testOwner";
+        expected.setOwner(testOwner);
         String savedOrderId = "savedOrderId";
         expected.setId(savedOrderId);
         when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(expected));
-       //When
-        OrderBody actual = orderSystemService.getOrderById(savedOrderId);
+        //When
+        OrderBody actual = orderSystemService.getOrderById(testOwner, savedOrderId);
         //Then
-        assertEquals(expected,actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -179,7 +181,7 @@ class OrderSystemServiceTest {
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.getOrderById(wrongId), "No order with " + wrongId + " found.");
+                () -> orderSystemService.getOrderById("testOwner", wrongId), "No order with " + wrongId + " found.");
     }
 
     @Test
@@ -190,12 +192,12 @@ class OrderSystemServiceTest {
         OrderDTO testOrder = new OrderDTO();
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.editOrderById(wrongId, testOrder));
+                () -> orderSystemService.editOrderById("testOwner", wrongId, testOrder));
 
     }
 
     @Test
-    void when_editOrder_returnChangedOrder() {
+    void when_editOrder_returnChangedOrder() throws IllegalAccessException {
         //Given
         String testProductId = "testProductId";
         ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
@@ -208,12 +210,13 @@ class OrderSystemServiceTest {
         OrderDTO newOrderDTO = new OrderDTO(newProductBodyList);
         String savedOrderId = "savedOrderId";
         String testDate = "2023-01-31";
-        OrderBody orderSaved = new OrderBody(savedOrderId, savedProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
-        OrderBody expected = new OrderBody(savedOrderId, newProductBodyList, 2.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
+        String testOwner = "testOwner";
+        OrderBody orderSaved = new OrderBody(savedOrderId, testOwner, savedProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
+        OrderBody expected = new OrderBody(savedOrderId, testOwner, newProductBodyList, 2.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.save(expected)).thenReturn(expected);
         when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
         //When
-        OrderBody actual = orderSystemService.editOrderById(savedOrderId, newOrderDTO);
+        OrderBody actual = orderSystemService.editOrderById(testOwner, savedOrderId, newOrderDTO);
 
         //Then
         verify(productSystemService).getProductList();
@@ -223,15 +226,18 @@ class OrderSystemServiceTest {
     }
 
     @Test
-    void when_deleteOrderById_then_returnMessage() {
+    void when_deleteOrderById_then_returnMessage() throws IllegalAccessException {
         //Given
         String orderId = "testId";
         when(orderSystemRepository.existsById(orderId)).thenReturn(true);
         doNothing().doThrow(new RuntimeException()).when(orderSystemRepository).deleteById(orderId);
         String expected = "Deletion successful";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setOwner("testOwner");
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
 
         //When
-        String actual = orderSystemService.deleteOrderById(orderId);
+        String actual = orderSystemService.deleteOrderById("testOwner", orderId);
 
         //Then
         verify(orderSystemRepository).existsById(orderId);
@@ -247,7 +253,7 @@ class OrderSystemServiceTest {
         when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.deleteOrderById(wrongId), "No order with " + wrongId + " found.");
+                () -> orderSystemService.deleteOrderById("testOwner", wrongId), "No order with " + wrongId + " found.");
     }
 
     @Test
@@ -277,7 +283,7 @@ class OrderSystemServiceTest {
         //Given
         String orderID = "";
         List<String> testAuthority = List.of("Purchase");
-        OrderBody approvingOrder = new OrderBody("testId", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
+        OrderBody approvingOrder = new OrderBody("testId", "testOwner", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
         approvingOrder.setApprovalPurchase(true);
         when(orderSystemRepository.save(any())).thenReturn(approvingOrder);
@@ -294,7 +300,7 @@ class OrderSystemServiceTest {
         //Given
         String orderID = "";
         List<String> testAuthority = List.of("Lead");
-        OrderBody approvingOrder = new OrderBody("testId", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
+        OrderBody approvingOrder = new OrderBody("testId", "testOwner", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
         approvingOrder.setApprovalLead(true);
         when(orderSystemRepository.save(any())).thenReturn(approvingOrder);
@@ -311,7 +317,7 @@ class OrderSystemServiceTest {
         //Given
         String orderID = "";
         List<String> testAuthority = List.of("Lead", "Purchase");
-        OrderBody approvingOrder = new OrderBody("testId", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
+        OrderBody approvingOrder = new OrderBody("testId", "testOwner", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
         approvingOrder.setApprovalLead(true);
         when(orderSystemRepository.save(any())).thenReturn(approvingOrder);

@@ -17,7 +17,7 @@ public class OrderSystemController {
 
     @PostMapping
     public OrderBody addOrder(@RequestBody OrderDTO orderDTO) {
-        return orderSystemService.addOrderBody(orderDTO);
+        return orderSystemService.addOrderBody(SecurityContextHolder.getContext().getAuthentication().getName(), orderDTO);
     }
 
     @GetMapping
@@ -26,18 +26,19 @@ public class OrderSystemController {
     }
 
     @GetMapping("/{orderId}")
-    public OrderBody getOrderById(@PathVariable String orderId) {
-        return orderSystemService.getOrderById(orderId);
+    public OrderBody getOrderById(@PathVariable String orderId) throws IllegalAccessException {
+
+        return orderSystemService.getOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
     }
 
     @PutMapping("/{orderId}")
-    public OrderBody editOrder(@PathVariable String orderId, @RequestBody OrderDTO orderDTO) {
-        return orderSystemService.editOrderById(orderId, orderDTO);
+    public OrderBody editOrder(@PathVariable String orderId, @RequestBody OrderDTO orderDTO) throws IllegalAccessException {
+        return orderSystemService.editOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId, orderDTO);
     }
 
     @DeleteMapping("/{orderId}")
-    public String deleteOrderById(@PathVariable String orderId) {
-        return orderSystemService.deleteOrderById(orderId);
+    public String deleteOrderById(@PathVariable String orderId) throws IllegalAccessException {
+        return orderSystemService.deleteOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
     }
 
     @PutMapping("/approve/{orderId}")
@@ -45,4 +46,8 @@ public class OrderSystemController {
         return orderSystemService.approveOrderByIdWithAuthority(orderId, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList());
     }
 
+    @GetMapping("/own")
+    public List<OrderBody> getOwnOrderList() {
+        return orderSystemService.getOwnOrderList(SecurityContextHolder.getContext().getAuthentication().getName());
+    }
 }
