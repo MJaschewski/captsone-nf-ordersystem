@@ -21,6 +21,7 @@ function ApproveOrderOpticalElement(props: Props) {
             <h3>OrderId: {props.orderBody.id}</h3>
             <ul>
                 <li>Id: {props.orderBody.id}</li>
+                <li>Owner: {props.orderBody.owner}</li>
                 <li>Created: {props.orderBody.created}</li>
                 <li>Arrival: {props.orderBody.arrival}</li>
                 <li>Approval Purchase: {props.orderBody.approvalPurchase.toString()}</li>
