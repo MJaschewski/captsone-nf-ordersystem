@@ -11,6 +11,7 @@ import de.neuefische.backend.supportsystem.service.TimeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -24,6 +25,7 @@ public class OrderSystemService {
     private final GenerateIdService generateIdService;
     private final ProductSystemService productSystemService;
     private final OrderSystemRepository orderSystemRepository;
+    private final String illegalAccessMessage = "You don't own this order";
 
     public List<ProductBody> getProductList() {
         return productSystemService.getProductList();
@@ -78,7 +80,7 @@ public class OrderSystemService {
 
     public OrderBody getOrderById(String username, String orderId) throws IllegalAccessException {
         if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
-            throw new IllegalAccessException("You don't own order " + orderId);
+            throw new IllegalAccessException(illegalAccessMessage);
         }
         return orderSystemRepository.findById(orderId).orElseThrow();
     }
@@ -86,7 +88,7 @@ public class OrderSystemService {
     public OrderBody editOrderById(String username, String orderId, OrderDTO orderDTO) throws IllegalAccessException {
         OrderBody oldOrderBody = orderSystemRepository.findById(orderId).orElseThrow();
         if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
-            throw new IllegalAccessException("You don't own order " + orderId);
+            throw new IllegalAccessException(illegalAccessMessage);
         }
         verifyProductList(orderDTO.getProductBodyList());
 
@@ -106,7 +108,7 @@ public class OrderSystemService {
             throw new NoSuchElementException("No order with " + orderId + " found.");
         }
         if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
-            throw new IllegalAccessException("You don't own order " + orderId);
+            throw new IllegalAccessException(illegalAccessMessage);
         }
         orderSystemRepository.deleteById(orderId);
         return "Deletion successful";
@@ -124,6 +126,13 @@ public class OrderSystemService {
 
     public List<OrderBody> getOwnOrderList(String username) {
         List<OrderBody> allOrders = orderSystemRepository.findAll();
-        return allOrders.stream().filter(orderBody -> orderBody.getOwner().equals(username)).toList();
+        List<OrderBody> ownOrders = new ArrayList<>();
+        allOrders.forEach(orderBody -> {
+            if (orderBody.getOwner().equals(username)) {
+                ownOrders.add(orderBody);
+            }
+        });
+        return ownOrders;
+
     }
 }

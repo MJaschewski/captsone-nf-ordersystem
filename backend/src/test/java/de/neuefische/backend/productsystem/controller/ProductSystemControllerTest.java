@@ -115,7 +115,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = {"All", "Purchase"})
     void when_getProductList_then_return200OkAndListProductBody() throws Exception {
         //Given
         mockMvc.perform(post("/api/productSystem")
