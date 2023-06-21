@@ -25,7 +25,7 @@ public class OrderSystemService {
     private final GenerateIdService generateIdService;
     private final ProductSystemService productSystemService;
     private final OrderSystemRepository orderSystemRepository;
-    private final String illegalAccessMessage = "You don't own this order";
+    private final static String illegalAccessMessage = "You don't own this order";
 
     public List<ProductBody> getProductList() {
         return productSystemService.getProductList();
