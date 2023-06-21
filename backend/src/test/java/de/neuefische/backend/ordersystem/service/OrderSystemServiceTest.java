@@ -328,4 +328,44 @@ class OrderSystemServiceTest {
         verify(orderSystemRepository).save(any());
         assertEquals(approvingOrder, actual);
     }
+
+    @Test
+    void when_getOrderByIdWrongOwner_then_throwException() {
+        //Given
+        String wrongOwner = "wrongOwner";
+        String orderId = "orderId";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setId(orderId);
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> orderSystemService.getOrderById(wrongOwner, orderId), "You don't own this order.");
+    }
+
+    @Test
+    void when_editOrderByIdWrongOwner_then_throwException() {
+        //Given
+        String wrongOwner = "wrongOwner";
+        String orderId = "orderId";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setId(orderId);
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> orderSystemService.editOrderById(wrongOwner, orderId, new OrderDTO()), "You don't own this order.");
+    }
+
+    @Test
+    void when_deleteOrderByIdWrongOwner_then_throwException() {
+        //Given
+        String wrongOwner = "wrongOwner";
+        String orderId = "orderId";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setId(orderId);
+        when(orderSystemRepository.existsById(orderId)).thenReturn(true);
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> orderSystemService.deleteOrderById(wrongOwner, orderId), "You don't own this order.");
+    }
 }
