@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
+                        .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority("Purchase", "Lead")
                         .requestMatchers("api/orderSystem/**").hasAuthority("All")
                         .requestMatchers("api/productSystem/**").hasAuthority("Purchase")
                         .anyRequest().denyAll());

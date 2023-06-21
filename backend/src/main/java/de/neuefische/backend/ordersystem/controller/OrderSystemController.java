@@ -4,6 +4,7 @@ import de.neuefische.backend.ordersystem.model.OrderBody;
 import de.neuefische.backend.ordersystem.model.OrderDTO;
 import de.neuefische.backend.ordersystem.service.OrderSystemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,4 +39,10 @@ public class OrderSystemController {
     public String deleteOrderById(@PathVariable String orderId) {
         return orderSystemService.deleteOrderById(orderId);
     }
+
+    @PutMapping("/approve/{orderId}")
+    public OrderBody approveOrderWithAuthority(@PathVariable String orderId) {
+        return orderSystemService.approveOrderByIdWithAuthority(orderId, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList());
+    }
+
 }

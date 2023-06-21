@@ -249,4 +249,77 @@ class OrderSystemServiceTest {
         assertThrows(NoSuchElementException.class,
                 () -> orderSystemService.deleteOrderById(wrongId), "No order with " + wrongId + " found.");
     }
+
+    @Test
+    void when_approveOrderByIdWithAuthorityWrongId_then_Throw() {
+        //Given
+        String wrongId = "";
+        List<String> authorities = List.of("testAuthority");
+        when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.approveOrderByIdWithAuthority(wrongId, authorities), "No order with " + wrongId + " found.");
+    }
+
+    @Test
+    void when_approveOrderByIdWithAuthorityWrongAuthority_then_Throw() {
+        //Given
+        String wrongId = "";
+        List<String> authorities = List.of("testAuthority");
+        when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.of(new OrderBody()));
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.approveOrderByIdWithAuthority(wrongId, authorities), "Can't read authority.");
+    }
+
+    @Test
+    void when_approveOrderByIdWithAuthorityPurchase_then_returnOrderBodyApproved() {
+        //Given
+        String orderID = "";
+        List<String> testAuthority = List.of("Purchase");
+        OrderBody approvingOrder = new OrderBody("testId", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
+        when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
+        approvingOrder.setApprovalPurchase(true);
+        when(orderSystemRepository.save(any())).thenReturn(approvingOrder);
+        //When
+        OrderBody actual = orderSystemService.approveOrderByIdWithAuthority(orderID, testAuthority);
+        //Then
+        verify(orderSystemRepository).findById(orderID);
+        verify(orderSystemRepository).save(any());
+        assertEquals(approvingOrder, actual);
+    }
+
+    @Test
+    void when_approveOrderByIdWithAuthorityLead_then_returnOrderBodyApproved() {
+        //Given
+        String orderID = "";
+        List<String> testAuthority = List.of("Lead");
+        OrderBody approvingOrder = new OrderBody("testId", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
+        when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
+        approvingOrder.setApprovalLead(true);
+        when(orderSystemRepository.save(any())).thenReturn(approvingOrder);
+        //When
+        OrderBody actual = orderSystemService.approveOrderByIdWithAuthority(orderID, testAuthority);
+        //Then
+        verify(orderSystemRepository).findById(orderID);
+        verify(orderSystemRepository).save(any());
+        assertEquals(approvingOrder, actual);
+    }
+
+    @Test
+    void when_approveOrderByIdWithAuthorityLeadAndPurchase_then_returnOrderBodyApprovedLead() {
+        //Given
+        String orderID = "";
+        List<String> testAuthority = List.of("Lead", "Purchase");
+        OrderBody approvingOrder = new OrderBody("testId", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
+        when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
+        approvingOrder.setApprovalLead(true);
+        when(orderSystemRepository.save(any())).thenReturn(approvingOrder);
+        //When
+        OrderBody actual = orderSystemService.approveOrderByIdWithAuthority(orderID, testAuthority);
+        //Then
+        verify(orderSystemRepository).findById(orderID);
+        verify(orderSystemRepository).save(any());
+        assertEquals(approvingOrder, actual);
+    }
 }
