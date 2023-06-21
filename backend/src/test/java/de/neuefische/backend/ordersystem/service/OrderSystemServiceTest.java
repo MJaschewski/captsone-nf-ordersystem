@@ -368,4 +368,24 @@ class OrderSystemServiceTest {
         assertThrows(IllegalAccessException.class,
                 () -> orderSystemService.deleteOrderById(wrongOwner, orderId), "You don't own this order.");
     }
+
+    @Test
+    void when_getOwnOrderList_then_returnOnlyOwnOrders() {
+        //Given
+        String rightOwner = "rightOwner";
+        String wrongOwner = "wrongOwner";
+        OrderBody rightOrder1 = new OrderBody();
+        rightOrder1.setOwner(rightOwner);
+        OrderBody rightOrder2 = new OrderBody();
+        rightOrder2.setOwner(rightOwner);
+        OrderBody wrongOrder = new OrderBody();
+        wrongOrder.setOwner(wrongOwner);
+        List<OrderBody> allOrders = List.of(rightOrder1, rightOrder2, wrongOrder);
+        when(orderSystemRepository.findAll()).thenReturn(allOrders);
+        List<OrderBody> expected = List.of(rightOrder1, rightOrder2);
+        //When
+        List<OrderBody> actual = orderSystemService.getOwnOrderList(rightOwner);
+        //Then
+        assertEquals(expected, actual);
+    }
 }
