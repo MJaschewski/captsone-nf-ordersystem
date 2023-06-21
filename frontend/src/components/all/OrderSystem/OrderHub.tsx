@@ -10,7 +10,7 @@ function OrderHub() {
     useEffect(handleOrderList, [])
 
     function handleOrderList() {
-        axios.get('/api/orderSystem/own')
+        axios.get("/api/orderSystem/own")
             .then(response => response.data)
             .then(data => {
                 setOrderList(data);

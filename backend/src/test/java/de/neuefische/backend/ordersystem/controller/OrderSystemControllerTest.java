@@ -997,4 +997,17 @@ class OrderSystemControllerTest {
                 ));
     }
 
+    @Test
+    @WithMockUser(authorities = "All")
+    @Order(3)
+    @DirtiesContext
+    void when_getOwnOrderListNoOrders_return_200AndEmptyList() throws Exception {
+        mockMvc.perform(get("/api/orderSystem/own")
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                                        [
+                        ]
+                        """));
+    }
 }
