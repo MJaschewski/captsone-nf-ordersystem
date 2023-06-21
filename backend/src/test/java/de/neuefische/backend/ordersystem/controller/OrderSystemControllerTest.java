@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class OrderSystemControllerTest {
 
     private final TimeService timeService = new TimeService();
-    private static OrderBody tempSave = new OrderBody();
+    private static OrderBody tempOrder = new OrderBody();
     private static ProductBody tempNewProduct = new ProductBody();
 
     @Autowired
@@ -848,7 +848,7 @@ class OrderSystemControllerTest {
                         """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())))
                 .andExpect(jsonPath("$.productBodyList[0].id").isNotEmpty()).andReturn();
 
-        this.tempSave = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
+        this.tempOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
     }
 
     @Test
@@ -856,7 +856,7 @@ class OrderSystemControllerTest {
     @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
     void when_getOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
-        mockMvc.perform(get("/api/orderSystem/" + tempSave.getId())
+        mockMvc.perform(get("/api/orderSystem/" + tempOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isForbidden());
 
@@ -867,7 +867,7 @@ class OrderSystemControllerTest {
     @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
     void when_editOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
-        mockMvc.perform(put("/api/orderSystem/" + tempSave.getId())
+        mockMvc.perform(put("/api/orderSystem/" + tempOrder.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                     {
@@ -891,8 +891,110 @@ class OrderSystemControllerTest {
     @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
     void when_deleteOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
-        mockMvc.perform(delete("/api/orderSystem/" + tempSave.getId()).with(csrf()))
+        mockMvc.perform(delete("/api/orderSystem/" + tempOrder.getId()).with(csrf()))
                 .andExpect(status().isForbidden());
 
     }
+
+    @Test
+    @Order(2)
+    @WithMockUser(username = "newUser", authorities = {"All", "Purchase"})
+    void when_getOwnOrderList_returnOwnedOrderList() throws Exception {
+        //Given
+        MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "name":"test",
+                            "price":1244.99,
+                            "accessLevel":"ALL"
+                        }
+                        """
+                )).andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductBody newProduct = objectMapper.readValue(postProduct.getResponse().getContentAsString(), ProductBody.class);
+
+        MvcResult orderResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                    "productBodyList":[
+                                        {
+                                            "id": "%s",
+                                            "name": "%s",
+                                            "price": 1244.99,
+                                            "accessLevel": "%s"
+                                        }
+                                        ]
+                                    }
+                                """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
+                        )
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": false,
+                            "approvalLead": false,
+                            "orderStatus": "REQUESTED"
+                        }
+                        """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())))
+                .andExpect(jsonPath("$.productBodyList[0].id").isNotEmpty()).andReturn();
+
+        OrderBody addedOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
+
+        //When & Then
+        mockMvc.perform(get("/api/orderSystem/own")
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                                        [
+                                                                {
+                                            "id": "%s",
+                                            "productBodyList": [
+                                                {
+                                                    "id": "%s",
+                                                    "name": "%s",
+                                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "%s",
+                            "approvalPurchase": false,
+                            "approvalLead": false,
+                            "orderStatus": "%s"
+                                                }
+                        ]
+                        """.formatted(addedOrder.getId()
+                        , addedOrder.getProductBodyList().get(0).getId()
+                        , addedOrder.getProductBodyList().get(0).getName()
+                        , addedOrder.getProductBodyList().get(0).getAccessLevel()
+                        , addedOrder.getCreated()
+                        , addedOrder.getArrival()
+                        , addedOrder.getOrderStatus())
+                ));
+    }
+
 }
