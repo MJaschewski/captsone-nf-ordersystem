@@ -978,6 +978,28 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(2)
+    @WithMockUser(username = "wrongUser", authorities = {"All", "Purchase"})
+    void when_getOwnOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
+        //When & Then
+        mockMvc.perform(get("/api/orderSystem/own/" + tempOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+
+    }
+
+    @Test
+    @Order(2)
+    @WithMockUser(username = "postUser", authorities = {"All", "Purchase"})
+    void when_getOwnOrderByIDWrongId_returnNotFound_get() throws Exception {
+        //When & Then
+        mockMvc.perform(get("/api/orderSystem/own/" + "wrongId")
+                        .with(csrf()))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    @Order(2)
     @WithMockUser(username = "newUser", authorities = {"All", "Purchase"})
     void when_getOwnOrderList_returnOwnedOrderList() throws Exception {
         //Given
