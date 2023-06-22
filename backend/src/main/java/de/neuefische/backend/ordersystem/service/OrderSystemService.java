@@ -131,4 +131,12 @@ public class OrderSystemService {
         return ownOrders;
 
     }
+
+    public OrderBody getOwnOrderById(String username, String orderId) {
+        OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
+        if (!Objects.equals(savedOrder.getOwner(), username)) {
+            throw new IllegalArgumentException("Can't read orders not belonging to yourself.");
+        }
+        return savedOrder;
+    }
 }
