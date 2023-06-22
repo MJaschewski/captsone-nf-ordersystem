@@ -17,6 +17,9 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+    private static final String RoleAll = "All";
+    private static final String RolePurchase = "Purchase";
+    private static final String RoleLead = "Lead";
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,13 +47,13 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
-                        .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority("Purchase", "Lead")
-                        .requestMatchers("api/orderSystem/own").hasAuthority("All")
-                        .requestMatchers("api/orderSystem/own/**").hasAuthority("All")
-                        .requestMatchers(HttpMethod.GET, "api/orderSystem/{orderId}").hasAnyAuthority("Purchase", "Lead")
-                        .requestMatchers("api/orderSystem/**").hasAuthority("All")
-                        .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority("All")
-                        .requestMatchers(HttpMethod.POST, "api/productSystem").hasAuthority("Purchase")
+                        .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority(RolePurchase, RoleLead)
+                        .requestMatchers("api/orderSystem/own").hasAuthority(RoleAll)
+                        .requestMatchers("api/orderSystem/own/**").hasAuthority(RoleAll)
+                        .requestMatchers(HttpMethod.GET, "api/orderSystem/{orderId}").hasAnyAuthority(RolePurchase, RoleLead)
+                        .requestMatchers("api/orderSystem/**").hasAuthority(RoleAll)
+                        .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority(RoleAll)
+                        .requestMatchers(HttpMethod.POST, "api/productSystem").hasAuthority(RolePurchase)
                         .anyRequest().denyAll());
         return httpSecurity.build();
     }
