@@ -15,8 +15,8 @@ function OrderOpticalElement(props:Props) {
                 <li>Id: {props.orderBody.id}</li>
                 <li>Created: {props.orderBody.created}</li>
                 <li>Arrival: {props.orderBody.arrival}</li>
-                <li>Approval Purchase: {props.orderBody.approvalPurchase}</li>
-                <li>Approval Lead: {props.orderBody.approvalPurchase}</li>
+                <li>Approval Purchase: {props.orderBody.approvalPurchase.toString()}</li>
+                <li>Approval Lead: {props.orderBody.approvalPurchase.toString()}</li>
                 <li>Order Status: {props.orderBody.orderStatus} </li>
                 <li>Product List:
                     <ul>{props.orderBody.productBodyList.map(currentProduct => (

@@ -117,6 +117,9 @@ public class OrderSystemService {
         } else if (authorities.contains("Purchase")) {
             approvingOrder.setApprovalPurchase(true);
         } else throw new IllegalArgumentException("Can't read authority.");
+        if (approvingOrder.isApprovalLead() && approvingOrder.isApprovalPurchase()) {
+            approvingOrder.setOrderStatus(OrderStatus.APPROVED.toString());
+        }
         return orderSystemRepository.save(approvingOrder);
     }
 

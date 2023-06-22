@@ -410,4 +410,21 @@ class OrderSystemServiceTest {
         //Then
         assertEquals(expected, actual);
     }
+
+    @Test
+    void when_approveOrderByIdWithAuthorityBothApproved_then_orderStatusApproved() {
+        //Given
+        String orderId = "orderId";
+        OrderBody partlyApproved = new OrderBody();
+        partlyApproved.setApprovalPurchase(true);
+        List<String> authoritiesWithLead = List.of("Lead");
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(partlyApproved));
+        partlyApproved.setApprovalLead(true);
+        partlyApproved.setOrderStatus(OrderStatus.APPROVED.toString());
+        when(orderSystemRepository.save(partlyApproved)).thenReturn(partlyApproved);
+        //When
+        OrderBody actual = orderSystemService.approveOrderByIdWithAuthority(orderId, authoritiesWithLead);
+        //Then
+        assertEquals(partlyApproved, actual);
+    }
 }
