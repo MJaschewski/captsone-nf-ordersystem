@@ -2,14 +2,14 @@ import {useNavigate, useParams} from "react-router-dom";
 import useHandleValidProductList from "./hooks/useHandleValidProductList";
 import useHandleOrderProductList from "./hooks/useHandleOrderProductList";
 import React, {FormEvent, useEffect} from "react";
-import useHandleGetOrderById from "./hooks/useHandleGetOrderById";
 import {OrderDTO} from "./OrderDTO";
 import axios from "axios";
+import useHandleGetOwnOrderById from "./hooks/useHandleGetOwnOrderById";
 
 function EditOrder() {
     const navigate = useNavigate();
     let {id} = useParams();
-    const {orderBody, handleGetOrderById} = useHandleGetOrderById();
+    const {orderBody, handleGetOwnOrderById} = useHandleGetOwnOrderById();
     const {validProductList, handleValidProductList} = useHandleValidProductList()
     const {orderProductList, handleOrderProductList} = useHandleOrderProductList()
 
@@ -17,7 +17,7 @@ function EditOrder() {
 
     function handleUseEffect() {
         handleValidProductList()
-        handleGetOrderById(id)
+        handleGetOwnOrderById(id)
     }
 
     function handleOrderSubmit(event: FormEvent) {
