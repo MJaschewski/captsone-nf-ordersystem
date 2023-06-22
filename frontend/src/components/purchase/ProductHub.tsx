@@ -27,7 +27,7 @@ function ProductHub() {
             {productList.map(currentProductBody => {
                 return <div key={currentProductBody.id + "Wrapper"}>
                     <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
-                    <button onClick={() => navigate("/orderHub/details/" + currentProductBody.id)}>Details</button>
+                    <button onClick={() => navigate("/productHub/details/" + currentProductBody.id)}>Details</button>
                 </div>
             })}
             <button onClick={() => navigate("/add_product")}>Add Product</button>
