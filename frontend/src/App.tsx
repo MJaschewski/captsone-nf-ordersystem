@@ -16,6 +16,7 @@ import DeleteOrder from "./components/all/OrderSystem/DeleteOrder";
 import ProtectedRoutesApproval from "./components/ProtectedRoutesApproval";
 import ApproveOrder from "./components/approval/ApproveOrder";
 import ApproveOrderDetails from "./components/approval/ApproveOrderDetails";
+import ProductDetails from "./components/purchase/ProductDetails";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
                     </Route>
                     <Route element={<ProtectedRoutesPurchase/>}>
                         <Route path={"/productHub"} element={<ProductHub/>}/>
+                        <Route path={"/productHub/details/:id"} element={<ProductDetails/>}/>
                         <Route path={"/add_product"} element={<AddProduct/>}/>
                     </Route>
                 </Route>
