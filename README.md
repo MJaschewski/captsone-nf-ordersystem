@@ -9,4 +9,4 @@ You need to add products to your mongodb before you can see any products. This c
 ## Order List in Hub:
 After you added products to your product list you can add orders. Afterwards they are displayed in the order hub.
 ## Approve orders (Only with users testLead & testPurchase):
-If you have authority lead or purchase you can approve orders. You can only approve already existing orders.
+If you have authority lead or purchase you can approve orders. You can only approve already existing orders. When both a lead and a purchase have approved the order it's status will change to approved.
