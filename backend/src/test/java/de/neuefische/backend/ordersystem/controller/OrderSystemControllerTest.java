@@ -391,7 +391,7 @@ class OrderSystemControllerTest {
 
         OrderBody addedOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
 
-        mockMvc.perform(get("/api/orderSystem/Own/" + addedOrder.getId())
+        mockMvc.perform(get("/api/orderSystem/own/" + addedOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""

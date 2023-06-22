@@ -134,7 +134,7 @@ public class OrderSystemService {
 
     public OrderBody getOwnOrderById(String username, String orderId) throws IllegalAccessException {
         OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
-        if (!Objects.equals(savedOrder.getOwner(), username)) {
+        if (!savedOrder.getOwner().equals(username)) {
             throw new IllegalAccessException("Can't read orders not belonging to yourself.");
         }
         return savedOrder;
