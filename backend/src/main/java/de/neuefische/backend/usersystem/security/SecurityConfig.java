@@ -17,7 +17,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private static final String RoleAll = "All";
+    private static final String Role_All = "All";
     private static final String RolePurchase = "Purchase";
     private static final String RoleLead = "Lead";
 
@@ -48,11 +48,11 @@ public class SecurityConfig {
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
                         .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority(RolePurchase, RoleLead)
-                        .requestMatchers("api/orderSystem/own").hasAuthority(RoleAll)
-                        .requestMatchers("api/orderSystem/own/**").hasAuthority(RoleAll)
+                        .requestMatchers("api/orderSystem/own").hasAuthority(Role_All)
+                        .requestMatchers("api/orderSystem/own/**").hasAuthority(Role_All)
                         .requestMatchers(HttpMethod.GET, "api/orderSystem/{orderId}").hasAnyAuthority(RolePurchase, RoleLead)
-                        .requestMatchers("api/orderSystem/**").hasAuthority(RoleAll)
-                        .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority(RoleAll)
+                        .requestMatchers("api/orderSystem/**").hasAuthority(Role_All)
+                        .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority(Role_All)
                         .requestMatchers(HttpMethod.POST, "api/productSystem").hasAuthority(RolePurchase)
                         .anyRequest().denyAll());
         return httpSecurity.build();
