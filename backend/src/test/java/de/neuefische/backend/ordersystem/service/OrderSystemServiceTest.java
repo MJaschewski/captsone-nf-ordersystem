@@ -373,4 +373,41 @@ class OrderSystemServiceTest {
         //Then
         assertEquals(expected, actual);
     }
+
+    @Test
+    void when_getOwnOrderByIdWrongId_thenThrow() {
+        //Given
+        String wrongId = "wrongId";
+        String username = "username";
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.getOwnOrderById(username, wrongId), "No order with " + wrongId + " found.");
+    }
+
+    @Test
+    void when_getOwnOrderByIdWrongUsername_thenThrow() {
+        //Given
+        String orderId = "wrongId";
+        String wrongUsername = "username";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setOwner("rightOwner");
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> orderSystemService.getOwnOrderById(wrongUsername, orderId), "Can't read orders not belonging to yourself.");
+    }
+
+    @Test
+    void when_getOwnOrderById_then_returnOrderBody() throws IllegalAccessException {
+        //Given
+        String orderId = "wrongId";
+        String username = "username";
+        OrderBody expected = new OrderBody();
+        expected.setOwner(username);
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(expected));
+        //When
+        OrderBody actual = orderSystemService.getOwnOrderById(username, orderId);
+        //Then
+        assertEquals(expected, actual);
+    }
 }

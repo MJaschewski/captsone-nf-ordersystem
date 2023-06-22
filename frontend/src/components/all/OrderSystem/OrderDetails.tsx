@@ -2,16 +2,16 @@ import React, {useEffect} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 
 import OrderOpticalElement from "./OrderOpticalElement";
-import useHandleGetOrderById from "./hooks/useHandleGetOrderById";
+import useHandleGetOwnOrderById from "./hooks/useHandleGetOwnOrderById";
 
 
 function OrderDetails() {
     const navigate = useNavigate();
-    const {orderBody, handleGetOrderById} = useHandleGetOrderById();
+    const {orderBody, handleGetOwnOrderById} = useHandleGetOwnOrderById();
     let {id} = useParams();
 
     // eslint-disable-next-line
-    useEffect(() => handleGetOrderById(id), [])
+    useEffect(() => handleGetOwnOrderById(id), [])
 
     return (
         <div>
