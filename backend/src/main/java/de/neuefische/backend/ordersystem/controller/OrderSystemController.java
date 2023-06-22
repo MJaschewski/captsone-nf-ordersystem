@@ -49,4 +49,9 @@ public class OrderSystemController {
     public List<OrderBody> getOwnOrderList() {
         return orderSystemService.getOwnOrderList(SecurityContextHolder.getContext().getAuthentication().getName());
     }
+
+    @GetMapping("/own/{orderId}")
+    public OrderBody getOwnOrderById(@PathVariable String orderId) throws IllegalAccessException {
+        return orderSystemService.getOwnOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
+    }
 }
