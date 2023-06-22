@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "api/orderSystem/{orderId}").hasAnyAuthority(ROLE_PURCHASE, ROLE_LEAD)
                         .requestMatchers("api/orderSystem/**").hasAuthority(ROLE_ALL)
                         .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority(ROLE_ALL)
+                        .requestMatchers(HttpMethod.GET, "api/productSystem/**").hasAuthority(ROLE_PURCHASE)
                         .requestMatchers(HttpMethod.POST, "api/productSystem").hasAuthority(ROLE_PURCHASE)
                         .anyRequest().denyAll());
         return httpSecurity.build();

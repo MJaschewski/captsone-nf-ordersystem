@@ -7,6 +7,8 @@ import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -95,4 +97,27 @@ class ProductSystemServiceTest {
         //Then
         assertEquals(expected, actual);
     }
+
+    @Test
+    void when_getProductByIdWrongId_thenThrowException() {
+        //Given
+        String wrongId = "wrongId";
+        when(productRepository.findById(wrongId)).thenReturn(Optional.empty());
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> productSystemService.getProductById(wrongId));
+    }
+
+    @Test
+    void when_getProductById_returnProduct() {
+        //Given
+        String productId = "productId";
+        ProductBody expected = new ProductBody();
+        when(productRepository.findById(productId)).thenReturn(Optional.of(expected));
+        //When
+        ProductBody actual = productSystemService.getProductById(productId);
+        //Then
+        assertEquals(expected, actual);
+    }
+
 }

@@ -35,4 +35,8 @@ public class ProductSystemService {
     public List<ProductBody> getProductList() {
         return productRepository.findAll();
     }
+
+    public ProductBody getProductById(String productId) {
+        return productRepository.findById(productId).orElseThrow();
+    }
 }

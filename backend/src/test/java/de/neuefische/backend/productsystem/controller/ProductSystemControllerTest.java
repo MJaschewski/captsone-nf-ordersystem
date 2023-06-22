@@ -1,6 +1,11 @@
 package de.neuefische.backend.productsystem.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.neuefische.backend.productsystem.model.ProductBody;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -16,7 +22,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProductSystemControllerTest {
+    private static ProductBody savedProduct;
 
     @Autowired
     MockMvc mockMvc;
@@ -175,5 +183,69 @@ class ProductSystemControllerTest {
                         """)))
                 .andExpect(jsonPath("$[0].id").isNotEmpty())
                 .andExpect(jsonPath("$[1].id").isNotEmpty());
+    }
+
+    @Test
+    @Order(1)
+    @WithMockUser(authorities = "Purchase")
+    void post_ProductForOrderedTests() throws Exception {
+        MvcResult postProductResult = mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+        ObjectMapper objectMapper = new ObjectMapper();
+        this.savedProduct = objectMapper.readValue(postProductResult.getResponse().getContentAsString(), ProductBody.class);
+
+    }
+
+    @Test
+    @Order(2)
+    @WithMockUser(authorities = {"All", "Purchase"})
+    void when_getProductById_then_return200AndProduct() throws Exception {
+        //Given
+        String productId = savedProduct.getId();
+        //When & Then
+        mockMvc.perform(get("/api/productSystem/" + productId)
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                            {
+                                    "id":"%s",
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                        """.formatted(productId)));
+    }
+
+    @Test
+    @Order(2)
+    @WithMockUser(authorities = {"All", "Purchase"})
+    void when_getProductByIdWrongId_then_return404() throws Exception {
+        //Given
+        String wrongId = "wrongId";
+        //When & Then
+        mockMvc.perform(get("/api/productSystem/" + wrongId)
+                        .with(csrf()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Order(2)
+    @WithMockUser(authorities = "All")
+    void when_getProductByIdNotPurchase_then_returnIsForbidden() throws Exception {
+        //Given
+        String productId = savedProduct.getId();
+        //When & Then
+        mockMvc.perform(get("/api/productSystem/" + productId)
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
     }
 }
