@@ -23,4 +23,9 @@ public class ProductSystemController {
     public List<ProductBody> getProductList() {
         return productSystemService.getProductList();
     }
+
+    @GetMapping("/{productId}")
+    public ProductBody getProductById(@PathVariable String productId) {
+        return productSystemService.getProductById(productId);
+    }
 }
