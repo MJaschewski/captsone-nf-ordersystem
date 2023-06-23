@@ -9,7 +9,7 @@ export default function ProtectedRoutesAll() {
         && typeof secureLocalStorage.getItem("username") === "string"
 
     const authenticatedAuthorities = secureLocalStorage.getItem("authorities") !== "None"
-        && JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "All")
+        && (secureLocalStorage.getItem("authorities") !== null) && JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "All")
 
     const authenticated = authenticatedUser && authenticatedAuthorities
     return (

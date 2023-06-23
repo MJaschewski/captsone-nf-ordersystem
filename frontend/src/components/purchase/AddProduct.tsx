@@ -1,12 +1,9 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import {ProductDTO} from "./ProductDTOType";
+import FormProductSubmit from "../FormProductSubmit";
 
-type ProductDTO = {
-    name: string,
-    price: number,
-    accessLevel: string
-}
 
 function AddProduct() {
     const navigate = useNavigate();
@@ -39,31 +36,15 @@ function AddProduct() {
     return (
         <div>
             <h1>Add product</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="productName">
-                    <input type="text" name="productName" value={productName} onChange={handleChangeProductName}/>
-                </label>
-                <label htmlFor="productPrice">
-                    <input type="number" min="0.00" inputMode="numeric" pattern="\?" step="0.01" name="productPrice"
-                           value={productPrice}
-                           onChange={handleChangeProductPrice}/>
-                </label>
-                <label>
-                    {accessLevel.map((level: React.Key) => (
-                        <div key={level}>
-                            <input type="radio"
-                                   id={level.toString()}
-                                   name="productAccessLevel"
-                                   value={level.toString()}
-                                   onChange={handleChangeProductAccessLevel}
-                                   checked={productAccessLevel.toString() === level.toString()}
-                            />
-                            <label htmlFor={level.toString()}>{level.toString()}</label>
-                        </div>
-                    ))}
-                </label>
-                <button>Add Product</button>
-            </form>
+            <FormProductSubmit handleSubmit={handleSubmit}
+                               handleChangeProductName={handleChangeProductName}
+                               handleChangeProductPrice={handleChangeProductPrice}
+                               handleChangeProductAccessLevel={handleChangeProductAccessLevel}
+                               productName={productName}
+                               productPrice={productPrice}
+                               accessLevel={accessLevel}
+                               productAccessLevel={productAccessLevel}
+                               buttonDescription={"Add Product"}/>
             <button onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );

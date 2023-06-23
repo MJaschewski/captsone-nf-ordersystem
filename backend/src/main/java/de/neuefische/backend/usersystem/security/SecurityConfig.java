@@ -1,6 +1,5 @@
 package de.neuefische.backend.usersystem.security;
 
-import jakarta.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -44,7 +43,6 @@ public class SecurityConfig {
                                         HttpStatus.UNAUTHORIZED.getReasonPhrase()
                                 )))
                 .authorizeHttpRequests(auth -> auth
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
                         .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority(ROLE_PURCHASE, ROLE_LEAD)
@@ -54,6 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("api/orderSystem/**").hasAuthority(ROLE_ALL)
                         .requestMatchers(HttpMethod.GET, "api/productSystem").hasAuthority(ROLE_ALL)
                         .requestMatchers(HttpMethod.GET, "api/productSystem/**").hasAuthority(ROLE_PURCHASE)
+                        .requestMatchers(HttpMethod.PUT, "api/productSystem/**").hasAuthority(ROLE_PURCHASE)
                         .requestMatchers(HttpMethod.POST, "api/productSystem").hasAuthority(ROLE_PURCHASE)
                         .anyRequest().denyAll());
         return httpSecurity.build();

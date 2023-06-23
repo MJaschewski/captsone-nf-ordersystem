@@ -1,5 +1,6 @@
 package de.neuefische.backend.productsystem.service;
 
+import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.model.ProductDTO;
 import de.neuefische.backend.productsystem.repository.ProductRepository;
@@ -120,4 +121,43 @@ class ProductSystemServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void when_editProductByIdWrongId_then_Throw() {
+        //Given
+        String wrongId = "productId";
+        ProductDTO newProduct = new ProductDTO();
+        when(productRepository.findById(wrongId)).thenReturn(Optional.empty());
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> productSystemService.editProductById(wrongId, newProduct));
+    }
+
+    @Test
+    void when_editProductByIdNegativePrice_then_Throw() {
+        //Given
+        String productId = "productId";
+        ProductDTO newProduct = new ProductDTO();
+        newProduct.setPrice(-1.00);
+        ProductBody savedProduct = new ProductBody();
+        when(productRepository.findById(productId)).thenReturn(Optional.of(savedProduct));
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> productSystemService.editProductById(productId, newProduct));
+    }
+
+    @Test
+    void when_editProductById_then_returnProductBody() {
+        //Given
+        String productId = "productId";
+        ProductDTO newProduct = new ProductDTO("testName", 2.00, AccessLevel.ALL.toString());
+        ProductBody savedProduct = new ProductBody();
+        savedProduct.setId(productId);
+        ProductBody expected = new ProductBody(productId, newProduct.getName(), newProduct.getPrice(), newProduct.getAccessLevel());
+        when(productRepository.findById(productId)).thenReturn(Optional.of(savedProduct));
+        when(productRepository.save(expected)).thenReturn(expected);
+        //When
+        ProductBody actual = productSystemService.editProductById(productId, newProduct);
+        //Then
+        assertEquals(expected, actual);
+    }
 }

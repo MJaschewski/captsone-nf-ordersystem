@@ -28,4 +28,9 @@ public class ProductSystemController {
     public ProductBody getProductById(@PathVariable String productId) {
         return productSystemService.getProductById(productId);
     }
+
+    @PutMapping("/{productId}")
+    public ProductBody editProductById(@PathVariable String productId, @RequestBody ProductDTO productDTO) {
+        return productSystemService.editProductById(productId, productDTO);
+    }
 }

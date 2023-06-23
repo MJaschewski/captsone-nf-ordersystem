@@ -17,6 +17,7 @@ import ProtectedRoutesApproval from "./components/ProtectedRoutesApproval";
 import ApproveOrder from "./components/approval/ApproveOrder";
 import ApproveOrderDetails from "./components/approval/ApproveOrderDetails";
 import ProductDetails from "./components/purchase/ProductDetails";
+import EditProduct from "./components/purchase/EditProduct";
 
 function App() {
 
@@ -42,6 +43,7 @@ function App() {
                     <Route element={<ProtectedRoutesPurchase/>}>
                         <Route path={"/productHub"} element={<ProductHub/>}/>
                         <Route path={"/productHub/details/:id"} element={<ProductDetails/>}/>
+                        <Route path={"/productHub/edit/:id"} element={<EditProduct/>}/>
                         <Route path={"/add_product"} element={<AddProduct/>}/>
                     </Route>
                 </Route>

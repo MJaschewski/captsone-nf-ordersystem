@@ -26,7 +26,7 @@ function ApproveOrder() {
             <ul>{orderList.map(currentOrderBody => (
                     <li key={currentOrderBody.id}>
                         <p>OrderId: {currentOrderBody.id}</p>
-                        <p>OrderId: {currentOrderBody.owner}</p>
+                        <p>Owner: {currentOrderBody.owner}</p>
                         <p>Approval Purchase: {currentOrderBody.approvalPurchase.toString()} </p>
                         <p>Approval Lead: {currentOrderBody.approvalLead.toString()} </p>
                         <p>Status: {currentOrderBody.orderStatus}</p>
