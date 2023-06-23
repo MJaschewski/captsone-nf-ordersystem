@@ -4,6 +4,7 @@ import useHandleGetProductById from "./hooks/useHandleGetProductById";
 import {ProductDTO} from "./ProductDTOType";
 import axios from "axios";
 import ProductOpticalElement from "./ProductOpticalElement";
+import FormProductSubmit from "../FormProductSubmit";
 
 function EditProduct() {
     const navigate = useNavigate();
@@ -24,7 +25,7 @@ function EditProduct() {
             .then(response => {
                 console.log(response.data)
             })
-            .then(() => navigate("/"))
+            .then(() => navigate("/productHub/details/" + id))
             .catch(error => console.log(error));
     }
 
@@ -48,31 +49,15 @@ function EditProduct() {
                 <ProductOpticalElement productBody={productBody}/>
                 : <></>}
             <h2>Edit Product:</h2>
-            <form onSubmit={handleProductSubmit}>
-                <label htmlFor="productName">
-                    <input type="text" name="productName" value={productName} onChange={handleChangeProductName}/>
-                </label>
-                <label htmlFor="productPrice">
-                    <input type="number" min="0.00" inputMode="numeric" pattern="\?" step="0.01" name="productPrice"
-                           value={productPrice}
-                           onChange={handleChangeProductPrice}/>
-                </label>
-                <label>
-                    {accessLevel.map((level: React.Key) => (
-                        <div key={level}>
-                            <input type="radio"
-                                   id={level.toString()}
-                                   name="productAccessLevel"
-                                   value={level.toString()}
-                                   onChange={handleChangeProductAccessLevel}
-                                   checked={productAccessLevel.toString() === level.toString()}
-                            />
-                            <label htmlFor={level.toString()}>{level.toString()}</label>
-                        </div>
-                    ))}
-                </label>
-                <button>Edit Product</button>
-            </form>
+            <FormProductSubmit handleSubmit={handleProductSubmit}
+                               handleChangeProductName={handleChangeProductName}
+                               handleChangeProductPrice={handleChangeProductPrice}
+                               handleChangeProductAccessLevel={handleChangeProductAccessLevel}
+                               productName={productName}
+                               productPrice={productPrice}
+                               accessLevel={accessLevel}
+                               productAccessLevel={productAccessLevel}
+                               buttonDescription={"Edit Product"}/>
             <button onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );
