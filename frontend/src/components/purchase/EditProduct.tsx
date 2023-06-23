@@ -1,15 +1,32 @@
-import React, {ChangeEvent, FormEvent, useState} from 'react';
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from 'react';
+import {useNavigate, useParams} from "react-router-dom";
+import useHandleGetProductById from "./hooks/useHandleGetProductById";
 import {ProductDTO} from "./ProductDTOType";
+import axios from "axios";
+import ProductOpticalElement from "./ProductOpticalElement";
 
-
-function AddProduct() {
+function EditProduct() {
     const navigate = useNavigate();
+    let {id} = useParams();
+    const {productBody, handleGetProductById} = useHandleGetProductById();
     const accessLevel = ["ALL", "PURCHASE", "LEAD"]
     const [productName, setProductName] = useState<string>("")
     const [productPrice, setProductPrice] = useState<number>(0.00)
     const [productAccessLevel, setProductAccessLevel] = useState<string>("")
+
+    // eslint-disable-next-line
+    useEffect(() => handleGetProductById(id), [])
+
+    function handleProductSubmit(event: FormEvent) {
+        event.preventDefault()
+        const productDTO: ProductDTO = {name: productName, price: productPrice, accessLevel: productAccessLevel}
+        axios.put('/api/productSystem/' + id, productDTO)
+            .then(response => {
+                console.log(response.data)
+            })
+            .then(() => navigate("/"))
+            .catch(error => console.log(error));
+    }
 
     function handleChangeProductName(event: ChangeEvent<HTMLInputElement>) {
         setProductName(event.target.value);
@@ -18,24 +35,20 @@ function AddProduct() {
     function handleChangeProductPrice(event: ChangeEvent<HTMLInputElement>) {
         setProductPrice(event.target.valueAsNumber);
     }
-    function handleChangeProductAccessLevel(event:ChangeEvent<HTMLInputElement>){
+
+    function handleChangeProductAccessLevel(event: ChangeEvent<HTMLInputElement>) {
         setProductAccessLevel(event.target.value);
     }
 
-    function handleSubmit (event: FormEvent){
-        event.preventDefault()
-        const productDTO:ProductDTO = {name:productName,price:productPrice,accessLevel:productAccessLevel}
-        axios.post('/api/productSystem', productDTO)
-            .then(response => {
-                console.log(response.data)
-            })
-            .then(() => navigate("/"))
-            .catch(error => console.log(error));
-    }
     return (
         <div>
-            <h1>Add product</h1>
-            <form onSubmit={handleSubmit}>
+            <h1>Edit product: {productBody?.id}</h1>
+            <h2>Previous:</h2>
+            {productBody !== undefined ?
+                <ProductOpticalElement productBody={productBody}/>
+                : <></>}
+            <h2>Edit Product:</h2>
+            <form onSubmit={handleProductSubmit}>
                 <label htmlFor="productName">
                     <input type="text" name="productName" value={productName} onChange={handleChangeProductName}/>
                 </label>
@@ -58,11 +71,11 @@ function AddProduct() {
                         </div>
                     ))}
                 </label>
-                <button>Add Product</button>
+                <button>Edit Product</button>
             </form>
             <button onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );
 }
 
-export default AddProduct;
+export default EditProduct;

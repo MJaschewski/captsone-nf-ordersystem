@@ -17,6 +17,7 @@ function ProductDetails() {
                 <ProductOpticalElement productBody={productBody}/>
                 : <></>}
             <button onClick={() => navigate("/productHub")}>Cancel</button>
+            <button onClick={() => navigate("/productHub/edit/" + id)}>Edit</button>
         </div>
     );
 }
