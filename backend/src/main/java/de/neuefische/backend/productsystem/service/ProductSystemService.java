@@ -39,4 +39,17 @@ public class ProductSystemService {
     public ProductBody getProductById(String productId) {
         return productRepository.findById(productId).orElseThrow();
     }
+
+
+    public ProductBody editProductById(String productId, ProductDTO productDTO) {
+        ProductBody savedProduct = productRepository.findById(productId).orElseThrow();
+
+        if (productDTO.getPrice() <= 0.00) {
+            throw new IllegalArgumentException("Price can't be negative");
+        }
+        savedProduct.setAccessLevel(AccessLevel.valueOf(productDTO.getAccessLevel()).toString());
+        savedProduct.setPrice(productDTO.getPrice());
+        savedProduct.setName(productDTO.getName());
+        return productRepository.save(savedProduct);
+    }
 }
