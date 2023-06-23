@@ -43,7 +43,6 @@ public class SecurityConfig {
                                         HttpStatus.UNAUTHORIZED.getReasonPhrase()
                                 )))
                 .authorizeHttpRequests(auth -> auth
-                        //.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
                         .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority(ROLE_PURCHASE, ROLE_LEAD)
