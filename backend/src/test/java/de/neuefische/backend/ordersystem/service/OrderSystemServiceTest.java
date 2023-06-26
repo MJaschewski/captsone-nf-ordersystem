@@ -453,4 +453,49 @@ class OrderSystemServiceTest {
         //Then
         assertEquals(partlyApproved, actual);
     }
+
+    @Test
+    void when_disapproveOrderWrongAuthority_then_throwException() {
+        //Given
+        String productId = "productId";
+        List<String> authorities = List.of();
+        //When & Then
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.disapproveOrder(productId, authorities));
+
+    }
+
+    @Test
+    void when_disapproveOrderWrongID_then_throwException() {
+        //Given
+        String wrongId = "wrongId";
+        List<String> authorities = List.of(AccessLevel.LEAD.toString());
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.disapproveOrder(wrongId, authorities));
+
+    }
+
+    @Test
+    void when_disapproveOrder_then_String() {
+        //Given
+        String productId = "productId";
+        List<String> authorities = List.of(AccessLevel.LEAD.toString());
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setId(productId);
+        savedOrder.setOrderStatus(OrderStatus.REQUESTED.toString());
+        when(orderSystemRepository.findById(productId)).thenReturn(Optional.of(savedOrder));
+        savedOrder.setOrderStatus(OrderStatus.REJECTED.toString());
+        savedOrder.setApprovalPurchase(false);
+        savedOrder.setApprovalLead(false);
+        when(orderSystemRepository.save(savedOrder)).thenReturn(savedOrder);
+        String expected = savedOrder.getOrderStatus();
+        //When
+        String actual = orderSystemService.disapproveOrder(productId, authorities);
+        //Then
+        verify(orderSystemRepository).findById(productId);
+        verify(orderSystemRepository).save(savedOrder);
+        assertEquals(expected, actual);
+
+    }
 }
