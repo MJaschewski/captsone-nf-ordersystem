@@ -18,10 +18,10 @@ function FrontPage(props: Props) {
         <div>
             <h1>Order System</h1>
             <button onClick={() => navigate("/orderHub")}>Manage Your Orders</button>
-            {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "Purchase")
+            {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "PURCHASE")
                 ? <button onClick={() => navigate("/productHub")}>Manage Products</button>
                 : <></>}
-            {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "Purchase" || auth === "Lead")
+            {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "PURCHASE" || auth === "LEAD")
                 ? <button onClick={() => navigate("/orderHub/approval")}>Approve Orders</button>
                 : <></>}
             <button onClick={handleLogout}>Logout</button>
