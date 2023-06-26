@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Service
@@ -51,5 +52,13 @@ public class ProductSystemService {
         savedProduct.setPrice(productDTO.getPrice());
         savedProduct.setName(productDTO.getName());
         return productRepository.save(savedProduct);
+    }
+
+    public String deleteProductById(String productId) {
+        if (!productRepository.existsById(productId)) {
+            throw new NoSuchElementException("No product with id " + productId + "found.");
+        }
+        productRepository.deleteById(productId);
+        return "Deletion successful";
     }
 }

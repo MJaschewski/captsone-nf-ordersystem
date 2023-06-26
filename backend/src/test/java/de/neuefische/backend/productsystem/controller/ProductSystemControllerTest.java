@@ -69,7 +69,7 @@ class ProductSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -123,7 +123,7 @@ class ProductSystemControllerTest {
     @Test
     @DirtiesContext
     @WithMockUser(authorities = {"ALL", "PURCHASE"})
-    void when_getProductList_then_return200OkAndListProductBody() throws Exception {
+    void when_getProductList_then_return201kAndListProductBody() throws Exception {
         //Given
         mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -135,7 +135,7 @@ class ProductSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test1",
@@ -154,7 +154,7 @@ class ProductSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test2",
@@ -206,6 +206,67 @@ class ProductSystemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "PURCHASE")
+    void when_deleteProductById_then_return200OkAndMessage() throws Exception {
+        //Given
+        MvcResult postProductResponse = mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                            "name":"test",
+                            "price":1244.99,
+                            "accessLevel":"ALL"
+                        }
+                        """
+                )).andReturn();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductBody postedProject = objectMapper.readValue(postProductResponse.getResponse().getContentAsString(), ProductBody.class);
+
+        mockMvc.perform(delete("/api/productSystem/" + postedProject.getId())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Deletion successful"));
+    }
+
+    @Test
+    @WithMockUser(authorities = "PURCHASE")
+    void when_deleteProductByIdWrongId_then_return404() throws Exception {
+        //Given
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                            "name":"test",
+                            "price":1244.99,
+                            "accessLevel":"ALL"
+                        }
+                        """
+                ));
+
+        mockMvc.perform(delete("/api/productSystem/" + "wrongId")
+                        .with(csrf()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @Order(1)
     @WithMockUser(authorities = "PURCHASE")
     void post_ProductForOrderedTests() throws Exception {
@@ -219,7 +280,7 @@ class ProductSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk()).andReturn();
+                .andExpect(status().isCreated()).andReturn();
         ObjectMapper objectMapper = new ObjectMapper();
         this.savedProduct = objectMapper.readValue(postProductResult.getResponse().getContentAsString(), ProductBody.class);
 

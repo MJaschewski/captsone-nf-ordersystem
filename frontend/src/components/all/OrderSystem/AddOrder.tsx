@@ -11,6 +11,7 @@ function AddOrder() {
     const {validProductList, handleValidProductList} = useHandleValidProductList()
     const {orderProductList, handleOrderProductList} = useHandleOrderProductList()
 
+    // eslint-disable-next-line
     useEffect(handleValidProductList, [])
 
     function handleOrderSubmit(event: FormEvent) {

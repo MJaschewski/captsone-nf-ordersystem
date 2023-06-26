@@ -160,4 +160,27 @@ class ProductSystemServiceTest {
         //Then
         assertEquals(expected, actual);
     }
+
+    @Test
+    void when_deleteProductByIdWrongId_then_ThrowException() {
+        //Given
+        String wrongId = "wrongId";
+        when(productRepository.existsById(wrongId)).thenReturn(false);
+        //When & Then
+        assertThrows(NoSuchElementException.class,
+                () -> productSystemService.deleteProductById(wrongId), "No product with id " + wrongId + "found.");
+    }
+
+    @Test
+    void when_deleteProductById_then_returnMessage() {
+        //Given
+        String productId = "productId";
+        when(productRepository.existsById(productId)).thenReturn(true);
+        doNothing().doThrow(new RuntimeException()).when(productRepository).deleteById(productId);
+        String expected = "Deletion successful";
+        //When
+        String actual = productSystemService.deleteProductById(productId);
+        //Then
+        assertEquals(expected, actual);
+    }
 }
