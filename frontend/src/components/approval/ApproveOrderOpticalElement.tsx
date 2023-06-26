@@ -16,6 +16,12 @@ function ApproveOrderOpticalElement(props: Props) {
             .catch(error => console.log(error))
     }
 
+    function handleDisapproval() {
+        axios.put("/api/orderSystem/disapprove/" + props.orderBody.id)
+            .then(() => navigate("/orderHub/approval"))
+            .catch(error => console.log(error))
+    }
+
     return (
         <div>
             <h3>OrderId: {props.orderBody.id}</h3>
@@ -36,6 +42,7 @@ function ApproveOrderOpticalElement(props: Props) {
                 </li>
             </ul>
             <button onClick={handleApproval}>Approve Order</button>
+            <button onClick={handleDisapproval}>Reject Order</button>
         </div>
     );
 }
