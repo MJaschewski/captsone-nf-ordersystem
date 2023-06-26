@@ -59,6 +59,6 @@ public class OrderSystemController {
 
     @PutMapping("/disapprove/{orderId}")
     public String disapproveOrder(@PathVariable String orderId) {
-        return orderSystemService.disapproveOrder(orderId);
+        return orderSystemService.disapproveOrder(orderId, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList());
     }
 }
