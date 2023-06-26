@@ -18,6 +18,7 @@ function ProductDetails() {
                 : <></>}
             <button onClick={() => navigate("/productHub")}>Cancel</button>
             <button onClick={() => navigate("/productHub/edit/" + id)}>Edit</button>
+            <button onClick={() => navigate("/productHub/delete/" + id)}>Delete</button>
         </div>
     );
 }
