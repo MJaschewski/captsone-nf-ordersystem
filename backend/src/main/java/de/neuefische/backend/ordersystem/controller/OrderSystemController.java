@@ -17,7 +17,7 @@ public class OrderSystemController {
 
     @PostMapping
     public OrderBody addOrder(@RequestBody OrderDTO orderDTO) {
-        return orderSystemService.addOrderBody(SecurityContextHolder.getContext().getAuthentication().getName(), orderDTO);
+        return orderSystemService.addOrderBody(SecurityContextHolder.getContext().getAuthentication().getName(), SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList(), orderDTO);
     }
 
     @GetMapping
@@ -32,7 +32,7 @@ public class OrderSystemController {
 
     @PutMapping("/{orderId}")
     public OrderBody editOrder(@PathVariable String orderId, @RequestBody OrderDTO orderDTO) throws IllegalAccessException {
-        return orderSystemService.editOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId, orderDTO);
+        return orderSystemService.editOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList(), orderId, orderDTO);
     }
 
     @DeleteMapping("/{orderId}")

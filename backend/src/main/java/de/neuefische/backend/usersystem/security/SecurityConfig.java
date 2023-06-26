@@ -16,9 +16,9 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-    private static final String ROLE_ALL = "All";
-    private static final String ROLE_PURCHASE = "Purchase";
-    private static final String ROLE_LEAD = "Lead";
+    private static final String ROLE_ALL = "ALL";
+    private static final String ROLE_PURCHASE = "PURCHASE";
+    private static final String ROLE_LEAD = "LEAD";
 
     @Bean
     public PasswordEncoder passwordEncoder() {

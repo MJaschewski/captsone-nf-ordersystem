@@ -56,7 +56,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void when_addProductBodyProductDTO_returnProductBody() throws Exception {
         //When & Then
         mockMvc.perform(post("/api/productSystem")
@@ -83,7 +83,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void when_addProductNegativePrice_returnStatus422() throws Exception {
         //When & Then
         mockMvc.perform(post("/api/productSystem")
@@ -102,7 +102,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void when_addProductWrongAccessLevel_returnStatus422() throws Exception {
 
         //When & Then
@@ -122,7 +122,7 @@ class ProductSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_getProductList_then_return200OkAndListProductBody() throws Exception {
         //Given
         mockMvc.perform(post("/api/productSystem")
@@ -185,7 +185,7 @@ class ProductSystemControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void when_editProductByIdWrongId_then_returnNotFound() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -207,7 +207,7 @@ class ProductSystemControllerTest {
 
     @Test
     @Order(1)
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void post_ProductForOrderedTests() throws Exception {
         MvcResult postProductResult = mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -227,7 +227,7 @@ class ProductSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_getProductById_then_return200AndProduct() throws Exception {
         //Given
         String productId = savedProduct.getId();
@@ -247,7 +247,7 @@ class ProductSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_getProductByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -259,7 +259,7 @@ class ProductSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(authorities = "All")
+    @WithMockUser(authorities = "ALL")
     void when_getProductByIdNotPurchase_then_returnIsForbidden() throws Exception {
         //Given
         String productId = savedProduct.getId();
@@ -271,7 +271,7 @@ class ProductSystemControllerTest {
 
     @Test
     @Order(3)
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void when_editProductByIdNegativePrice_then_return422() throws Exception {
         //Given
         String productId = savedProduct.getId();
@@ -293,7 +293,7 @@ class ProductSystemControllerTest {
 
     @Test
     @Order(3)
-    @WithMockUser(authorities = "Purchase")
+    @WithMockUser(authorities = "PURCHASE")
     void when_editProductById_then_return200OkAndEditedProduct() throws Exception {
         //Given
         String productId = savedProduct.getId();

@@ -5,6 +5,7 @@ import React, {FormEvent, useEffect} from "react";
 import {OrderDTO} from "./OrderDTO";
 import axios from "axios";
 import useHandleGetOwnOrderById from "./hooks/useHandleGetOwnOrderById";
+import FormProductListSubmit from "./FormProductListSubmit";
 
 function EditOrder() {
     const navigate = useNavigate();
@@ -41,22 +42,8 @@ function EditOrder() {
                 ))}
             </ul>
             <h2>List of Products:</h2>
-            <form onSubmit={handleOrderSubmit}>
-                <label>
-                    {validProductList.map((currentProduct) => (
-                        <div key={currentProduct.name}>
-                            <input type="checkbox"
-                                   id={currentProduct.id}
-                                   name="ProductOption"
-                                   value={currentProduct.name}
-                                   onClick={() => handleOrderProductList(currentProduct)}
-                            />
-                            <label>{currentProduct.name}</label>
-                        </div>
-                    ))}
-                </label>
-                <button>Edit Order</button>
-            </form>
+            <FormProductListSubmit validProductList={validProductList} handleOrderSubmit={handleOrderSubmit}
+                                   handleOrderProductList={handleOrderProductList}/>
             <button onClick={() => navigate("/orderHub/details/" + id)}>Cancel</button>
         </div>
     );
