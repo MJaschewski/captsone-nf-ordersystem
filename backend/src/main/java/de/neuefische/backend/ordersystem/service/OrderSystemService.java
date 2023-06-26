@@ -152,7 +152,7 @@ public class OrderSystemService {
             throw new IllegalArgumentException("No authorization to reject order");
         }
         OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
-        savedOrder.setOrderStatus(OrderStatus.REQUESTED.toString());
+        savedOrder.setOrderStatus(OrderStatus.REJECTED.toString());
         return orderSystemRepository.save(savedOrder).getOrderStatus();
     }
 }
