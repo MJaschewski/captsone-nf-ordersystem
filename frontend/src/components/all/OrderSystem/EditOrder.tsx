@@ -5,6 +5,7 @@ import React, {FormEvent, useEffect} from "react";
 import {OrderDTO} from "./OrderDTO";
 import axios from "axios";
 import useHandleGetOwnOrderById from "./hooks/useHandleGetOwnOrderById";
+import secureLocalStorage from "react-secure-storage";
 
 function EditOrder() {
     const navigate = useNavigate();
@@ -35,9 +36,12 @@ function EditOrder() {
             <h2>Previous Product List:</h2>
             <ul>
                 {orderBody?.productBodyList.map(currentProduct => (
-                    <li key={currentProduct.id}>
-                        <p>{currentProduct.name}</p>
-                    </li>
+                    (secureLocalStorage.getItem("authorities") !== null) && JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === currentProduct.accessLevel)
+                        ?
+                        <li key={currentProduct.id}>
+                            <p>{currentProduct.name}</p>
+                        </li>
+                        : <></>
                 ))}
             </ul>
             <h2>List of Products:</h2>
