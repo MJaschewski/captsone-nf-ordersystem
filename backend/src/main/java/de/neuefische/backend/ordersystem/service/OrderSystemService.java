@@ -4,6 +4,7 @@ import de.neuefische.backend.ordersystem.model.OrderBody;
 import de.neuefische.backend.ordersystem.model.OrderDTO;
 import de.neuefische.backend.ordersystem.model.OrderStatus;
 import de.neuefische.backend.ordersystem.repository.OrderSystemRepository;
+import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.service.ProductSystemService;
 import de.neuefische.backend.supportsystem.service.GenerateIdService;
@@ -30,11 +31,14 @@ public class OrderSystemService {
         return productSystemService.getProductList();
     }
 
-    public boolean verifyProductList(List<ProductBody> testProductBodyList) {
+    public boolean verifyProductList(List<String> accessLevel, List<ProductBody> testProductBodyList) {
         List<ProductBody> productBodyList = productSystemService.getProductList();
         for (ProductBody productBody : testProductBodyList) {
             if (!productBodyList.contains(productBody)) {
                 throw new IllegalArgumentException(productBody.getName() + " is not a valid product.");
+            }
+            if (!accessLevel.contains(productBody.getAccessLevel())) {
+                throw new IllegalArgumentException("You are not authorized to order product " + productBody.getName() + ".");
             }
         }
         return true;
@@ -54,11 +58,11 @@ public class OrderSystemService {
         return orderPrice;
     }
 
-    public OrderBody addOrderBody(String username, OrderDTO orderDTO) {
+    public OrderBody addOrderBody(String username, List<String> accessLevel, OrderDTO orderDTO) {
         if (orderDTO.getProductBodyList().equals(List.of())) {
             throw new IllegalArgumentException("Empty Product List.");
         }
-        verifyProductList(orderDTO.getProductBodyList());
+        verifyProductList(accessLevel, orderDTO.getProductBodyList());
         OrderBody newOrderBody = new OrderBody();
         newOrderBody.setOwner(username);
         newOrderBody.setId(generateIdService.generateOrderUUID());
@@ -81,12 +85,12 @@ public class OrderSystemService {
         return orderSystemRepository.findById(orderId).orElseThrow();
     }
 
-    public OrderBody editOrderById(String username, String orderId, OrderDTO orderDTO) throws IllegalAccessException {
+    public OrderBody editOrderById(String username, List<String> accessLevel, String orderId, OrderDTO orderDTO) throws IllegalAccessException {
         OrderBody oldOrderBody = orderSystemRepository.findById(orderId).orElseThrow();
         if (!Objects.equals(orderSystemRepository.findById(orderId).orElseThrow().getOwner(), username)) {
             throw new IllegalAccessException("Can not edit Order you don't own.");
         }
-        verifyProductList(orderDTO.getProductBodyList());
+        verifyProductList(accessLevel, orderDTO.getProductBodyList());
 
         oldOrderBody.setId(orderId);
         oldOrderBody.setProductBodyList(orderDTO.getProductBodyList());
@@ -112,9 +116,9 @@ public class OrderSystemService {
 
     public OrderBody approveOrderByIdWithAuthority(String orderId, List<String> authorities) {
         OrderBody approvingOrder = orderSystemRepository.findById(orderId).orElseThrow();
-        if (authorities.contains("Lead")) {
+        if (authorities.contains(AccessLevel.LEAD.toString())) {
             approvingOrder.setApprovalLead(true);
-        } else if (authorities.contains("Purchase")) {
+        } else if (authorities.contains(AccessLevel.PURCHASE.toString())) {
             approvingOrder.setApprovalPurchase(true);
         } else throw new IllegalArgumentException("Can't read authority.");
         if (approvingOrder.isApprovalLead() && approvingOrder.isApprovalPurchase()) {

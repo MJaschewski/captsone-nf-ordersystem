@@ -4,6 +4,7 @@ import de.neuefische.backend.ordersystem.model.OrderBody;
 import de.neuefische.backend.ordersystem.model.OrderDTO;
 import de.neuefische.backend.ordersystem.model.OrderStatus;
 import de.neuefische.backend.ordersystem.repository.OrderSystemRepository;
+import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.productsystem.model.ProductBody;
 import de.neuefische.backend.productsystem.service.ProductSystemService;
 import de.neuefische.backend.supportsystem.service.GenerateIdService;
@@ -39,13 +40,31 @@ class OrderSystemServiceTest {
     void when_VerifyProductListWithRightList_then_returnTrue() {
         //Given
         ProductBody testProduct1 = new ProductBody();
+        testProduct1.setAccessLevel(AccessLevel.ALL.toString());
         ProductBody testProduct2 = new ProductBody();
+        testProduct2.setAccessLevel(AccessLevel.ALL.toString());
         List<ProductBody> testProductBodyList = List.of(testProduct1, testProduct2);
+        List<String> testAuthorities = List.of("ALL");
         when(productSystemService.getProductList()).thenReturn(testProductBodyList);
         //When
-        boolean actual = orderSystemService.verifyProductList(testProductBodyList);
+        boolean actual = orderSystemService.verifyProductList(testAuthorities, testProductBodyList);
         //Then
         assertTrue(actual);
+    }
+
+    @Test
+    void when_VerifyProductListWithWrongAuthority_then_ThrowException() {
+        //Given
+        ProductBody testProduct1 = new ProductBody();
+        testProduct1.setAccessLevel(AccessLevel.ALL.toString());
+        ProductBody testProduct2 = new ProductBody();
+        testProduct2.setAccessLevel(AccessLevel.ALL.toString());
+        List<ProductBody> testProductBodyList = List.of(testProduct1, testProduct2);
+        List<String> testAuthorities = List.of("PURCHASE");
+        when(productSystemService.getProductList()).thenReturn(testProductBodyList);
+        //When
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.verifyProductList(testAuthorities, testProductBodyList));
     }
 
     @Test
@@ -53,10 +72,11 @@ class OrderSystemServiceTest {
         //Given
         ProductBody testProduct1 = new ProductBody("testId", "testNotValid", 2.00, "All");
         List<ProductBody> testProductBodyList = List.of(testProduct1);
+        List<String> testAuthorities = List.of();
         when(productSystemService.getProductList()).thenReturn(List.of());
         //When & Then
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.verifyProductList(testProductBodyList), "testNotValid is not a valid product.");
+                () -> orderSystemService.verifyProductList(testAuthorities, testProductBodyList), "testNotValid is not a valid product.");
     }
 
 
@@ -64,13 +84,14 @@ class OrderSystemServiceTest {
     void when_addOrderBodyWrongBody_throwException() {
         //Given
         String testProductId = "testProductId";
+        List<String> testAuthorities = List.of();
         ProductBody testProduct = new ProductBody(testProductId, "testProduct", 2.00, "All");
         List<ProductBody> testProductBodyList = List.of(testProduct);
         OrderDTO testOrderDTO = new OrderDTO(testProductBodyList);
         when(productSystemService.getProductList()).thenReturn(List.of());
         //When & Then
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.addOrderBody("testOwner", testOrderDTO), "testProduct is not a valid product.");
+                () -> orderSystemService.addOrderBody("testOwner", testAuthorities, testOrderDTO), "testProduct is not a valid product.");
 
     }
 
@@ -78,30 +99,32 @@ class OrderSystemServiceTest {
     void when_addOrderBdyEmptyProductList_throwExceptionWithMessage() {
         //Given
         OrderDTO emptyOrderDTO = new OrderDTO(List.of());
+        List<String> testAuthorities = List.of();
         //When & Then
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.addOrderBody("testOwner", emptyOrderDTO), "Empty Product List.");
+                () -> orderSystemService.addOrderBody("testOwner", testAuthorities, emptyOrderDTO), "Empty Product List.");
     }
 
     @Test
     void when_addOrderBody_then_returnOrderBody() {
         //Given
         String testProductId = "testProductId";
-        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
-        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "ALL");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "ALL");
         List<ProductBody> testProductBodyList = List.of(testProduct1, testProduct2);
         when(productSystemService.getProductList()).thenReturn(testProductBodyList);
 
         OrderDTO testOrderDTO = new OrderDTO(testProductBodyList);
         String testOrderId = "testOrderId";
         when(generateIdService.generateOrderUUID()).thenReturn(testOrderId);
+        List<String> testAuthorities = List.of("ALL");
         String testDate = "2023-01-31";
         OrderBody expected = new OrderBody(testOrderId, "testOwner", testProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
 
         when(timeService.currentDate()).thenReturn(testDate);
         when(orderSystemRepository.save(expected)).thenReturn(expected);
         //When
-        OrderBody actual = orderSystemService.addOrderBody("testOwner", testOrderDTO);
+        OrderBody actual = orderSystemService.addOrderBody("testOwner", testAuthorities, testOrderDTO);
         //Then
         verify(productSystemService).getProductList();
         verify(generateIdService).generateOrderUUID();
@@ -186,11 +209,12 @@ class OrderSystemServiceTest {
     void when_editOrderWrongId_then_ReturnExceptionWithMessage() {
         //Given
         String wrongId = "";
+        List<String> testAuthorities = List.of();
         when(orderSystemRepository.existsById(wrongId)).thenReturn(false);
         OrderDTO testOrder = new OrderDTO();
         //When & Then
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.editOrderById("testOwner", wrongId, testOrder));
+                () -> orderSystemService.editOrderById("testOwner", testAuthorities, wrongId, testOrder));
 
     }
 
@@ -198,8 +222,8 @@ class OrderSystemServiceTest {
     void when_editOrder_returnChangedOrder() throws IllegalAccessException {
         //Given
         String testProductId = "testProductId";
-        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "All");
-        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "All");
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "ALL");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "ALL");
         List<ProductBody> savedProductBodyList = List.of(testProduct1, testProduct2);
         List<ProductBody> newProductBodyList = List.of(testProduct1);
         when(productSystemService.getProductList()).thenReturn(savedProductBodyList);
@@ -209,12 +233,13 @@ class OrderSystemServiceTest {
         String savedOrderId = "savedOrderId";
         String testDate = "2023-01-31";
         String testOwner = "testOwner";
+        List<String> testAuthorities = List.of("ALL");
         OrderBody orderSaved = new OrderBody(savedOrderId, testOwner, savedProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
         OrderBody expected = new OrderBody(savedOrderId, testOwner, newProductBodyList, 2.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.save(expected)).thenReturn(expected);
         when(orderSystemRepository.findById(savedOrderId)).thenReturn(Optional.of(orderSaved));
         //When
-        OrderBody actual = orderSystemService.editOrderById(testOwner, savedOrderId, newOrderDTO);
+        OrderBody actual = orderSystemService.editOrderById(testOwner, testAuthorities, savedOrderId, newOrderDTO);
 
         //Then
         verify(productSystemService).getProductList();
@@ -280,7 +305,7 @@ class OrderSystemServiceTest {
     void when_approveOrderByIdWithAuthorityPurchase_then_returnOrderBodyApproved() {
         //Given
         String orderID = "";
-        List<String> testAuthority = List.of("Purchase");
+        List<String> testAuthority = List.of("PURCHASE");
         OrderBody approvingOrder = new OrderBody("testId", "testOwner", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
         approvingOrder.setApprovalPurchase(true);
@@ -297,7 +322,7 @@ class OrderSystemServiceTest {
     void when_approveOrderByIdWithAuthorityLead_then_returnOrderBodyApproved() {
         //Given
         String orderID = "";
-        List<String> testAuthority = List.of("Lead");
+        List<String> testAuthority = List.of("LEAD");
         OrderBody approvingOrder = new OrderBody("testId", "testOwner", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
         approvingOrder.setApprovalLead(true);
@@ -314,7 +339,7 @@ class OrderSystemServiceTest {
     void when_approveOrderByIdWithAuthorityLeadAndPurchase_then_returnOrderBodyApprovedLead() {
         //Given
         String orderID = "";
-        List<String> testAuthority = List.of("Lead", "Purchase");
+        List<String> testAuthority = List.of("LEAD", "PURCHASE");
         OrderBody approvingOrder = new OrderBody("testId", "testOwner", List.of(), 5.00, "testDate", "testArrival", false, false, OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(orderID)).thenReturn(Optional.of(approvingOrder));
         approvingOrder.setApprovalLead(true);
@@ -332,12 +357,13 @@ class OrderSystemServiceTest {
         //Given
         String wrongOwner = "wrongOwner";
         String orderId = "orderId";
+        List<String> authorities = List.of();
         OrderBody savedOrder = new OrderBody();
         savedOrder.setId(orderId);
         when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
         //When & Then
         assertThrows(IllegalAccessException.class,
-                () -> orderSystemService.editOrderById(wrongOwner, orderId, new OrderDTO()), "You don't own this order.");
+                () -> orderSystemService.editOrderById(wrongOwner, authorities, orderId, new OrderDTO()), "You don't own this order.");
     }
 
     @Test
@@ -417,7 +443,7 @@ class OrderSystemServiceTest {
         String orderId = "orderId";
         OrderBody partlyApproved = new OrderBody();
         partlyApproved.setApprovalPurchase(true);
-        List<String> authoritiesWithLead = List.of("Lead");
+        List<String> authoritiesWithLead = List.of("LEAD");
         when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(partlyApproved));
         partlyApproved.setApprovalLead(true);
         partlyApproved.setOrderStatus(OrderStatus.APPROVED.toString());

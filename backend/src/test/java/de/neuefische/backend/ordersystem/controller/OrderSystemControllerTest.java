@@ -45,7 +45,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_addOrderBody_then_return200Ok_returnOrderBody() throws Exception {
 
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -111,7 +111,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_addOrderBodyInvalidProduct_then_ThrowException() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -132,7 +132,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     @DirtiesContext
     void when_getOrderList_then_return200OkAndOrderList() throws Exception {
         //Given
@@ -235,7 +235,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_getOrderById_return200OkAndOrderBody() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -326,7 +326,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(username = "testUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "testUser", authorities = {"ALL", "PURCHASE"})
     void when_getOwnOrderById_return200OkAndOrderBody() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -417,7 +417,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_getOrderByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -428,7 +428,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_editOrderByIdWrongId_then_return404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -453,7 +453,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_editOrderById_then_return200OkAndChangedOrder() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -581,7 +581,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_deleteOrderByIdWrongId_throw404() throws Exception {
         //Given
         String wrongId = "wrongId";
@@ -593,7 +593,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_deleteOrderById_then_return200OkAndMessage() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -682,7 +682,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
     void when_approveOrderWithAuthorityPurchase_returnApprovedOrder() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -774,7 +774,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = {"All", "Purchase", "Lead"})
+    @WithMockUser(authorities = {"ALL", "PURCHASE", "LEAD"})
     void when_approveOrderWithAuthorityLead_returnApprovedOrder() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -866,7 +866,7 @@ class OrderSystemControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(authorities = "All")
+    @WithMockUser(authorities = "ALL")
     void when_approveOrderWithAuthorityWrong_returnIsForbidden() throws Exception {
         //When&Then
         mockMvc.perform(put("/api/orderSystem/approve/" + "testId")
@@ -876,7 +876,7 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(1)
-    @WithMockUser(username = "postUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
     void when_postOrder_for_orderedTests() throws Exception {
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -944,7 +944,7 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "getUser", authorities = {"ALL", "PURCHASE"})
     void when_editOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
         mockMvc.perform(put("/api/orderSystem/" + tempOrder.getId())
@@ -968,7 +968,7 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(username = "getUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "getUser", authorities = {"ALL", "PURCHASE"})
     void when_deleteOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
         mockMvc.perform(delete("/api/orderSystem/" + tempOrder.getId()).with(csrf()))
@@ -978,7 +978,7 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(username = "wrongUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "wrongUser", authorities = {"ALL", "PURCHASE"})
     void when_getOwnOrderByIDWrongOwner_returnIsForbidden_get() throws Exception {
         //When & Then
         mockMvc.perform(get("/api/orderSystem/own/" + tempOrder.getId())
@@ -989,7 +989,7 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(username = "postUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
     void when_getOwnOrderByIDWrongId_returnNotFound_get() throws Exception {
         //When & Then
         mockMvc.perform(get("/api/orderSystem/own/" + "wrongId")
@@ -1000,7 +1000,7 @@ class OrderSystemControllerTest {
 
     @Test
     @Order(2)
-    @WithMockUser(username = "newUser", authorities = {"All", "Purchase"})
+    @WithMockUser(username = "newUser", authorities = {"ALL", "PURCHASE"})
     void when_getOwnOrderList_returnOwnedOrderList() throws Exception {
         //Given
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
@@ -1100,7 +1100,7 @@ class OrderSystemControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "All")
+    @WithMockUser(authorities = "ALL")
     @Order(3)
     @DirtiesContext
     void when_getOwnOrderListNoOrders_return_200AndEmptyList() throws Exception {
