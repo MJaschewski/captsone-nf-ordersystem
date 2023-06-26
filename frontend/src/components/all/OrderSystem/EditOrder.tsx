@@ -36,27 +36,27 @@ function EditOrder() {
             <h2>Previous Product List:</h2>
             <ul>
                 {orderBody?.productBodyList.map(currentProduct => (
-                    (secureLocalStorage.getItem("authorities") !== null) && JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === currentProduct.accessLevel)
-                        ?
-                        <li key={currentProduct.id}>
-                            <p>{currentProduct.name}</p>
-                        </li>
-                        : <></>
+                    <li key={currentProduct.id}>
+                        <p>{currentProduct.name}</p>
+                    </li>
                 ))}
             </ul>
             <h2>List of Products:</h2>
             <form onSubmit={handleOrderSubmit}>
                 <label>
                     {validProductList.map((currentProduct) => (
-                        <div key={currentProduct.name}>
-                            <input type="checkbox"
-                                   id={currentProduct.id}
-                                   name="ProductOption"
-                                   value={currentProduct.name}
-                                   onClick={() => handleOrderProductList(currentProduct)}
-                            />
-                            <label>{currentProduct.name}</label>
-                        </div>
+                        (secureLocalStorage.getItem("authorities") !== null) && JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === currentProduct.accessLevel)
+                            ?
+                            <div key={currentProduct.name}>
+                                <input type="checkbox"
+                                       id={currentProduct.id}
+                                       name="ProductOption"
+                                       value={currentProduct.name}
+                                       onClick={() => handleOrderProductList(currentProduct)}
+                                />
+                                <label>{currentProduct.name}</label>
+                            </div>
+                            : <></>
                     ))}
                 </label>
                 <button>Edit Order</button>
