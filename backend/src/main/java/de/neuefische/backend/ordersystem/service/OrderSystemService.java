@@ -148,7 +148,7 @@ public class OrderSystemService {
     }
 
     public String disapproveOrder(String orderId, List<String> authorities) {
-        if (!authorities.contains(AccessLevel.PURCHASE.toString()) | !authorities.contains(AccessLevel.LEAD.toString())) {
+        if (!(authorities.contains(AccessLevel.PURCHASE.toString()) || authorities.contains(AccessLevel.LEAD.toString()))) {
             throw new IllegalArgumentException("No authorization to reject order");
         }
         OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
