@@ -4,6 +4,7 @@ import {useNavigate} from "react-router-dom";
 import {OrderDTO} from "./OrderDTO";
 import useHandleOrderProductList from "./hooks/useHandleOrderProductList";
 import useHandleValidProductList from "./hooks/useHandleValidProductList";
+import secureLocalStorage from "react-secure-storage";
 
 function AddOrder() {
     const navigate = useNavigate();
@@ -29,15 +30,18 @@ function AddOrder() {
             <form onSubmit={handleOrderSubmit}>
                 <label>
                     {validProductList.map((currentProduct) => (
-                        <div key={currentProduct.name}>
-                            <input type="checkbox"
-                                   id={currentProduct.id}
-                                   name="ProductOption"
-                                   value={currentProduct.name}
-                                   onClick={() => handleOrderProductList(currentProduct)}
-                            />
-                            <label>{currentProduct.name}</label>
-                        </div>
+                        (secureLocalStorage.getItem("authorities") !== null) && JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === currentProduct.accessLevel)
+                            ?
+                            <div key={currentProduct.name}>
+                                <input type="checkbox"
+                                       id={currentProduct.id}
+                                       name="ProductOption"
+                                       value={currentProduct.name}
+                                       onClick={() => handleOrderProductList(currentProduct)}
+                                />
+                                <label>{currentProduct.name}</label>
+                            </div>
+                            : <></>
                     ))}
                 </label>
                 <button>Add Order</button>
