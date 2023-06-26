@@ -46,7 +46,7 @@ class OrderSystemControllerTest {
     @Test
     @DirtiesContext
     @WithMockUser(authorities = {"ALL", "PURCHASE"})
-    void when_addOrderBody_then_return200Ok_returnOrderBody() throws Exception {
+    void when_addOrderBody_then_return201_returnOrderBody() throws Exception {
 
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -56,9 +56,9 @@ class OrderSystemControllerTest {
                                     "price":1244.99,
                                     "accessLevel":"ALL"
                                 }
-                                """)                        
+                                """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -87,7 +87,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -146,7 +146,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -175,7 +175,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -248,7 +248,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -277,7 +277,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -339,7 +339,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -368,7 +368,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -466,7 +466,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -495,7 +495,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -606,7 +606,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -635,7 +635,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -695,7 +695,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -724,7 +724,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -787,7 +787,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -816,7 +816,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -888,7 +888,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -918,7 +918,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [
@@ -1013,7 +1013,7 @@ class OrderSystemControllerTest {
                                 }
                                 """)
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "name":"test",
@@ -1042,7 +1042,7 @@ class OrderSystemControllerTest {
                                 """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
                         )
                         .with(csrf()))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().json("""
                         {
                             "productBodyList": [

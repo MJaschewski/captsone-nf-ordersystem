@@ -4,6 +4,7 @@ import de.neuefische.backend.ordersystem.model.OrderBody;
 import de.neuefische.backend.ordersystem.model.OrderDTO;
 import de.neuefische.backend.ordersystem.service.OrderSystemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ public class OrderSystemController {
     private final OrderSystemService orderSystemService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public OrderBody addOrder(@RequestBody OrderDTO orderDTO) {
         return orderSystemService.addOrderBody(SecurityContextHolder.getContext().getAuthentication().getName(), SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList(), orderDTO);
     }
