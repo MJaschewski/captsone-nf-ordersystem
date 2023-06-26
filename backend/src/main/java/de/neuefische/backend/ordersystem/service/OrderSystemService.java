@@ -146,4 +146,10 @@ public class OrderSystemService {
         }
         return savedOrder;
     }
+
+    public String disapproveOrder(String orderId) {
+        OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
+        savedOrder.setOrderStatus(OrderStatus.REQUESTED.toString());
+        return orderSystemRepository.save(savedOrder).getOrderStatus();
+    }
 }

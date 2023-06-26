@@ -56,4 +56,9 @@ public class OrderSystemController {
     public OrderBody getOwnOrderById(@PathVariable String orderId) throws IllegalAccessException {
         return orderSystemService.getOwnOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
     }
+
+    @PutMapping("/disapprove/{orderId}")
+    public String disapproveOrder(@PathVariable String orderId) {
+        return orderSystemService.disapproveOrder(orderId);
+    }
 }
