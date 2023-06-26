@@ -470,7 +470,6 @@ class OrderSystemServiceTest {
         //Given
         String wrongId = "wrongId";
         List<String> authorities = List.of(AccessLevel.LEAD.toString());
-        when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When & Then
         assertThrows(NoSuchElementException.class,
                 () -> orderSystemService.disapproveOrder(wrongId, authorities));
@@ -487,11 +486,15 @@ class OrderSystemServiceTest {
         savedOrder.setOrderStatus(OrderStatus.REQUESTED.toString());
         when(orderSystemRepository.findById(productId)).thenReturn(Optional.of(savedOrder));
         savedOrder.setOrderStatus(OrderStatus.REJECTED.toString());
+        savedOrder.setApprovalPurchase(false);
+        savedOrder.setApprovalLead(false);
         when(orderSystemRepository.save(savedOrder)).thenReturn(savedOrder);
         String expected = savedOrder.getOrderStatus();
         //When
         String actual = orderSystemService.disapproveOrder(productId, authorities);
         //Then
+        verify(orderSystemRepository).findById(productId);
+        verify(orderSystemRepository).save(savedOrder);
         assertEquals(expected, actual);
 
     }

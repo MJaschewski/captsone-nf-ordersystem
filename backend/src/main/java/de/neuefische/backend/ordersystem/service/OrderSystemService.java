@@ -153,6 +153,8 @@ public class OrderSystemService {
         }
         OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
         savedOrder.setOrderStatus(OrderStatus.REJECTED.toString());
+        savedOrder.setApprovalLead(false);
+        savedOrder.setApprovalPurchase(false);
         return orderSystemRepository.save(savedOrder).getOrderStatus();
     }
 }
