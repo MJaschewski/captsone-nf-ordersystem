@@ -35,4 +35,9 @@ public class ProductSystemController {
     public ProductBody editProductById(@PathVariable String productId, @RequestBody ProductDTO productDTO) {
         return productSystemService.editProductById(productId, productDTO);
     }
+
+    @DeleteMapping("/{productId}")
+    public String deleteProductById(@PathVariable String productId) {
+        return productSystemService.deleteProductById(productId);
+    }
 }
