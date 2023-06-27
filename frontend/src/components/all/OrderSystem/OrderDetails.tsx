@@ -19,7 +19,7 @@ function OrderDetails() {
                 <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}
             <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub")}>Cancel</button>
-            <button className="button-submit-wrapper" onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order
             </button>
         </div>
     );
