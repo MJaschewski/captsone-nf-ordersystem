@@ -9,5 +9,5 @@ Note that this has been updated in PR LimitAddOrderByAuthority
 You need to add products to your mongodb before you can see any products. This can be done with the add product feature on the website. Note that a user can only add products to his Orders with matching authorities.
 ## Order List in Hub:
 After you added products to your product list you can add orders. Afterwards they are displayed in the order hub.
-## Approve orders (Only with users testLead & testPurchase):
-If you have authority lead or purchase you can approve orders. You can only approve already existing orders. When both a lead and a purchase have approved the order it's status will change to approved.
+## Approve & Disapprove orders (Only with users testLead & testPurchase):
+If you have authority lead or purchase you can approve or disapprove orders. You can only approve already existing orders. When both a lead and a purchase have approved the order it's status will change to approved. Only one disapprove is needed to reject an order.
