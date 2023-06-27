@@ -28,29 +28,32 @@ function App() {
 
     return (
         <div className="App">
-            <Routes>
-                <Route path={"/login"} element={<LoginPage login={login}/>}/>
+            <header className="App-Header">
+                <h1>Order Approve & Supply</h1>
+            </header>
+                <Routes>
+                    <Route path={"/login"} element={<LoginPage login={login}/>}/>
 
-                <Route element={<ProtectedRoutesAll/>}>
-                    <Route path={"/"} element={<FrontPage logout={logout}/>}/>
-                    <Route path={"/orderHub"} element={<OrderHub/>}/>
-                    <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
-                    <Route path={"/orderHub/delete/:id"} element={<DeleteOrder/>}/>
-                    <Route path={"/orderHub/edit/:id"} element={<EditOrder/>}/>
-                    <Route path={"/add_order"} element={<AddOrder/>}/>
-                    <Route element={<ProtectedRoutesApproval/>}>
-                        <Route path={"/orderHub/approval"} element={<ApproveOrder/>}/>
-                        <Route path={"/orderHub/approval/details/:id"} element={<ApproveOrderDetails/>}/>
+                    <Route element={<ProtectedRoutesAll/>}>
+                        <Route path={"/"} element={<FrontPage logout={logout}/>}/>
+                        <Route path={"/orderHub"} element={<OrderHub/>}/>
+                        <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
+                        <Route path={"/orderHub/delete/:id"} element={<DeleteOrder/>}/>
+                        <Route path={"/orderHub/edit/:id"} element={<EditOrder/>}/>
+                        <Route path={"/add_order"} element={<AddOrder/>}/>
+                        <Route element={<ProtectedRoutesApproval/>}>
+                            <Route path={"/orderHub/approval"} element={<ApproveOrder/>}/>
+                            <Route path={"/orderHub/approval/details/:id"} element={<ApproveOrderDetails/>}/>
+                        </Route>
+                        <Route element={<ProtectedRoutesPurchase/>}>
+                            <Route path={"/productHub"} element={<ProductHub/>}/>
+                            <Route path={"/productHub/details/:id"} element={<ProductDetails/>}/>
+                            <Route path={"/productHub/delete/:id"} element={<ProductDelete/>}/>
+                            <Route path={"/productHub/edit/:id"} element={<EditProduct/>}/>
+                            <Route path={"/add_product"} element={<AddProduct/>}/>
+                        </Route>
                     </Route>
-                    <Route element={<ProtectedRoutesPurchase/>}>
-                        <Route path={"/productHub"} element={<ProductHub/>}/>
-                        <Route path={"/productHub/details/:id"} element={<ProductDetails/>}/>
-                        <Route path={"/productHub/delete/:id"} element={<ProductDelete/>}/>
-                        <Route path={"/productHub/edit/:id"} element={<EditProduct/>}/>
-                        <Route path={"/add_product"} element={<AddProduct/>}/>
-                    </Route>
-                </Route>
-            </Routes>
+                </Routes>
         </div>
   );
 }

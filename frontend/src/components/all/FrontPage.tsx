@@ -15,7 +15,7 @@ function FrontPage(props: Props) {
     }
 
     return (
-        <div>
+        <div className="Main-Page-Wrapper">
             <h1>Order System</h1>
             <button onClick={() => navigate("/orderHub")}>Manage Your Orders</button>
             {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "PURCHASE")
@@ -24,7 +24,7 @@ function FrontPage(props: Props) {
             {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "PURCHASE" || auth === "LEAD")
                 ? <button onClick={() => navigate("/orderHub/approval")}>Approve Orders</button>
                 : <></>}
-            <button onClick={handleLogout}>Logout</button>
+            <button className="button-cancel-wrapper" onClick={handleLogout}>Logout</button>
         </div>
     );
 }

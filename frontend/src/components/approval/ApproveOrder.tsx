@@ -31,14 +31,15 @@ function ApproveOrder() {
                         <p>Approval Lead: {currentOrderBody.approvalLead.toString()} </p>
                         <p>Status: {currentOrderBody.orderStatus}</p>
                         <p>
-                            <button onClick={() => navigate("/orderHub/approval/details/" + currentOrderBody.id)}>Details
+                            <button
+                                onClick={() => navigate("/orderHub/approval/details/" + currentOrderBody.id)}>Details
                             </button>
                         </p>
                     </li>
                 )
             )}
             </ul>
-            <button onClick={() => navigate("/")}>Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/")}>Cancel</button>
         </div>
     );
 }

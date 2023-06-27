@@ -32,7 +32,7 @@ function EditOrder() {
     }
 
     return (
-        <div>
+        <div className="Left-Align-Wrapper">
             <h1>Edit Order: {id}</h1>
             <h2>Previous Product List:</h2>
             <ul>
@@ -44,8 +44,9 @@ function EditOrder() {
             </ul>
             <h2>List of Products:</h2>
             <FormProductListSubmit validProductList={validProductList} handleOrderSubmit={handleOrderSubmit}
-                                   handleOrderProductList={handleOrderProductList}/>
-            <button onClick={() => navigate("/orderHub/details/" + id)}>Cancel</button>
+                                   handleOrderProductList={handleOrderProductList} buttonDescription="Edit Order"/>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/details/" + id)}>Cancel
+            </button>
         </div>
     );
 }

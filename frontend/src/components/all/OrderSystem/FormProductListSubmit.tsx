@@ -6,6 +6,7 @@ type Props = {
     validProductList: ProductBodyType[],
     handleOrderSubmit: (event: FormEvent) => void,
     handleOrderProductList: (newProduct: ProductBodyType) => void
+    buttonDescription: string
 }
 
 function FormProductListSubmit(props: Props) {
@@ -28,7 +29,7 @@ function FormProductListSubmit(props: Props) {
                             : <></>
                     ))}
                 </label>
-                <button>Edit Order</button>
+                <button className="button-submit-wrapper">{props.buttonDescription}</button>
             </form>
         </div>
     );

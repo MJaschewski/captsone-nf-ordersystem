@@ -58,7 +58,7 @@ function EditProduct() {
                                accessLevel={accessLevel}
                                productAccessLevel={productAccessLevel}
                                buttonDescription={"Edit Product"}/>
-            <button onClick={() => navigate("/productHub")}>Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );
 }
