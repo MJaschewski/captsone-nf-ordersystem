@@ -56,9 +56,6 @@ function App() {
                     </Route>
                 </Routes>
             </div>
-            <footer className="App-Footer">
-                <p>Created by Michael Jaschewski</p>
-            </footer>
         </div>
   );
 }
