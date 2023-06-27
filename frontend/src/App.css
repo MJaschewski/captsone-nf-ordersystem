@@ -1,4 +1,30 @@
 .App {
-    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.App-Header {
+    text-align: center;
+    border-color: gray;
+    border-width: 5px;
+    border-style: solid;
+    background-color: lightseagreen;
+}
+
+.App-Footer {
+    text-align: center;
+    background-color: slategray;
+    position: absolute;
+    padding: 5px;
+    width: 100%;
+    bottom: 2%;
+}
+
+.App-Body {
+    margin: 0;
+    padding: 0;
 }
 
