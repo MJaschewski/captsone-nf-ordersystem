@@ -29,7 +29,7 @@ function AddOrder() {
             <h1>Add Order</h1>
             <h2>List of Products:</h2>
             <FormProductListSubmit validProductList={validProductList} handleOrderSubmit={handleOrderSubmit}
-                                   handleOrderProductList={handleOrderProductList}/>
+                                   handleOrderProductList={handleOrderProductList} buttonDescription="Add Order"/>
             <button onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>
     );

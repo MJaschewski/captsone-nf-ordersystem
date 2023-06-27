@@ -44,7 +44,7 @@ function EditOrder() {
             </ul>
             <h2>List of Products:</h2>
             <FormProductListSubmit validProductList={validProductList} handleOrderSubmit={handleOrderSubmit}
-                                   handleOrderProductList={handleOrderProductList}/>
+                                   handleOrderProductList={handleOrderProductList} buttonDescription="Edit Order"/>
             <button onClick={() => navigate("/orderHub/details/" + id)}>Cancel</button>
         </div>
     );
