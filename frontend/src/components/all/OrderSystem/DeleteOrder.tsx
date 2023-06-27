@@ -17,8 +17,8 @@ function DeleteOrder() {
     return (
         <div>
             <h2>Do you really want to delete order: {id}?</h2>
-            <button onClick={handleDeletion}>Yes</button>
-            <button onClick={() => navigate("/orderHub/details/" + id)}> No</button>
+            <button className="button-submit-wrapper" onClick={handleDeletion}>Yes</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/details/" + id)}> No</button>
         </div>
     );
 }

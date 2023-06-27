@@ -14,12 +14,13 @@ function OrderDetails() {
     useEffect(() => handleGetOwnOrderById(id), [])
 
     return (
-        <div>
+        <div className="Left-Align-Wrapper">
             {orderBody !== undefined ?
                 <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}
-            <button onClick={() => navigate("/orderHub")}>Cancel</button>
-            <button onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub")}>Cancel</button>
+            <button className="button-submit-wrapper" onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order
+            </button>
         </div>
     );
 }

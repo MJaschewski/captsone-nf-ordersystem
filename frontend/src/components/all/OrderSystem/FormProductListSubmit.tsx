@@ -29,7 +29,7 @@ function FormProductListSubmit(props: Props) {
                             : <></>
                     ))}
                 </label>
-                <button>{props.buttonDescription}</button>
+                <button className="button-submit-wrapper">{props.buttonDescription}</button>
             </form>
         </div>
     );

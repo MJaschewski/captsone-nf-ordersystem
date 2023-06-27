@@ -16,8 +16,8 @@ function ProductDelete() {
     return (
         <div>
             <h2>Do you really want to delete product: {id}?</h2>
-            <button onClick={handleDeletion}>Yes</button>
-            <button onClick={() => navigate("/productHub/details/" + id)}> No</button>
+            <button className="button-submit-wrapper" onClick={handleDeletion}>Yes</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/productHub/details/" + id)}> No</button>
         </div>
     );
 }

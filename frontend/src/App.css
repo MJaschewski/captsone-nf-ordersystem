@@ -20,3 +20,38 @@
     padding: 0;
 }
 
+.Main-Page-Wrapper {
+    text-align: center;
+}
+
+header h1 {
+    color: black;
+}
+
+h1 {
+    text-align: center;
+    color: slategray;
+}
+
+div {
+    margin: 10px;
+    text-align: left;
+}
+
+button {
+    margin: 5px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: gray;
+    background-color: lightblue;
+}
+
+.button-submit-wrapper {
+    background-color: darkcyan;
+    border-color: black;
+}
+
+.button-cancel-wrapper {
+    background-color: indianred;
+    border-color: black;
+}

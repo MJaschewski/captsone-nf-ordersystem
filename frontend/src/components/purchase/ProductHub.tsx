@@ -30,8 +30,8 @@ function ProductHub() {
                     <button onClick={() => navigate("/productHub/details/" + currentProductBody.id)}>Details</button>
                 </div>
             })}
-            <button onClick={() => navigate("/add_product")}>Add Product</button>
-            <button onClick={() => navigate("/")}> Cancel</button>
+            <button className="button-submit-wrapper" onClick={() => navigate("/add_product")}>Add Product</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Cancel</button>
         </div>
     );
 }

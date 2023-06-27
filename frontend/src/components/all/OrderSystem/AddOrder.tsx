@@ -25,12 +25,12 @@ function AddOrder() {
 
     return (
 
-        <div>
+        <div className="Left-Align-Wrapper">
             <h1>Add Order</h1>
             <h2>List of Products:</h2>
             <FormProductListSubmit validProductList={validProductList} handleOrderSubmit={handleOrderSubmit}
                                    handleOrderProductList={handleOrderProductList} buttonDescription="Add Order"/>
-            <button onClick={() => navigate("/orderHub")}>Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub")}>Cancel</button>
         </div>
     );
 }

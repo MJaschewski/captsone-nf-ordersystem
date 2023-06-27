@@ -31,7 +31,6 @@ function App() {
             <header className="App-Header">
                 <h1>Order Approve & Supply</h1>
             </header>
-            <div>
                 <Routes>
                     <Route path={"/login"} element={<LoginPage login={login}/>}/>
 
@@ -55,7 +54,6 @@ function App() {
                         </Route>
                     </Route>
                 </Routes>
-            </div>
         </div>
   );
 }

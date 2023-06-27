@@ -16,9 +16,10 @@ function ProductDetails() {
             {productBody !== undefined ?
                 <ProductOpticalElement productBody={productBody}/>
                 : <></>}
-            <button onClick={() => navigate("/productHub")}>Cancel</button>
-            <button onClick={() => navigate("/productHub/edit/" + id)}>Edit</button>
-            <button onClick={() => navigate("/productHub/delete/" + id)}>Delete</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/productHub")}>Cancel</button>
+            <button className="button-submit-wrapper" onClick={() => navigate("/productHub/edit/" + id)}>Edit</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/productHub/delete/" + id)}>Delete
+            </button>
         </div>
     );
 }

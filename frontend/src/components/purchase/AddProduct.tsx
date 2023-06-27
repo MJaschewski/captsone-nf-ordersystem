@@ -45,7 +45,7 @@ function AddProduct() {
                                accessLevel={accessLevel}
                                productAccessLevel={productAccessLevel}
                                buttonDescription={"Add Product"}/>
-            <button onClick={() => navigate("/productHub")}>Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );
 }

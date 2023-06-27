@@ -17,7 +17,7 @@ function ApproveOrderDetails() {
             {orderBody !== undefined ?
                 <ApproveOrderOpticalElement orderBody={orderBody}/>
                 : <></>}
-            <button onClick={() => navigate("/orderHub/approval")}>Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/approval")}>Cancel</button>
         </div>
     );
 }
