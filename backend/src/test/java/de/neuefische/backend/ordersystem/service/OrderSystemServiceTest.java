@@ -116,7 +116,7 @@ class OrderSystemServiceTest {
 
         OrderDTO testOrderDTO = new OrderDTO(testProductBodyList);
         String testOrderId = "testOrderId";
-        when(generateIdService.generateOrderUUID()).thenReturn(testOrderId);
+        when(generateIdService.generateOrderUUID("testOwner")).thenReturn(testOrderId);
         List<String> testAuthorities = List.of("ALL");
         String testDate = "2023-01-31";
         OrderBody expected = new OrderBody(testOrderId, "testOwner", testProductBodyList, 5.00, testDate, "No date yet", false, false, OrderStatus.REQUESTED.toString());
@@ -127,7 +127,7 @@ class OrderSystemServiceTest {
         OrderBody actual = orderSystemService.addOrderBody("testOwner", testAuthorities, testOrderDTO);
         //Then
         verify(productSystemService).getProductList();
-        verify(generateIdService).generateOrderUUID();
+        verify(generateIdService).generateOrderUUID("testOwner");
         verify(timeService).currentDate();
         verify(orderSystemRepository).save(expected);
         assertEquals(expected, actual);

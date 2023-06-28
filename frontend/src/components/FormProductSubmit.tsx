@@ -16,18 +16,22 @@ function FormProductSubmit(props: Props) {
     return (
         <div>
             <form onSubmit={props.handleSubmit}>
+                <h3>Enter Name</h3>
                 <label htmlFor="productName">
                     <input type="text" name="productName" value={props.productName}
                            onChange={props.handleChangeProductName}/>
                 </label>
+                <h3>Enter Price</h3>
                 <label htmlFor="productPrice">
                     <input type="number" min="0.00" inputMode="numeric" pattern="\?" step="0.01" name="productPrice"
                            value={props.productPrice}
                            onChange={props.handleChangeProductPrice}/>
                 </label>
                 <label>
+                    <h3>Select Access Level</h3>
                     {props.accessLevel.map((level: React.Key) => (
                         <div key={level}>
+
                             <input type="radio"
                                    id={level.toString()}
                                    name="productAccessLevel"
