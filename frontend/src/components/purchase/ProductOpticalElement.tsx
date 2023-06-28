@@ -12,7 +12,7 @@ function ProductOpticalElement(props: Props) {
             <ul>
                 <li>Id: {props.productBody.id}</li>
                 <li>name: {props.productBody.name}</li>
-                <li>price: {props.productBody.price}</li>
+                <li>price: {props.productBody.price} €</li>
                 <li>accessLevel: {props.productBody.accessLevel}</li>
             </ul>
         </div>

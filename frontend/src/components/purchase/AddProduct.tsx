@@ -30,7 +30,7 @@ function AddProduct() {
             .then(response => {
                 console.log(response.data)
             })
-            .then(() => navigate("/"))
+            .then(() => navigate("/productHub"))
             .catch(error => console.log(error));
     }
     return (
