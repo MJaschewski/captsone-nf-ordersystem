@@ -46,6 +46,19 @@ class ProductSystemControllerTest {
     }
 
     @Test
+    @WithMockUser(authorities = "PURCHASE")
+    @DirtiesContext
+    void _when_addProductNoBody_then_return422() throws Exception {
+        mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {}
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     @DirtiesContext
     @WithMockUser
     void _when_getProductsWrongAuthorities_return403() throws Exception {

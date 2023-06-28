@@ -1023,6 +1023,19 @@ class OrderSystemControllerTest {
     }
 
     @Test
+    @DirtiesContext
+    @WithMockUser(authorities = {"ALL", "PURCHASE"})
+    void when_addOrderBodyWithNoBody_then_ThrowException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {}
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     @Order(1)
     @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
     void when_postOrder_for_orderedTests() throws Exception {
