@@ -1029,9 +1029,10 @@ class OrderSystemControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
+                                {}
                                 """)
                         .with(csrf()))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

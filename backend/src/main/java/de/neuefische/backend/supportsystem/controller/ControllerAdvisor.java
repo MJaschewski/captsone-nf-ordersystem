@@ -27,6 +27,6 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<Object> handleInputMismatchException(NullPointerException nullPointerException) {
-        return new ResponseEntity<>(nullPointerException.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(nullPointerException.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 }
