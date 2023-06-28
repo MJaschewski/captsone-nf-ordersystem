@@ -11,7 +11,7 @@ public class GenerateIdService {
         return "p" + UUID.randomUUID();
     }
 
-    public String generateOrderUUID() {
-        return "o" + UUID.randomUUID();
+    public String generateOrderUUID(String username) {
+        return "o-" + UUID.randomUUID().toString().substring(0, 8) + "-" + username;
     }
 }

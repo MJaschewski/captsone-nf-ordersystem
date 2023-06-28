@@ -35,23 +35,23 @@ class GenerateIdServiceTest {
     @Test
     void when_generateOrderUUID_then_returnDifferentStrings() {
         //Given
-        String firstId = generateIdService.generateOrderUUID();
+        String username = "testName";
+        String firstId = generateIdService.generateOrderUUID(username);
         //Then
-        String secondId = generateIdService.generateOrderUUID();
+        String secondId = generateIdService.generateOrderUUID(username);
         //When
         assertNotEquals(firstId, secondId);
     }
 
     @Test
-    void when_generateOrderUUID_then_return37LongStringAndPAtTheStart() {
+    void when_generateOrderUUID_then_returnCorrectString() {
         //Given
-        int expected = 37;
+        String testUser = "testUser";
         //Then
-        String testId = generateIdService.generateOrderUUID();
-        int actual = testId.length();
+        String testId = generateIdService.generateOrderUUID(testUser);
         //When
         assertEquals('o', testId.charAt(0));
-        assertEquals(expected, actual);
+        assertEquals(testUser, testId.substring(11));
     }
 
 }

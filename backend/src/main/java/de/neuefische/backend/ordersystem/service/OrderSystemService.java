@@ -65,7 +65,7 @@ public class OrderSystemService {
         verifyProductList(accessLevel, orderDTO.getProductBodyList());
         OrderBody newOrderBody = new OrderBody();
         newOrderBody.setOwner(username);
-        newOrderBody.setId(generateIdService.generateOrderUUID());
+        newOrderBody.setId(generateIdService.generateOrderUUID(username));
         newOrderBody.setProductBodyList(orderDTO.getProductBodyList());
         newOrderBody.setCreated(timeService.currentDate());
         newOrderBody.setArrival("No date yet");
