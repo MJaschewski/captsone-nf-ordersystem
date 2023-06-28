@@ -24,4 +24,9 @@ public class ControllerAdvisor {
     public ResponseEntity<Object> handleInputMismatchException(IllegalAccessException illegalAccessException) {
         return new ResponseEntity<>(illegalAccessException.getMessage(), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<Object> handleInputMismatchException(NullPointerException nullPointerException) {
+        return new ResponseEntity<>(nullPointerException.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 }
