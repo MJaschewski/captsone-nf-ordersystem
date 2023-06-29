@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
+                        .requestMatchers("api/userSystem/register").hasAuthority(ROLE_LEAD)
                         .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority(ROLE_PURCHASE, ROLE_LEAD)
                         .requestMatchers("api/orderSystem/disapprove/**").hasAnyAuthority(ROLE_PURCHASE, ROLE_LEAD)
                         .requestMatchers("api/orderSystem/own").hasAuthority(ROLE_ALL)

@@ -1,14 +1,13 @@
 package de.neuefische.backend.usersystem.controller;
 
 import de.neuefische.backend.usersystem.model.LoginDTO;
+import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.service.UserSystemService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("api/userSystem")
@@ -36,5 +35,11 @@ public class UserController {
         httpSession.invalidate();
         SecurityContextHolder.clearContext();
         return "Logged out";
+    }
+
+    @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public LoginDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
+        return userSystemService.saveUser(userRegistrationDTO);
     }
 }
