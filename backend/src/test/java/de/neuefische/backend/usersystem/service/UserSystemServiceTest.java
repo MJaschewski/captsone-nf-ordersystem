@@ -7,7 +7,6 @@ import de.neuefische.backend.usersystem.model.UserBody;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -99,7 +98,7 @@ class UserSystemServiceTest {
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         userRegistrationDTO.setPassword("password");
         userRegistrationDTO.setUsername("username");
-        userRegistrationDTO.setRoles(List.of(new SimpleGrantedAuthority("ALL")));
+        userRegistrationDTO.setRoles(List.of("ALL"));
         LoginDTO expected = new LoginDTO("username", List.of(AccessLevel.ALL.toString()));
         when(generateIdService.generateUserUUID()).thenReturn("testId");
         when(userRepository.save(any())).thenReturn(new UserBody());

@@ -7,6 +7,7 @@ import de.neuefische.backend.usersystem.model.UserBody;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -49,7 +50,7 @@ public class UserSystemService implements UserDetailsService {
         userBody.setUsername(userDTO.getUsername());
         userBody.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userBody.setId(generateIdService.generateUserUUID());
-        userBody.setRoles(userDTO.getRoles());
+        userBody.setRoles(userDTO.getRoles().stream().map(roles -> new SimpleGrantedAuthority(roles)).toList());
 
         userRepository.save(userBody);
 

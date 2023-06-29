@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -49,5 +50,91 @@ class UserControllerTest {
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Logged out"));
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser
+    void when_registerWrongAuthority_then_return403() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/register", """
+                                {}
+                                 """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = "LEAD")
+    void when_registerShortPassword_then_return422() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"testUser",
+                                    "password":"short",
+                                    "roles":["ALL"]
+                                }
+                                 """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = "LEAD")
+    void when_registerShortUsername_then_return422() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"short",
+                                    "password":"passwordTest",
+                                    "roles":["ALL"]
+                                }
+                                 """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = "LEAD")
+    void when_registerWithoutAll_then_return422() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"username",
+                                    "password":"passwordTest",
+                                    "roles":[]
+                                }
+                                 """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
+    @DirtiesContext
+    @WithMockUser(authorities = "LEAD")
+    void when_register_then_return200OkAndLoginDTO() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"username",
+                                    "password":"passwordTest",
+                                    "roles":["ALL"]
+                                }
+                                 """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        """
+                                        {
+                                            "username":"username",
+                                            "authorities":["ALL"]
+                                        }
+                                """));
     }
 }
