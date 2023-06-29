@@ -21,6 +21,7 @@ import EditProduct from "./components/purchase/EditProduct";
 import ProductDelete from "./components/purchase/ProductDelete";
 import UserHub from "./components/lead/UserHub";
 import ProtectedRoutesLead from "./components/ProtectedRoutesLead";
+import AddUser from "./components/lead/AddUser";
 
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
                         </Route>
                         <Route element={<ProtectedRoutesLead/>}>
                             <Route path={"/userHub"} element={<UserHub/>}/>
+                            <Route path={"/userHub/addUser"} element={<AddUser/>}/>
                         </Route>
                         <Route element={<ProtectedRoutesPurchase/>}>
                             <Route path={"/productHub"} element={<ProductHub/>}/>
