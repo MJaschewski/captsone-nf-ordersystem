@@ -18,7 +18,7 @@ function AddUser() {
     function handleUserSubmit(event: FormEvent) {
         event.preventDefault();
         const registerDTO: RegisterDTO = {username: newUsername, password: newPassword, authorities: newAuthorities};
-        axios.post('api/userSystem/register', registerDTO)
+        axios.post('/api/userSystem/register', registerDTO)
             .then(response => console.log(response))
             .then(() => navigate("/userHub"))
             .catch(error => console.log(error));
