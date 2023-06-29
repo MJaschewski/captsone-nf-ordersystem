@@ -21,6 +21,9 @@ function FrontPage(props: Props) {
             {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "PURCHASE")
                 ? <button onClick={() => navigate("/productHub")}>Manage Products</button>
                 : <></>}
+            {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "LEAD")
+                ? <button onClick={() => navigate("/userHub")}>Manage Products</button>
+                : <></>}
             {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "PURCHASE" || auth === "LEAD")
                 ? <button onClick={() => navigate("/orderHub/approval")}>Approve Orders</button>
                 : <></>}
