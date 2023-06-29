@@ -54,4 +54,26 @@ class GenerateIdServiceTest {
         assertEquals(testUser, testId.substring(11));
     }
 
+    @Test
+    void when_generateUserUUID_then_returnDifferentStrings() {
+        //Given
+        String firstId = generateIdService.generateUserUUID();
+        //Then
+        String secondId = generateIdService.generateUserUUID();
+        //When
+        assertNotEquals(firstId, secondId);
+    }
+
+    @Test
+    void when_generateUserUUID_then_return37LongStringAndPAtTheStart() {
+        //Given
+        int expected = 38;
+        //Then
+        String testId = generateIdService.generateUserUUID();
+        int actual = testId.length();
+        //When
+        assertEquals('u', testId.charAt(0));
+        assertEquals(expected, actual);
+    }
+
 }

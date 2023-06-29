@@ -1,5 +1,6 @@
 package de.neuefische.backend.usersystem.service;
 
+import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import de.neuefische.backend.usersystem.model.UserBody;
 import de.neuefische.backend.usersystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,8 @@ import static org.mockito.Mockito.when;
 
 class UserSystemServiceTest {
     private final UserRepository userRepository = mock(UserRepository.class);
-    private final UserSystemService userSystemService = new UserSystemService(userRepository);
+    private final GenerateIdService generateIdService = mock(GenerateIdService.class);
+    private final UserSystemService userSystemService = new UserSystemService(userRepository, generateIdService);
 
     @Test
     void when_loadUserByUsernameWithRightUsername_then_returnUser() {
