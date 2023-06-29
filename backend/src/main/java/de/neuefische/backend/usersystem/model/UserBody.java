@@ -18,5 +18,5 @@ public class UserBody {
     @Id
     private String username;
     private String password;
-    private List<SimpleGrantedAuthority> roles;
+    private List<SimpleGrantedAuthority> authorities;
 }

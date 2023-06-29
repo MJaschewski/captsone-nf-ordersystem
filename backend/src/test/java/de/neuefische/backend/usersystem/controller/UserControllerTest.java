@@ -124,7 +124,7 @@ class UserControllerTest {
                                 {
                                     "username":"username",
                                     "password":"passwordTest",
-                                    "roles":["ALL"]
+                                    "authorities":["ALL"]
                                 }
                                  """)
                         .with(csrf()))

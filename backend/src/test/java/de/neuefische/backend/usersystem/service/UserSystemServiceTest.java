@@ -85,7 +85,7 @@ class UserSystemServiceTest {
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         userRegistrationDTO.setPassword("password");
         userRegistrationDTO.setUsername("username");
-        userRegistrationDTO.setRoles(List.of());
+        userRegistrationDTO.setAuthorities(List.of());
         //When
         assertThrows(IllegalArgumentException.class,
                 () -> userSystemService.saveUser(authorities, userRegistrationDTO), "User must have authority All.");
@@ -98,7 +98,7 @@ class UserSystemServiceTest {
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         userRegistrationDTO.setPassword("password");
         userRegistrationDTO.setUsername("username");
-        userRegistrationDTO.setRoles(List.of("ALL"));
+        userRegistrationDTO.setAuthorities(List.of("ALL"));
         LoginDTO expected = new LoginDTO("username", List.of(AccessLevel.ALL.toString()));
         when(generateIdService.generateUserUUID()).thenReturn("testId");
         when(userRepository.save(any())).thenReturn(new UserBody());

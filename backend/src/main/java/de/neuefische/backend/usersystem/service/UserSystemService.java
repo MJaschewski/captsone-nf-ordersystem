@@ -29,7 +29,7 @@ public class UserSystemService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserBody userBody = userRepository.findUserBodyByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with " + username + " not found"));
-        return new User(userBody.getUsername(), userBody.getPassword(), userBody.getRoles());
+        return new User(userBody.getUsername(), userBody.getPassword(), userBody.getAuthorities());
     }
 
     public LoginDTO saveUser(List<String> authorities, UserRegistrationDTO userDTO) throws IllegalAccessException {
@@ -42,7 +42,7 @@ public class UserSystemService implements UserDetailsService {
         if (userDTO.getUsername().length() < 8) {
             throw new IllegalArgumentException("Username needs to be at least 8 digits long.");
         }
-        if (!userDTO.getRoles().stream().map(Object::toString).toList().contains(AccessLevel.ALL.toString())) {
+        if (!userDTO.getAuthorities().stream().map(Object::toString).toList().contains(AccessLevel.ALL.toString())) {
             throw new IllegalArgumentException("User must have authority All.");
         }
         UserBody userBody = new UserBody();
@@ -50,11 +50,11 @@ public class UserSystemService implements UserDetailsService {
         userBody.setUsername(userDTO.getUsername());
         userBody.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userBody.setId(generateIdService.generateUserUUID());
-        userBody.setRoles(userDTO.getRoles().stream().map(roles -> new SimpleGrantedAuthority(roles)).toList());
+        userBody.setAuthorities(userDTO.getAuthorities().stream().map(roles -> new SimpleGrantedAuthority(roles)).toList());
 
         userRepository.save(userBody);
 
-        return new LoginDTO(userBody.getUsername(), userBody.getRoles().stream().map(Object::toString).toList());
+        return new LoginDTO(userBody.getUsername(), userBody.getAuthorities().stream().map(Object::toString).toList());
 
     }
 }
