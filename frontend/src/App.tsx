@@ -19,7 +19,7 @@ import ApproveOrderDetails from "./components/approval/ApproveOrderDetails";
 import ProductDetails from "./components/purchase/ProductDetails";
 import EditProduct from "./components/purchase/EditProduct";
 import ProductDelete from "./components/purchase/ProductDelete";
-import ProtectedRoutesLead from "./components/purchase/ProtectedRoutesLead";
+import ProtectedRoutesLead from "./components/ProtectedRoutesLead";
 import UserHub from "./components/lead/UserHub";
 
 
