@@ -19,6 +19,8 @@ import ApproveOrderDetails from "./components/approval/ApproveOrderDetails";
 import ProductDetails from "./components/purchase/ProductDetails";
 import EditProduct from "./components/purchase/EditProduct";
 import ProductDelete from "./components/purchase/ProductDelete";
+import UserHub from "./components/lead/UserHub";
+import ProtectedRoutesLead from "./components/ProtectedRoutesLead";
 
 
 function App() {
@@ -44,6 +46,9 @@ function App() {
                         <Route element={<ProtectedRoutesApproval/>}>
                             <Route path={"/orderHub/approval"} element={<ApproveOrder/>}/>
                             <Route path={"/orderHub/approval/details/:id"} element={<ApproveOrderDetails/>}/>
+                        </Route>
+                        <Route element={<ProtectedRoutesLead/>}>
+                            <Route path={"/userHub"} element={<UserHub/>}/>
                         </Route>
                         <Route element={<ProtectedRoutesPurchase/>}>
                             <Route path={"/productHub"} element={<ProductHub/>}/>
