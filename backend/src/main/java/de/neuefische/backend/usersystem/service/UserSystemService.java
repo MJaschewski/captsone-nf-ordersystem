@@ -36,11 +36,11 @@ public class UserSystemService implements UserDetailsService {
         if (!authorities.contains(AccessLevel.LEAD.toString())) {
             throw new IllegalAccessException("No authority to register new user.");
         }
-        if (userDTO.getPassword().length() < 8) {
-            throw new IllegalArgumentException("Password needs to be at least 8 digits long.");
+        if (userDTO.getPassword().length() < 8 || userRepository.existsByUsername(userDTO.getUsername())) {
+            throw new IllegalArgumentException("Password needs to be at least 8 digits long and username needs to be unique.");
         }
         if (userDTO.getUsername().length() < 8) {
-            throw new IllegalArgumentException("Username needs to be at least 8 digits long.");
+            throw new IllegalArgumentException("Username needs to be at least 8 digits long and needs to be unique");
         }
         if (!userDTO.getAuthorities().stream().map(Object::toString).toList().contains(AccessLevel.ALL.toString())) {
             throw new IllegalArgumentException("User must have authority All.");

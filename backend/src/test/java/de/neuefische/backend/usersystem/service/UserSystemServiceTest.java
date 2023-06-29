@@ -73,9 +73,10 @@ class UserSystemServiceTest {
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         userRegistrationDTO.setPassword("password");
         userRegistrationDTO.setUsername("short");
+        when(userRepository.existsByUsername("short")).thenReturn(false);
         //When
         assertThrows(IllegalArgumentException.class,
-                () -> userSystemService.saveUser(authorities, userRegistrationDTO), "Username needs to be at least 8 digits long.");
+                () -> userSystemService.saveUser(authorities, userRegistrationDTO), "Username needs to be at least 8 digits long and needs to be unique");
     }
 
     @Test
@@ -84,7 +85,10 @@ class UserSystemServiceTest {
         List<String> authorities = List.of(AccessLevel.LEAD.toString());
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         userRegistrationDTO.setPassword("password");
-        userRegistrationDTO.setUsername("username");
+        userRegistrationDTO.setPassword("password");
+        String username = "username";
+        when(userRepository.existsByUsername(username)).thenReturn(false);
+        userRegistrationDTO.setUsername(username);
         userRegistrationDTO.setAuthorities(List.of());
         //When
         assertThrows(IllegalArgumentException.class,
@@ -97,16 +101,32 @@ class UserSystemServiceTest {
         List<String> authorities = List.of(AccessLevel.LEAD.toString());
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         userRegistrationDTO.setPassword("password");
-        userRegistrationDTO.setUsername("username");
+        String username = "username";
+        userRegistrationDTO.setUsername(username);
         userRegistrationDTO.setAuthorities(List.of("ALL"));
-        LoginDTO expected = new LoginDTO("username", List.of(AccessLevel.ALL.toString()));
+        LoginDTO expected = new LoginDTO(username, List.of(AccessLevel.ALL.toString()));
+        when(userRepository.existsByUsername(username)).thenReturn(false);
         when(generateIdService.generateUserUUID()).thenReturn("testId");
         when(userRepository.save(any())).thenReturn(new UserBody());
         //When
         LoginDTO actual = userSystemService.saveUser(authorities, userRegistrationDTO);
         //Then
+        verify(userRepository).existsByUsername(username);
         verify(generateIdService).generateUserUUID();
         verify(userRepository).save(any());
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void when_saveUserTakenUsername_then_throwException() {
+        //Given
+        List<String> authorities = List.of(AccessLevel.LEAD.toString());
+        UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
+        userRegistrationDTO.setPassword("password");
+        userRegistrationDTO.setUsername("takenUsername");
+        when(userRepository.existsByUsername("takenUsername")).thenReturn(true);
+        //When
+        assertThrows(IllegalArgumentException.class,
+                () -> userSystemService.saveUser(authorities, userRegistrationDTO), "Username needs to be at least 8 digits long and needs to be unique");
     }
 }
