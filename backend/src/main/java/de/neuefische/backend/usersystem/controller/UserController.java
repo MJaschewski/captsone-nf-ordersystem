@@ -39,7 +39,7 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public LoginDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) throws Exception {
+    public LoginDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) throws IllegalAccessException {
         return userSystemService.saveUser(SecurityContextHolder
                 .getContext()
                 .getAuthentication()
