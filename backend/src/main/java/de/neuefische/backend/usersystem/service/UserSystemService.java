@@ -1,5 +1,6 @@
 package de.neuefische.backend.usersystem.service;
 
+import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import de.neuefische.backend.usersystem.model.LoginDTO;
 import de.neuefische.backend.usersystem.model.UserBody;
@@ -13,6 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,11 +31,21 @@ public class UserSystemService implements UserDetailsService {
         return new User(userBody.getUsername(), userBody.getPassword(), userBody.getRoles());
     }
 
-    public LoginDTO saveUser(UserRegistrationDTO userDTO) {
+    public LoginDTO saveUser(List<String> authorities, UserRegistrationDTO userDTO) throws IllegalAccessException {
+        if (!authorities.contains(AccessLevel.LEAD.toString())) {
+            throw new IllegalAccessException("No authority to register new user.");
+        }
+        if (userDTO.getPassword().length() < 8) {
+            throw new IllegalArgumentException("Password needs to be at least 8 digits long.");
+        }
+        if (userDTO.getUsername().length() < 8) {
+            throw new IllegalArgumentException("Username needs to be at least 8 digits long.");
+        }
+        if (!userDTO.getRoles().stream().map(Object::toString).toList().contains(AccessLevel.ALL.toString())) {
+            throw new IllegalArgumentException("User must have authority All.");
+        }
         UserBody userBody = new UserBody();
-
         PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-
         userBody.setUsername(userDTO.getUsername());
         userBody.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userBody.setId(generateIdService.generateUserUUID());

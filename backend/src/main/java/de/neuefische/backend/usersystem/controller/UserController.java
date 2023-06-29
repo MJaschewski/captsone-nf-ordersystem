@@ -39,7 +39,11 @@ public class UserController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public LoginDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
-        return userSystemService.saveUser(userRegistrationDTO);
+    public LoginDTO registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) throws Exception {
+        return userSystemService.saveUser(SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream().map(Object::toString).toList(), userRegistrationDTO);
     }
 }
