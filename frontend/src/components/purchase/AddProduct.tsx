@@ -2,7 +2,7 @@ import React, {ChangeEvent, FormEvent, useState} from 'react';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {ProductDTO} from "./ProductDTOType";
-import FormProductSubmit from "../FormProductSubmit";
+import FormProductSubmit from "./FormProductSubmit";
 
 
 function AddProduct() {
@@ -26,7 +26,7 @@ function AddProduct() {
     function handleSubmit (event: FormEvent){
         event.preventDefault()
         const productDTO:ProductDTO = {name:productName,price:productPrice,accessLevel:productAccessLevel}
-        axios.post('/api/productSystem', productDTO)
+        axios.post('api/productSystem', productDTO)
             .then(response => {
                 console.log(response.data)
             })

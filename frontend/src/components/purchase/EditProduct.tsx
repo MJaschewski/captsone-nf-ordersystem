@@ -4,7 +4,8 @@ import useHandleGetProductById from "./hooks/useHandleGetProductById";
 import {ProductDTO} from "./ProductDTOType";
 import axios from "axios";
 import ProductOpticalElement from "./ProductOpticalElement";
-import FormProductSubmit from "../FormProductSubmit";
+import FormProductSubmit from "./FormProductSubmit";
+
 
 function EditProduct() {
     const navigate = useNavigate();

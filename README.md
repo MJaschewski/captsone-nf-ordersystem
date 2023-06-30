@@ -5,6 +5,8 @@ In backend/src/main/resources/application.properties the environment variable MO
 ## Login needs a User
 Once you have established the connection to your MongoDB. Open your MongoDB manually with for example MongoCompas. Create a Database named CapstoneOrderSystemDB and a Collection UserList. Now import the UserList.json. Afterwards you can use 3 test Accounts with different authorities. Each user has the password '1234'.
 Note that this has been updated in PR LimitAddOrderByAuthority
+## Create Users (Only with users testLead)
+With the authority lead it is possible to create new users giving the tools inside the app.
 ## Product List in Hub (Only with user testPurchase):
 You need to add products to your mongodb before you can see any products. This can be done with the add product feature on the website. Note that a user can only add products to his Orders with matching authorities.
 ## Order List in Hub:
