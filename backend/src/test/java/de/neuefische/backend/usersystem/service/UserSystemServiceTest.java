@@ -7,11 +7,13 @@ import de.neuefische.backend.usersystem.model.UserBody;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,7 +54,7 @@ class UserSystemServiceTest {
         UserRegistrationDTO userRegistrationDTO = new UserRegistrationDTO();
         //When
         assertThrows(IllegalAccessException.class,
-                () -> userSystemService.saveUser(authorities, userRegistrationDTO), "No authority to register new user.");
+                () -> userSystemService.saveUser(authorities, userRegistrationDTO), "No authority lead.");
     }
 
     @Test
@@ -128,5 +130,39 @@ class UserSystemServiceTest {
         //When
         assertThrows(IllegalArgumentException.class,
                 () -> userSystemService.saveUser(authorities, userRegistrationDTO), "Username needs to be at least 8 digits long and needs to be unique");
+    }
+
+    @Test
+    void when_authorityLeadCheckNoLead_then_throwException() {
+        //Given
+        List<String> authorities = List.of("ALL");
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> userSystemService.authorityLeadCheck(authorities), "No authority lead.");
+    }
+
+    @Test
+    void when_getAllUsersWithoutLead_then_throwException() {
+        //Given
+        List<String> authorities = List.of("ALL");
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> userSystemService.getAllUsers(authorities), "No authority lead.");
+    }
+
+    @Test
+    void when_getAllUsers_then_returnListLoginDTO() throws IllegalAccessException {
+        //Given
+        List<String> authorities = List.of("ALL", "LEAD");
+        UserBody testUser = new UserBody();
+        testUser.setUsername("testUser");
+        testUser.setRoles(List.of(new SimpleGrantedAuthority("ALL")));
+        LoginDTO expectedUser = new LoginDTO(testUser.getUsername(), testUser.getRoles().stream().map(Objects::toString).toList());
+        List<LoginDTO> expected = List.of(expectedUser);
+        when(userRepository.findAll()).thenReturn(List.of(testUser));
+        //When
+        List<LoginDTO> actual = userSystemService.getAllUsers(authorities);
+        //Then
+        assertEquals(expected, actual);
     }
 }
