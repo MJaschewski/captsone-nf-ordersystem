@@ -1,6 +1,9 @@
 package de.neuefische.backend.usersystem.controller;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +18,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -136,5 +140,53 @@ class UserControllerTest {
                                             "authorities":["ALL"]
                                         }
                                 """));
+    }
+
+    @Test
+    @WithMockUser(authorities = "LEAD")
+    @Order(1)
+    void post_user_orderedTests() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"username",
+                                    "password":"passwordTest",
+                                    "authorities":["ALL"]
+                                }
+                                 """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(MockMvcResultMatchers.content().json(
+                        """
+                                        {
+                                            "username":"username",
+                                            "authorities":["ALL"]
+                                        }
+                                """));
+    }
+
+    @Test
+    @WithMockUser
+    @Order(2)
+    void when_getAllUsersNoLead_return403() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/users"))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(authorities = "LEAD")
+    @Order(2)
+    void when_getAllUsers_return200OkAndListLoginDTO() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/users"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("""
+                        [
+                            {
+                                "username":"username",
+                                "authorities":["ALL"]
+                            }
+                        ]
+                        """));
     }
 }

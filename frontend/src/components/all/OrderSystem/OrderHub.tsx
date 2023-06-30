@@ -14,7 +14,6 @@ function OrderHub() {
             .then(response => response.data)
             .then(data => {
                 setOrderList(data);
-                console.log(data)
             })
             .catch(error => console.log(error))
     }

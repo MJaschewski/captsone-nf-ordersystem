@@ -16,7 +16,9 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +34,14 @@ public class UserSystemService implements UserDetailsService {
         return new User(userBody.getUsername(), userBody.getPassword(), userBody.getRoles());
     }
 
-    public LoginDTO saveUser(List<String> authorities, UserRegistrationDTO userDTO) throws IllegalAccessException {
+    public void authorityLeadCheck(List<String> authorities) throws IllegalAccessException {
         if (!authorities.contains(AccessLevel.LEAD.toString())) {
-            throw new IllegalAccessException("No authority to register new user.");
+            throw new IllegalAccessException("No authority lead.");
         }
+    }
+
+    public LoginDTO saveUser(List<String> authorities, UserRegistrationDTO userDTO) throws IllegalAccessException {
+        authorityLeadCheck(authorities);
         if (userDTO.getPassword().length() < 8 || userRepository.existsByUsername(userDTO.getUsername())) {
             throw new IllegalArgumentException("Password needs to be at least 8 digits long and username needs to be unique.");
         }
@@ -56,5 +62,16 @@ public class UserSystemService implements UserDetailsService {
 
         return new LoginDTO(userBody.getUsername(), userBody.getRoles().stream().map(Object::toString).toList());
 
+    }
+
+    public List<LoginDTO> getAllUsers(List<String> authorities) throws IllegalAccessException {
+        authorityLeadCheck(authorities);
+        List<UserBody> userBodyList = userRepository.findAll();
+        List<LoginDTO> userDTOList = new ArrayList<>();
+        userBodyList.forEach(userBody -> {
+            LoginDTO nextUser = new LoginDTO(userBody.getUsername(), userBody.getRoles().stream().map(Objects::toString).toList());
+            userDTOList.add(nextUser);
+        });
+        return userDTOList;
     }
 }
