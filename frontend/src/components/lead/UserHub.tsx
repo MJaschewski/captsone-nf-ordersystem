@@ -31,7 +31,7 @@ function UserHub() {
                     <p>Username: {users.username}</p>
                     <p>Authorities: </p>
                     <ul> {users.authorities.map(auth => (
-                        <li>{auth}</li>
+                        <li key={auth}>{auth}</li>
                     ))}
                     </ul>
                 </li>
