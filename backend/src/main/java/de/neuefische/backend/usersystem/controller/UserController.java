@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RequestMapping("api/userSystem")
 @RestController
@@ -45,5 +47,16 @@ public class UserController {
                 .getAuthentication()
                 .getAuthorities()
                 .stream().map(Object::toString).toList(), userRegistrationDTO);
+    }
+
+    @GetMapping("/users")
+    public List<LoginDTO> getAllUsers() throws IllegalAccessException {
+        return userSystemService.getAllUsers(
+                SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getAuthorities()
+                        .stream().map(Object::toString).toList()
+        );
     }
 }
