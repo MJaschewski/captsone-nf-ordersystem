@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {UserSimpleBody} from "../UserSimpleBodyType";
 
-type UserSimpleBody = {
-    username: string
-    authorities: string[]
-}
 
 function UserHub() {
     const navigate = useNavigate();

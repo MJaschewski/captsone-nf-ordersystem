@@ -22,6 +22,7 @@ import ProductDelete from "./components/purchase/ProductDelete";
 import UserHub from "./components/lead/UserHub";
 import ProtectedRoutesLead from "./components/ProtectedRoutesLead";
 import AddUser from "./components/lead/AddUser";
+import AccountPage from "./components/all/AccountPage";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
 
                     <Route element={<ProtectedRoutesAll/>}>
                         <Route path={"/"} element={<FrontPage logout={logout}/>}/>
+                        <Route path={"/account"} element={<AccountPage/>}/>
                         <Route path={"/orderHub"} element={<OrderHub/>}/>
                         <Route path={"/orderHub/details/:id"} element={<OrderDetails/>}/>
                         <Route path={"/orderHub/delete/:id"} element={<DeleteOrder/>}/>
