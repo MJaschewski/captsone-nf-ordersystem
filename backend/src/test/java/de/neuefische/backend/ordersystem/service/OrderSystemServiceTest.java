@@ -507,7 +507,7 @@ class OrderSystemServiceTest {
         when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
         //When
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.orderOrderById(username, wrongId));
+                () -> orderSystemService.sendOrderById(username, wrongId));
     }
 
     @Test
@@ -518,7 +518,7 @@ class OrderSystemServiceTest {
         when(orderSystemRepository.findById(orderId)).thenReturn(Optional.empty());
         //When
         assertThrows(NoSuchElementException.class,
-                () -> orderSystemService.orderOrderById(wrongUsername, orderId));
+                () -> orderSystemService.sendOrderById(wrongUsername, orderId));
     }
 
     @Test
@@ -533,7 +533,7 @@ class OrderSystemServiceTest {
         when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
         //When
         assertThrows(IllegalArgumentException.class,
-                () -> orderSystemService.orderOrderById(username, orderId), "Your order is not approved");
+                () -> orderSystemService.sendOrderById(username, orderId), "Your order is not approved");
     }
 
 
@@ -553,7 +553,7 @@ class OrderSystemServiceTest {
         expected.setOrderStatus(OrderStatus.ORDERED.toString());
         when(orderSystemRepository.save(expected)).thenReturn(expected);
         //When
-        OrderBody actual = orderSystemService.orderOrderById(username, orderId);
+        OrderBody actual = orderSystemService.sendOrderById(username, orderId);
         //Then
         assertEquals(expected, actual);
     }

@@ -18,6 +18,9 @@ function OrderDetails() {
             {orderBody !== undefined ?
                 <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}
+            {orderBody?.orderStatus === "APPROVED"
+                ? <button> Order the Order</button>
+                : <></>}
             <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub")}>Cancel</button>
             <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order
             </button>

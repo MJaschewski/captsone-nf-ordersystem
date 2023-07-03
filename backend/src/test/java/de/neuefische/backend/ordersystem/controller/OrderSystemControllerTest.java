@@ -1277,7 +1277,7 @@ class OrderSystemControllerTest {
     @Test
     @Order(4)
     @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
-    void when_postOrder_for_orderedTests_OrderOrder() throws Exception {
+    void when_postOrder_for_sendTests_OrderOrder() throws Exception {
         MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(""" 
@@ -1346,7 +1346,7 @@ class OrderSystemControllerTest {
     @Order(5)
     @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
     void when_orderOrderNotApproved_then_return422() throws Exception {
-        mockMvc.perform(put("/api/orderSystem/own/ordered/" + tempOrder.getId())
+        mockMvc.perform(put("/api/orderSystem/own/send/" + tempOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isUnprocessableEntity());
     }
@@ -1354,7 +1354,7 @@ class OrderSystemControllerTest {
     @Test
     @Order(6)
     @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
-    void approveOrderWithPurchase_when_orderedTests_orderOrder() throws Exception {
+    void approveOrderWithPurchase_when_sendTests_orderOrder() throws Exception {
         mockMvc.perform(put("/api/orderSystem/approve/" + tempOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isOk());
@@ -1363,7 +1363,7 @@ class OrderSystemControllerTest {
     @Test
     @Order(6)
     @WithMockUser(username = "postUser", authorities = {"ALL", "LEAD"})
-    void approveOrderWithLead_when_orderedTests_orderOrder() throws Exception {
+    void approveOrderWithLead_when_sendTests_orderOrder() throws Exception {
         mockMvc.perform(put("/api/orderSystem/approve/" + tempOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isOk());
@@ -1373,7 +1373,7 @@ class OrderSystemControllerTest {
     @Order(7)
     @WithMockUser(username = "falseUser", authorities = {"ALL", "PURCHASE"})
     void when_orderOrderFalseUser_then_return422() throws Exception {
-        mockMvc.perform(put("/api/orderSystem/own/ordered/" + tempOrder.getId())
+        mockMvc.perform(put("/api/orderSystem/own/send/" + tempOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isForbidden());
     }
@@ -1381,9 +1381,9 @@ class OrderSystemControllerTest {
     @Test
     @Order(7)
     @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
-    void when_orderOrderApprovedOrder_then_return200OkAndOrderedOrder() throws Exception {
+    void when_orderOrderApprovedOrder_then_return200OkAndSendOrder() throws Exception {
         //When & Then
-        mockMvc.perform(put("/api/orderSystem/own/ordered/" + tempOrder.getId())
+        mockMvc.perform(put("/api/orderSystem/own/send/" + tempOrder.getId())
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""

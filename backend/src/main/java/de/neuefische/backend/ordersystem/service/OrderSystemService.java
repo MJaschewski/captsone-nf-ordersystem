@@ -158,7 +158,7 @@ public class OrderSystemService {
         return orderSystemRepository.save(savedOrder).getOrderStatus();
     }
 
-    public OrderBody orderOrderById(String username, String orderId) throws IllegalAccessException {
+    public OrderBody sendOrderById(String username, String orderId) throws IllegalAccessException {
         OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
         if (!savedOrder.getOwner().equals(username)) {
             throw new IllegalAccessException("You don't own this order.");
