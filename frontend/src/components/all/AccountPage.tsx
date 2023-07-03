@@ -22,7 +22,7 @@ function AccountPage() {
         <div>
             <h2>Manage your account</h2>
             <p>Username: {ownUser.username} </p>
-            <p>Authorities: {ownUser.authorities.map(auth => <p>{auth}</p>)} </p>
+            <p>Authorities: {ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
             <button onClick={() => navigate("/")}>Cancel</button>
         </div>
     );
