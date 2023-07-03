@@ -26,7 +26,7 @@ function OrderOpticalElement(props:Props) {
                     </ul>
                 </li>
             </ul>
-            {!(props.orderBody.orderStatus === "ORDERED")
+            {props.orderBody.orderStatus !== "ORDERED"
                 ? <button className="button-submit-wrapper"
                           onClick={() => navigate("/orderHub/edit/" + props.orderBody.id)}>Edit Order</button>
                 : <></>}
