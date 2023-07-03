@@ -64,7 +64,7 @@ public class OrderSystemController {
 
     @PutMapping("/own/ordered/{orderId}")
     public OrderBody sentOrderById(@PathVariable String orderId) throws IllegalAccessException {
-        return orderSystemService.sentOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
+        return orderSystemService.orderOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
     }
 
 
