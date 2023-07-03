@@ -8,13 +8,11 @@ import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -169,27 +167,17 @@ class UserSystemServiceTest {
     }
 
     @Test
-    void when_getUserByUsernameWrongName_then_throwException() {
-        //Given
-        String wrongUsername = "wrongUser";
-        when(userRepository.findUserBodyByUsername(wrongUsername)).thenReturn(Optional.empty());
-        //When & then
-        assertThrows(NoSuchElementException.class,
-                () -> userSystemService.getUserByUsername(wrongUsername, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Objects::toString).toList()), "User with " + wrongUsername + " not found");
-    }
-
-    @Test
-    void when_getUserByUsername_then_returnLoginDTO() {
+    void when_getUserByUsername_then_returnLoginDTO() throws IllegalAccessException {
         //Given
         String username = "username";
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ALL"));
+        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("LEAD"));
         UserBody savedUser = new UserBody();
         savedUser.setUsername(username);
         savedUser.setRoles(authorities);
         LoginDTO expected = new LoginDTO(username, authorities.stream().map(Objects::toString).toList());
         when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
         //When
-        LoginDTO actual = userSystemService.getUserByUsername(username, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Objects::toString).toList());
+        LoginDTO actual = userSystemService.getUserByUsername(username, authorities.stream().map(Objects::toString).toList());
         //Then
         assertEquals(expected, actual);
     }

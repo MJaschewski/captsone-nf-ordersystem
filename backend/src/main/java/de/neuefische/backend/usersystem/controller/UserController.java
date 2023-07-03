@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{username}")
-    public LoginDTO getUserByUsername(@PathVariable String username) {
+    public LoginDTO getUserByUsername(@PathVariable String username) throws IllegalAccessException {
         return userSystemService.getUserByUsername(username, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
