@@ -26,9 +26,11 @@ function OrderOpticalElement(props:Props) {
                     </ul>
                 </li>
             </ul>
-            <button className="button-submit-wrapper"
-                    onClick={() => navigate("/orderHub/edit/" + props.orderBody.id)}>Edit Order
-            </button>
+            {props.orderBody.orderStatus !== "ORDERED"
+                ? <button className="button-submit-wrapper"
+                          onClick={() => navigate("/orderHub/edit/" + props.orderBody.id)}>Edit Order</button>
+                : <></>}
+
         </div>
     );
 }

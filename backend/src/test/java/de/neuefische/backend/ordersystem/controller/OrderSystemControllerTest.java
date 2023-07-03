@@ -1273,4 +1273,136 @@ class OrderSystemControllerTest {
                         ]
                         """));
     }
+
+    @Test
+    @Order(4)
+    @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
+    void when_postOrder_for_sendTests_OrderOrder() throws Exception {
+        MvcResult postProduct = mockMvc.perform(post("/api/productSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(""" 
+                                {
+                                    "name":"test",
+                                    "price":1244.99,
+                                    "accessLevel":"ALL"
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                            "name":"test",
+                            "price":1244.99,
+                            "accessLevel":"ALL"
+                        }
+                        """
+                )).andReturn();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductBody newProduct = objectMapper.readValue(postProduct.getResponse().getContentAsString(), ProductBody.class);
+        this.tempNewProduct = newProduct;
+
+        MvcResult orderResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/orderSystem")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                    "productBodyList":[
+                                        {
+                                            "id": "%s",
+                                            "name": "%s",
+                                            "price": 1244.99,
+                                            "accessLevel": "%s"
+                                        }
+                                        ]
+                                    }
+                                """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel())
+                        )
+                        .with(csrf()))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("""
+                        {
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": false,
+                            "approvalLead": false,
+                            "orderStatus": "REQUESTED"
+                        }
+                        """.formatted(newProduct.getId(), newProduct.getName(), newProduct.getAccessLevel(), timeService.currentDate())))
+                .andExpect(jsonPath("$.productBodyList[0].id").isNotEmpty()).andReturn();
+
+        this.tempOrder = objectMapper.readValue(orderResult.getResponse().getContentAsString(), OrderBody.class);
+    }
+
+    @Test
+    @Order(5)
+    @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
+    void when_orderOrderNotApproved_then_return422() throws Exception {
+        mockMvc.perform(put("/api/orderSystem/own/send/" + tempOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @Order(6)
+    @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
+    void approveOrderWithPurchase_when_sendTests_orderOrder() throws Exception {
+        mockMvc.perform(put("/api/orderSystem/approve/" + tempOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(6)
+    @WithMockUser(username = "postUser", authorities = {"ALL", "LEAD"})
+    void approveOrderWithLead_when_sendTests_orderOrder() throws Exception {
+        mockMvc.perform(put("/api/orderSystem/approve/" + tempOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(7)
+    @WithMockUser(username = "falseUser", authorities = {"ALL", "PURCHASE"})
+    void when_orderOrderFalseUser_then_return422() throws Exception {
+        mockMvc.perform(put("/api/orderSystem/own/send/" + tempOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @Order(7)
+    @WithMockUser(username = "postUser", authorities = {"ALL", "PURCHASE"})
+    void when_orderOrderApprovedOrder_then_return200OkAndSendOrder() throws Exception {
+        //When & Then
+        mockMvc.perform(put("/api/orderSystem/own/send/" + tempOrder.getId())
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+                        {
+                            "productBodyList": [
+                                {
+                                    "id": "%s",
+                                    "name": "%s",
+                                    "price": 1244.99,
+                                    "accessLevel": "%s"
+                                }
+                            ],
+                            "price": 1244.99,
+                            "created": "%s",
+                            "arrival": "No date yet",
+                            "approvalPurchase": true,
+                            "approvalLead": true,
+                            "orderStatus": "ORDERED"
+                        }
+                        """.formatted(tempOrder.getProductBodyList().get(0).getId(), tempOrder.getProductBodyList().get(0).getName(), tempOrder.getProductBodyList().get(0).getAccessLevel(), timeService.currentDate())));
+    }
 }

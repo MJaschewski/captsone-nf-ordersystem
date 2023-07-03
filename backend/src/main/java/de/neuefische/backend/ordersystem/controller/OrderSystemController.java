@@ -61,4 +61,11 @@ public class OrderSystemController {
     public String disapproveOrder(@PathVariable String orderId) {
         return orderSystemService.disapproveOrder(orderId, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList());
     }
+
+    @PutMapping("/own/send/{orderId}")
+    public OrderBody sendOrderById(@PathVariable String orderId) throws IllegalAccessException {
+        return orderSystemService.sendOrderById(SecurityContextHolder.getContext().getAuthentication().getName(), orderId);
+    }
+
+
 }

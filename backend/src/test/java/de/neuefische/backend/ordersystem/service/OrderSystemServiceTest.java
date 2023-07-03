@@ -498,4 +498,63 @@ class OrderSystemServiceTest {
         assertEquals(expected, actual);
 
     }
+
+    @Test
+    void when_orderOrderByIdWrongId_then_throwException() {
+        //Given
+        String username = "username";
+        String wrongId = "wrongId";
+        when(orderSystemRepository.findById(wrongId)).thenReturn(Optional.empty());
+        //When
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.sendOrderById(username, wrongId));
+    }
+
+    @Test
+    void when_orderOrderByIdWrongUsername_then_throwException() {
+        //Given
+        String wrongUsername = "username";
+        String orderId = "orderId";
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.empty());
+        //When
+        assertThrows(NoSuchElementException.class,
+                () -> orderSystemService.sendOrderById(wrongUsername, orderId));
+    }
+
+    @Test
+    void when_orderOrderNotApproved_then_throwException() {
+        //Given
+        String username = "username";
+        String orderId = "orderId";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setOwner(username);
+        savedOrder.setId(orderId);
+        savedOrder.setOrderStatus(OrderStatus.REQUESTED.toString());
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
+        //When
+        assertThrows(IllegalArgumentException.class,
+                () -> orderSystemService.sendOrderById(username, orderId), "Your order is not approved");
+    }
+
+
+    @Test
+    void when_orderOrder_then_returnOrderedOrder() throws IllegalAccessException {
+        //Given
+        String username = "username";
+        String orderId = "orderId";
+        OrderBody savedOrder = new OrderBody();
+        savedOrder.setId(orderId);
+        savedOrder.setOwner(username);
+        savedOrder.setOrderStatus(OrderStatus.APPROVED.toString());
+        when(orderSystemRepository.findById(orderId)).thenReturn(Optional.of(savedOrder));
+        OrderBody expected = new OrderBody();
+        expected.setId(orderId);
+        expected.setOwner(username);
+        expected.setOrderStatus(OrderStatus.ORDERED.toString());
+        when(orderSystemRepository.save(expected)).thenReturn(expected);
+        //When
+        OrderBody actual = orderSystemService.sendOrderById(username, orderId);
+        //Then
+        assertEquals(expected, actual);
+    }
 }
