@@ -157,4 +157,16 @@ public class OrderSystemService {
         savedOrder.setApprovalPurchase(false);
         return orderSystemRepository.save(savedOrder).getOrderStatus();
     }
+
+    public OrderBody sendOrderById(String username, String orderId) throws IllegalAccessException {
+        OrderBody savedOrder = orderSystemRepository.findById(orderId).orElseThrow();
+        if (!savedOrder.getOwner().equals(username)) {
+            throw new IllegalAccessException("You don't own this order.");
+        }
+        if (!savedOrder.getOrderStatus().equals(OrderStatus.APPROVED.toString())) {
+            throw new IllegalArgumentException("Your order is not approved");
+        }
+        savedOrder.setOrderStatus(OrderStatus.ORDERED.toString());
+        return orderSystemRepository.save(savedOrder);
+    }
 }
