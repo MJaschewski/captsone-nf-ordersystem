@@ -18,6 +18,7 @@ function FrontPage(props: Props) {
         <div className="Main-Page-Wrapper">
             <h1>Order System</h1>
             <button onClick={() => navigate("/orderHub")}>Manage Your Orders</button>
+            <button onClick={() => navigate("/account")}>Manage Your Account</button>
             {JSON.parse(secureLocalStorage.getItem("authorities") as string).find((auth: string) => auth === "LEAD")
                 ? <button onClick={() => navigate("/userHub")}>Manage Users</button>
                 : <></>}
