@@ -43,7 +43,7 @@ public class SecurityConfig {
                                         HttpStatus.UNAUTHORIZED.getReasonPhrase()
                                 )))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("api/userSystem/login").permitAll()
+                        .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
                         .requestMatchers("api/userSystem/register").hasAuthority(ROLE_LEAD)
                         .requestMatchers("api/userSystem/users").hasAuthority(ROLE_LEAD)
