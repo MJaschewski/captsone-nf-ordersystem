@@ -4,7 +4,6 @@ import {useNavigate, useParams} from "react-router-dom";
 import OrderOpticalElement from "./OrderOpticalElement";
 import useHandleGetOwnOrderById from "./hooks/useHandleGetOwnOrderById";
 import axios from "axios";
-import {Simulate} from "react-dom/test-utils";
 
 
 function OrderDetails() {
@@ -18,7 +17,7 @@ function OrderDetails() {
     function handleSendOrder() {
         axios.put("/api/orderSystem/own/send/" + id)
             .then(response => console.log(response.data))
-            .then(() => handleGetOwnOrderById)
+            .then(() => handleGetOwnOrderById(id))
             .catch(error => console.log(error))
     }
 
