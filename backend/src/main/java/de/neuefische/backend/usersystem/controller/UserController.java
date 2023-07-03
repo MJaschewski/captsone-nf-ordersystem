@@ -59,4 +59,12 @@ public class UserController {
                         .stream().map(Object::toString).toList()
         );
     }
+
+    @GetMapping("/users/own")
+    public LoginDTO getOwnUser() {
+        return userSystemService.getUserByUsername(SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
+    }
 }

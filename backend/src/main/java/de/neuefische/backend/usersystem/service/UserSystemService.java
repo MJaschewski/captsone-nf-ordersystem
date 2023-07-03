@@ -74,4 +74,9 @@ public class UserSystemService implements UserDetailsService {
         });
         return userDTOList;
     }
+
+    public LoginDTO getUserByUsername(String username) {
+        UserBody savedUser = userRepository.findUserBodyByUsername(username).orElseThrow();
+        return new LoginDTO(savedUser.getUsername(), savedUser.getRoles().stream().map(Objects::toString).toList());
+    }
 }
