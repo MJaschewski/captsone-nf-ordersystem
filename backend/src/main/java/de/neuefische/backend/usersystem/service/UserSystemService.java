@@ -76,7 +76,7 @@ public class UserSystemService implements UserDetailsService {
         return userDTOList;
     }
 
-    public LoginDTO getUserByUsername(String username) {
+    public LoginDTO getUserByUsername(String username, List<String> list) {
         UserBody savedUser = userRepository.findUserBodyByUsername(username).orElseThrow(() -> new NoSuchElementException("User with " + username + " not found"));
         return new LoginDTO(savedUser.getUsername(), savedUser.getRoles().stream().map(Objects::toString).toList());
     }

@@ -8,6 +8,7 @@ import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -174,7 +175,7 @@ class UserSystemServiceTest {
         when(userRepository.findUserBodyByUsername(wrongUsername)).thenReturn(Optional.empty());
         //When & then
         assertThrows(NoSuchElementException.class,
-                () -> userSystemService.getUserByUsername(wrongUsername), "User with " + wrongUsername + " not found");
+                () -> userSystemService.getUserByUsername(wrongUsername, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Objects::toString).toList()), "User with " + wrongUsername + " not found");
     }
 
     @Test
@@ -188,7 +189,7 @@ class UserSystemServiceTest {
         LoginDTO expected = new LoginDTO(username, authorities.stream().map(Objects::toString).toList());
         when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
         //When
-        LoginDTO actual = userSystemService.getUserByUsername(username);
+        LoginDTO actual = userSystemService.getUserByUsername(username, SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Objects::toString).toList());
         //Then
         assertEquals(expected, actual);
     }

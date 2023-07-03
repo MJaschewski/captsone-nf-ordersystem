@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @RequestMapping("api/userSystem")
@@ -60,11 +61,14 @@ public class UserController {
         );
     }
 
-    @GetMapping("/users/own")
-    public LoginDTO getOwnUser() {
-        return userSystemService.getUserByUsername(SecurityContextHolder
+    @GetMapping("/users/{username}")
+    public LoginDTO getUserByUsername(@PathVariable String username) {
+        return userSystemService.getUserByUsername(username, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
-                .getName());
+                .getAuthorities()
+                .stream()
+                .map(Objects::toString)
+                .toList());
     }
 }
