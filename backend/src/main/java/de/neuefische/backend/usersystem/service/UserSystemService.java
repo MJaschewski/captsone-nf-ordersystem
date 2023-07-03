@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
@@ -74,11 +73,5 @@ public class UserSystemService implements UserDetailsService {
             userDTOList.add(nextUser);
         });
         return userDTOList;
-    }
-
-    public LoginDTO getUserByUsername(String username, List<String> authorities) throws IllegalAccessException {
-        authorityLeadCheck(authorities);
-        UserBody savedUser = userRepository.findUserBodyByUsername(username).orElseThrow(() -> new NoSuchElementException("User with " + username + " not found"));
-        return new LoginDTO(savedUser.getUsername(), savedUser.getRoles().stream().map(Objects::toString).toList());
     }
 }

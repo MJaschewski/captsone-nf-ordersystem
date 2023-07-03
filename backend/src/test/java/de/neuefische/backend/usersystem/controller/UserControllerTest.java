@@ -167,28 +167,6 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "username", authorities = "LEAD")
-    @Order(2)
-    void when_getOwnUser_returnLoginDTO() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/users/" + "username"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().json("""
-                            {
-                            "username":"username",
-                            "authorities":["ALL"]
-                            }
-                        """));
-    }
-
-    @Test
-    @WithMockUser(username = "wrongUser", authorities = "LEAD")
-    @Order(2)
-    void when_getOwnUserWrongUser_return404() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/users/" + "username"))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-    }
-
-    @Test
     @WithMockUser
     @Order(2)
     void when_getAllUsersNoLead_return403() throws Exception {

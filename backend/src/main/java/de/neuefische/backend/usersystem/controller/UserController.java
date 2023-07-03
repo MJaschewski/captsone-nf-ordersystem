@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @RequestMapping("api/userSystem")
@@ -59,16 +58,5 @@ public class UserController {
                         .getAuthorities()
                         .stream().map(Object::toString).toList()
         );
-    }
-
-    @GetMapping("/users/{username}")
-    public LoginDTO getUserByUsername(@PathVariable String username) throws IllegalAccessException {
-        return userSystemService.getUserByUsername(username, SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getAuthorities()
-                .stream()
-                .map(Objects::toString)
-                .toList());
     }
 }

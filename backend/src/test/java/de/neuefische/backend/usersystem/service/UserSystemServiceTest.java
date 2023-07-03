@@ -165,20 +165,4 @@ class UserSystemServiceTest {
         //Then
         assertEquals(expected, actual);
     }
-
-    @Test
-    void when_getUserByUsername_then_returnLoginDTO() throws IllegalAccessException {
-        //Given
-        String username = "username";
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("LEAD"));
-        UserBody savedUser = new UserBody();
-        savedUser.setUsername(username);
-        savedUser.setRoles(authorities);
-        LoginDTO expected = new LoginDTO(username, authorities.stream().map(Objects::toString).toList());
-        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
-        //When
-        LoginDTO actual = userSystemService.getUserByUsername(username, authorities.stream().map(Objects::toString).toList());
-        //Then
-        assertEquals(expected, actual);
-    }
 }
