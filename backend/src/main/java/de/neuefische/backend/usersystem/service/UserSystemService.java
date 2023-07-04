@@ -83,6 +83,7 @@ public class UserSystemService implements UserDetailsService {
         }
         PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         savedUser.setPassword(passwordEncoder.encode(passwordChangeDTO.getNewPassword()));
+        userRepository.save(savedUser);
         return "Password Changed.";
     }
 }
