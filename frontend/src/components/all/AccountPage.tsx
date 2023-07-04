@@ -6,6 +6,7 @@ import secureLocalStorage from "react-secure-storage";
 function AccountPage() {
     const navigate = useNavigate();
     const [ownUser, setOwnUser] = useState<UserSimpleBody>({username: "Anonymous User", authorities: []});
+    const [showPasswordChange, setShowPasswordChange] = useState(false);
 
     useEffect(handleSetUser, [])
 
@@ -23,7 +24,18 @@ function AccountPage() {
             <h2>Manage your account</h2>
             <p>Username: {ownUser.username} </p>
             <p>Authorities: {ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
-            <button onClick={() => navigate("/")}>Cancel</button>
+
+            {!showPasswordChange
+                ? <button onClick={() => setShowPasswordChange(true)}>Change Password?</button>
+                : <div className="passwordChange-Wrapper">
+                    <form>
+                        <button className="button-submit-wrapper">Change Password</button>
+                    </form>
+                    <button onClick={() => setShowPasswordChange(false)}>Cancel</button>
+                </div>
+
+            }
+            <button className="button-cancel-wrapper" onClick={() => navigate("/")}>Back</button>
         </div>
     );
 }
