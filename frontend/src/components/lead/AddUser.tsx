@@ -37,6 +37,7 @@ function AddUser() {
 
     return (
         <div>
+            <h1>Add User</h1>
             <form onSubmit={handleUserSubmit}>
                 <h3>Enter Username</h3>
                 <label htmlFor="username">

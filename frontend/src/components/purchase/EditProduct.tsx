@@ -54,7 +54,7 @@ function EditProduct() {
 
     return (
         <div>
-            <h1>Edit product: {productBody?.id}</h1>
+            <h1>Edit product</h1>
             <h2>Previous:</h2>
             {productBody !== undefined ?
                 <ProductOpticalElement productBody={productBody}/>

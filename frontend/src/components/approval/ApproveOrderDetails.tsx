@@ -14,6 +14,7 @@ function ApproveOrderDetails() {
 
     return (
         <div>
+            <h1>Approve Order</h1>
             {orderBody !== undefined ?
                 <ApproveOrderOpticalElement orderBody={orderBody}/>
                 : <></>}
