@@ -23,9 +23,15 @@ function LoginPage(props: Props) {
     return (
         <div className="Main-Page-Wrapper">
             <h2>Please Login:</h2>
-            <form onSubmit={loginOnSubmit}>
-                <input type="text" onChange={event => setUsername(event.target.value)}/>
-                <input type="password" onChange={event => setPassword(event.target.value)}/>
+            <form onSubmit={loginOnSubmit} className="form-login-wrapper">
+                <label>
+                    Username:
+                    <input type="text" onChange={event => setUsername(event.target.value)}/>
+                </label>
+                <label>
+                    Password:
+                    <input type="password" onChange={event => setPassword(event.target.value)}/>
+                </label>
                 <button>Login</button>
             </form>
 
