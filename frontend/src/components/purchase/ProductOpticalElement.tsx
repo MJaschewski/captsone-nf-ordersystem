@@ -14,6 +14,8 @@ function ProductOpticalElement(props: Props) {
                 <li>name: {props.productBody.name}</li>
                 <li>price: {props.productBody.price} €</li>
                 <li>accessLevel: {props.productBody.accessLevel}</li>
+                <img className="productImageWrapper" src={props.productBody.imageURL}
+                     alt={"Product Image of" + props.productBody.name}/>
             </ul>
         </div>
     );

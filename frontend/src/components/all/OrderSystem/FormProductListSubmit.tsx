@@ -25,6 +25,8 @@ function FormProductListSubmit(props: Props) {
                                        onClick={() => props.handleOrderProductList(currentProduct)}
                                 />
                                 <label>{currentProduct.name}</label>
+                                <img className="productImageWrapper" src={currentProduct.imageURL}
+                                     alt={"Product Image of" + currentProduct.name}/>
                             </div>
                             : <></>
                     ))}

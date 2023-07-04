@@ -1,5 +1,6 @@
 export type ProductDTO = {
     name: string,
     price: number,
-    accessLevel: string
+    accessLevel: string,
+    imageURL: string
 }
