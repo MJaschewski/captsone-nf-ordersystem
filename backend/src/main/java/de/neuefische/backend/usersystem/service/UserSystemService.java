@@ -3,6 +3,7 @@ package de.neuefische.backend.usersystem.service;
 import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import de.neuefische.backend.usersystem.model.LoginDTO;
+import de.neuefische.backend.usersystem.model.PasswordChangeDTO;
 import de.neuefische.backend.usersystem.model.UserBody;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
@@ -73,5 +74,19 @@ public class UserSystemService implements UserDetailsService {
             userDTOList.add(nextUser);
         });
         return userDTOList;
+    }
+
+    public String changePassword(String username, PasswordChangeDTO passwordChangeDTO) throws IllegalAccessException {
+        UserBody savedUser = userRepository.findUserBodyByUsername(username).orElseThrow();
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        if (!passwordEncoder.matches(passwordChangeDTO.getOldPassword(), savedUser.getPassword())) {
+            throw new IllegalAccessException("Incorrect Password.");
+        }
+        if (passwordChangeDTO.getNewPassword().length() < 8) {
+            throw new IllegalArgumentException("Password needs to be at least 8 digits long");
+        }
+        savedUser.setPassword(passwordEncoder.encode(passwordChangeDTO.getNewPassword()));
+        userRepository.save(savedUser);
+        return "Password Changed";
     }
 }

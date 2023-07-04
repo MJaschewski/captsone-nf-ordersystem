@@ -39,7 +39,7 @@ function ApproveOrder() {
                 )
             )}
             </ul>
-            <button className="button-cancel-wrapper" onClick={() => navigate("/")}>Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/")}>Back</button>
         </div>
     );
 }

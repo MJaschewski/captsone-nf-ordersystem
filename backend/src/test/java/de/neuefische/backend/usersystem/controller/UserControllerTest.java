@@ -178,7 +178,8 @@ class UserControllerTest {
     @WithMockUser(authorities = "LEAD")
     @Order(2)
     void when_getAllUsers_return200OkAndListLoginDTO() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/users"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/users")
+                        .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json("""
                         [
@@ -188,5 +189,21 @@ class UserControllerTest {
                             }
                         ]
                         """));
+    }
+
+    @Test
+    @WithMockUser(username = "username", password = "passwordTest", authorities = "ALL")
+    @Order(2)
+    void when_changePassword_return200OkAndChangedPassword() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/userSystem/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                        "oldPassword":"passwordTest",
+                                        "newPassword":"testChangePassword"
+                                    }
+                                """).with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Password Changed and logged out"));
     }
 }

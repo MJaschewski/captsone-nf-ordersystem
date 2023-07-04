@@ -35,7 +35,7 @@ function UserHub() {
             ))}
             </ul>
             <button onClick={() => navigate("/userHub/addUser")}> Add User</button>
-            <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Back</button>
         </div>
     );
 }

@@ -30,8 +30,7 @@ function OrderDetails() {
                 ? <button className="button-submit-wrapper" onClick={handleSendOrder}> Send Order</button>
                 : <></>}
             <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub")}>Cancel</button>
-            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/delete/" + id)}>Delete Order
-            </button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/orderHub/delete/" + id)}>Delete</button>
         </div>
     );
 }

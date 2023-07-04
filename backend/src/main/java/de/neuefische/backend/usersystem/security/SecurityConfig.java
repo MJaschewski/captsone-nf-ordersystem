@@ -46,6 +46,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("api/userSystem/login").authenticated()
                         .requestMatchers("api/userSystem/logout").authenticated()
+                        .requestMatchers("api/userSystem/password").authenticated()
                         .requestMatchers("api/userSystem/register").hasAuthority(ROLE_LEAD)
                         .requestMatchers("api/userSystem/users").hasAuthority(ROLE_LEAD)
                         .requestMatchers("api/orderSystem/approve/**").hasAnyAuthority(ROLE_PURCHASE, ROLE_LEAD)

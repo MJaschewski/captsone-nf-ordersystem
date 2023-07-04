@@ -37,7 +37,7 @@ function OrderHub() {
                 )}
             </ul>
             <button className="button-submit-wrapper" onClick={() => navigate("/add_order")}>Add Order</button>
-            <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Cancel</button>
+            <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Back</button>
         </div>
     );
 }

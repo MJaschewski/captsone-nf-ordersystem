@@ -32,7 +32,6 @@
 .form-login-wrapper {
     display: flex;
     flex-direction: column;
-    width: 300px;
 }
 
 header h1 {
@@ -47,6 +46,12 @@ h1 {
 div {
     margin: 10px;
     text-align: left;
+}
+
+.passwordChange-Wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 310px;
 }
 
 .orderHubProductList-Wrapper {
@@ -185,6 +190,9 @@ button:hover {
 }
 
 .button-submit-wrapper {
+    margin: 5px;
+    padding: 12px 20px;
+    font-size: 16px;
     background-color: darkcyan;
     border-color: darkcyan;
 }
@@ -195,6 +203,12 @@ button:hover {
 }
 
 .button-cancel-wrapper {
+    text-align: center;
+    text-decoration: none;
+    margin: 5px;
+    padding: 12px 20px;
+    width: 95px;
+    font-size: 16px;
     background-color: indianred;
     border-color: indianred;
 }

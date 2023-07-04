@@ -1,6 +1,7 @@
 package de.neuefische.backend.usersystem.controller;
 
 import de.neuefische.backend.usersystem.model.LoginDTO;
+import de.neuefische.backend.usersystem.model.PasswordChangeDTO;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.service.UserSystemService;
 import jakarta.servlet.http.HttpSession;
@@ -58,5 +59,13 @@ public class UserController {
                         .getAuthorities()
                         .stream().map(Object::toString).toList()
         );
+    }
+
+    @PutMapping("/password")
+    public String changePassword(HttpSession httpSession, @RequestBody PasswordChangeDTO passwordChangeDTO) throws IllegalAccessException {
+        String result = userSystemService.changePassword(SecurityContextHolder.getContext().getAuthentication().getName(), passwordChangeDTO);
+        httpSession.invalidate();
+        SecurityContextHolder.clearContext();
+        return result + " and logged out";
     }
 }

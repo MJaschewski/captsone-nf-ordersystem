@@ -3,6 +3,7 @@ package de.neuefische.backend.usersystem.service;
 import de.neuefische.backend.productsystem.model.AccessLevel;
 import de.neuefische.backend.supportsystem.service.GenerateIdService;
 import de.neuefische.backend.usersystem.model.LoginDTO;
+import de.neuefische.backend.usersystem.model.PasswordChangeDTO;
 import de.neuefische.backend.usersystem.model.UserBody;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.repository.UserRepository;
@@ -11,8 +12,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -163,6 +167,70 @@ class UserSystemServiceTest {
         //When
         List<LoginDTO> actual = userSystemService.getAllUsers(authorities);
         //Then
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void when_changePasswordWrongOldPassword_then_throwException() {
+        //Given
+        String username = "username";
+        PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "newPassword");
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername("username");
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        savedUser.setPassword(passwordEncoder.encode("wrongPassword"));
+        //When
+        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
+        //Then
+        assertThrows(IllegalAccessException.class,
+                () -> userSystemService.changePassword(username, passwordChangeDTO), "Incorrect Password.");
+    }
+
+    @Test
+    void when_changePasswordShortNewPassword_then_throwException() {
+        //Given
+        String username = "username";
+        PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "short");
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername("username");
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        savedUser.setPassword(passwordEncoder.encode("oldPassword"));
+        //When
+        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
+        //Then
+        assertThrows(IllegalArgumentException.class,
+                () -> userSystemService.changePassword(username, passwordChangeDTO), "Password needs to be at least 8 digits long");
+    }
+
+    @Test
+    void when_changePasswordWrongUser_then_throwException() {
+        //Given
+        String username = "username";
+        PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "newPassword");
+        //When
+        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.empty());
+        //Then
+        assertThrows(NoSuchElementException.class,
+                () -> userSystemService.changePassword(username, passwordChangeDTO));
+    }
+
+    @Test
+    void when_changePassword_then_Message() throws IllegalAccessException {
+        //Given
+        String username = "username";
+        PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "newPassword");
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername("username");
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        savedUser.setPassword(passwordEncoder.encode("oldPassword"));
+        String expected = "Password Changed";
+        //When
+        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
+        when(userRepository.save(savedUser)).thenReturn(savedUser);
+        String actual = userSystemService.changePassword(username, passwordChangeDTO);
+        //Then
+        verify(userRepository).findUserBodyByUsername(username);
+        verify(userRepository).save(savedUser);
         assertEquals(expected, actual);
     }
 }
