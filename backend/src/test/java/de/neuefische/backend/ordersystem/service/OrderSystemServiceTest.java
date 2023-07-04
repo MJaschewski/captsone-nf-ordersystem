@@ -70,7 +70,7 @@ class OrderSystemServiceTest {
     @Test
     void when_VerifyProductListWithWrongList_then_throwExceptionWithMessage() {
         //Given
-        ProductBody testProduct1 = new ProductBody("testId", "testNotValid", 2.00, "All");
+        ProductBody testProduct1 = new ProductBody("testId", "testNotValid", 2.00, "All", "imageURL");
         List<ProductBody> testProductBodyList = List.of(testProduct1);
         List<String> testAuthorities = List.of();
         when(productSystemService.getProductList()).thenReturn(List.of());
@@ -85,7 +85,7 @@ class OrderSystemServiceTest {
         //Given
         String testProductId = "testProductId";
         List<String> testAuthorities = List.of();
-        ProductBody testProduct = new ProductBody(testProductId, "testProduct", 2.00, "All");
+        ProductBody testProduct = new ProductBody(testProductId, "testProduct", 2.00, "All", "imageURL");
         List<ProductBody> testProductBodyList = List.of(testProduct);
         OrderDTO testOrderDTO = new OrderDTO(testProductBodyList);
         when(productSystemService.getProductList()).thenReturn(List.of());
@@ -109,8 +109,8 @@ class OrderSystemServiceTest {
     void when_addOrderBody_then_returnOrderBody() {
         //Given
         String testProductId = "testProductId";
-        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "ALL");
-        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "ALL");
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "ALL", "imageURL");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "ALL", "imageURL");
         List<ProductBody> testProductBodyList = List.of(testProduct1, testProduct2);
         when(productSystemService.getProductList()).thenReturn(testProductBodyList);
 
@@ -222,8 +222,8 @@ class OrderSystemServiceTest {
     void when_editOrder_returnChangedOrder() throws IllegalAccessException {
         //Given
         String testProductId = "testProductId";
-        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "ALL");
-        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "ALL");
+        ProductBody testProduct1 = new ProductBody(testProductId, "testProduct1", 2.00, "ALL", "imageURL");
+        ProductBody testProduct2 = new ProductBody(testProductId, "testProduct2", 3.00, "ALL", "imageURL");
         List<ProductBody> savedProductBodyList = List.of(testProduct1, testProduct2);
         List<ProductBody> newProductBodyList = List.of(testProduct1);
         when(productSystemService.getProductList()).thenReturn(savedProductBodyList);

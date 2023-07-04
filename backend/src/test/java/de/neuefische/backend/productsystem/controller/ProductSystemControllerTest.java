@@ -38,7 +38,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -78,7 +79,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -87,7 +89,8 @@ class ProductSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 ));
@@ -105,7 +108,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"testBackend",
                                     "price":-1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -125,7 +129,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"testName",
                                     "price":1244.99,
-                                    "accessLevel":"wrongLevel"
+                                    "accessLevel":"wrongLevel",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -144,7 +149,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test1",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -153,7 +159,8 @@ class ProductSystemControllerTest {
                         {
                             "name":"test1",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 ));
@@ -163,7 +170,9 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test2",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
+                                    
                                 }
                                 """)
                         .with(csrf()))
@@ -172,7 +181,8 @@ class ProductSystemControllerTest {
                         {
                             "name":"test2",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 ));
@@ -184,12 +194,14 @@ class ProductSystemControllerTest {
                             {
                                 "name":"test1",
                                 "price":1244.99,
-                                "accessLevel":"ALL"
+                                "accessLevel":"ALL",
+                                "imageURL":"TestURL"
                             },
                             {
                                 "name":"test2",
                                 "price":1244.99,
-                                "accessLevel":"ALL"
+                                "accessLevel":"ALL",
+                                "imageURL":"TestURL"
                             }
                         ]
                         """)))
@@ -210,7 +222,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"testEdit",
                                     "price":1000.99,
-                                    "accessLevel":"LEAD"
+                                    "accessLevel":"LEAD",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -228,7 +241,9 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
+                                    
                                 }
                                 """)
                         .with(csrf()))
@@ -237,7 +252,8 @@ class ProductSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -260,7 +276,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -269,7 +286,8 @@ class ProductSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 ));
@@ -289,7 +307,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -314,7 +333,8 @@ class ProductSystemControllerTest {
                                     "id":"%s",
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                         """.formatted(productId)));
     }
@@ -357,7 +377,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"testEdit",
                                     "price":-1000.99,
-                                    "accessLevel":"LEAD"
+                                    "accessLevel":"LEAD",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -379,7 +400,8 @@ class ProductSystemControllerTest {
                                 {
                                     "name":"testEdit",
                                     "price":1000.99,
-                                    "accessLevel":"LEAD"
+                                    "accessLevel":"LEAD",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -389,7 +411,8 @@ class ProductSystemControllerTest {
                             "id": "%s",
                             "name":"testEdit",
                             "price":1000.99,
-                            "accessLevel":"LEAD"
+                            "accessLevel":"LEAD",
+                            "imageURL":"TestURL"
                         }
                         """.formatted(productId)
                 ));

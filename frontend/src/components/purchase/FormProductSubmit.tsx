@@ -5,10 +5,12 @@ type Props = {
     handleChangeProductName: (event: ChangeEvent<HTMLInputElement>) => void,
     handleChangeProductPrice: (event: ChangeEvent<HTMLInputElement>) => void,
     handleChangeProductAccessLevel: (event: ChangeEvent<HTMLInputElement>) => void,
+    handleChangeProductImageURL: (event: ChangeEvent<HTMLInputElement>) => void,
     productName: string,
     productPrice: number,
     accessLevel: string[],
     productAccessLevel: string,
+    productImageURL: string
     buttonDescription: string
 }
 
@@ -42,6 +44,11 @@ function FormProductSubmit(props: Props) {
                             <label htmlFor={level.toString()}>{level.toString()}</label>
                         </div>
                     ))}
+                </label>
+                <h3>Enter Image URL</h3>
+                <label htmlFor="productImageURL">
+                    <input type="text" name="productImageURL" value={props.productImageURL}
+                           onChange={props.handleChangeProductImageURL}/>
                 </label>
                 <button className="button-submit-wrapper">{props.buttonDescription}</button>
             </form>

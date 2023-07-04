@@ -25,10 +25,10 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInputAccessLevelAll_then_returnProductDTOWithRightProperties() {
         //Given
-        ProductDTO testInputAll = new ProductDTO("testName", 1.00, "ALL");
+        ProductDTO testInputAll = new ProductDTO("testName", 1.00, "ALL", "imageURL");
         String testIdAll = "testIdAll";
         when(generateIdService.generateProductUUID()).thenReturn(testIdAll);
-        ProductBody expected = new ProductBody(testIdAll, testInputAll.getName(), testInputAll.getPrice(), testInputAll.getAccessLevel());
+        ProductBody expected = new ProductBody(testIdAll, testInputAll.getName(), testInputAll.getPrice(), testInputAll.getAccessLevel(), testInputAll.getImageURL());
         when(productRepository.save(any())).thenReturn(expected);
         //When
         ProductBody actual = productSystemService.addProductBody(testInputAll);
@@ -41,10 +41,10 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInputAccessLevelPurchase_then_returnProductDTOWithRightProperties() {
         //Given
-        ProductDTO testInputPurchase = new ProductDTO("testName", 1.00, "PURCHASE");
+        ProductDTO testInputPurchase = new ProductDTO("testName", 1.00, "PURCHASE", "imageURL");
         String testIdPurchase = "testIdPurchase";
         when(generateIdService.generateProductUUID()).thenReturn(testIdPurchase);
-        ProductBody expected = new ProductBody(testIdPurchase, testInputPurchase.getName(), testInputPurchase.getPrice(), testInputPurchase.getAccessLevel());
+        ProductBody expected = new ProductBody(testIdPurchase, testInputPurchase.getName(), testInputPurchase.getPrice(), testInputPurchase.getAccessLevel(), testInputPurchase.getAccessLevel());
         when(productRepository.save(any())).thenReturn(expected);
         //When
         ProductBody actual = productSystemService.addProductBody(testInputPurchase);
@@ -57,10 +57,10 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductBodyWithInputAccessLevelLead_then_returnProductDTOWithRightProperties() {
         //Given
-        ProductDTO testInputLead = new ProductDTO("testName", 1.00, "LEAD");
+        ProductDTO testInputLead = new ProductDTO("testName", 1.00, "LEAD", "imageURL");
         String testIdLead = "testIdLead";
         when(generateIdService.generateProductUUID()).thenReturn(testIdLead);
-        ProductBody expected = new ProductBody(testIdLead, testInputLead.getName(), testInputLead.getPrice(), testInputLead.getAccessLevel());
+        ProductBody expected = new ProductBody(testIdLead, testInputLead.getName(), testInputLead.getPrice(), testInputLead.getAccessLevel(), testInputLead.getImageURL());
         when(productRepository.save(any())).thenReturn(expected);
         //When
         ProductBody actual = productSystemService.addProductBody(testInputLead);
@@ -73,7 +73,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductNegativePrice_then_returnIllegalArgumentExceptionWithMessage() {
         //Given
-        ProductDTO wrongInput = new ProductDTO("testName", -3.00, "ALL");
+        ProductDTO wrongInput = new ProductDTO("testName", -3.00, "ALL", "imageURL");
         //When & Then
         assertThrows(IllegalArgumentException.class
                 , () -> productSystemService.addProductBody(wrongInput), "Price can't be negative");
@@ -82,7 +82,7 @@ class ProductSystemServiceTest {
     @Test
     void when_addProductWrongAccessLevel_then_returnIllegalArgumentExceptionWithMessage() {
         //Given
-        ProductDTO wrongInput = new ProductDTO("testName", 3.00, "WrongLevel");
+        ProductDTO wrongInput = new ProductDTO("testName", 3.00, "WrongLevel", "imageURL");
         //When & Then
         assertThrows(IllegalArgumentException.class
                 , () -> productSystemService.addProductBody(wrongInput), "Not a valid access level");
@@ -149,10 +149,10 @@ class ProductSystemServiceTest {
     void when_editProductById_then_returnProductBody() {
         //Given
         String productId = "productId";
-        ProductDTO newProduct = new ProductDTO("testName", 2.00, AccessLevel.ALL.toString());
+        ProductDTO newProduct = new ProductDTO("testName", 2.00, AccessLevel.ALL.toString(), "imageURL");
         ProductBody savedProduct = new ProductBody();
         savedProduct.setId(productId);
-        ProductBody expected = new ProductBody(productId, newProduct.getName(), newProduct.getPrice(), newProduct.getAccessLevel());
+        ProductBody expected = new ProductBody(productId, newProduct.getName(), newProduct.getPrice(), newProduct.getAccessLevel(), newProduct.getImageURL());
         when(productRepository.findById(productId)).thenReturn(Optional.of(savedProduct));
         when(productRepository.save(expected)).thenReturn(expected);
         //When

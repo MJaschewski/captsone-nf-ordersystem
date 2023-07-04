@@ -23,8 +23,8 @@ function UserHub() {
         <div className="Left-Align-Wrapper">
             <h1>User Hub</h1>
             <h2>List of Users:</h2>
-            <ul>{userList.map(users => (
-                <li key={users.username}>
+            <ul className="userHub-UserList-Wrapper">{userList.map(users => (
+                <li key={users.username} className="userList-Element-Wrapper">
                     <p>Username: {users.username}</p>
                     <p>Authorities: </p>
                     <ul> {users.authorities.map(auth => (
