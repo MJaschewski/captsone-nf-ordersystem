@@ -1,0 +1,18 @@
+[
+  {
+    "_id": "p3ca54064-0261-4d6e-b773-929a388d1963",
+    "name": "Logitech Mouse",
+    "price": 49.99,
+    "accessLevel": "ALL",
+    "imageURL": "https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/mice/m650/product-gallery/m650-medium-graphite-top.png?v=1",
+    "_class": "de.neuefische.backend.productsystem.model.ProductBody"
+  },
+  {
+    "_id": "pb402065f-6cc8-49b7-80ed-a7578bf8c55f",
+    "name": "Logitech Keyboard",
+    "price": 17.99,
+    "accessLevel": "ALL",
+    "imageURL": "https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/k120/gallery/k120-gallery-01-uk.png?v=1",
+    "_class": "de.neuefische.backend.productsystem.model.ProductBody"
+  }
+]
