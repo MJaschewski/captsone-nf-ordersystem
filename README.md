@@ -4,7 +4,9 @@ Welcome the capstone project. This program can be used as a web application for 
 In backend/src/main/resources/application.properties the environment variable MONGO_DB_CONNECTION_STRING needs to be defined. Set it as a connection string to a mongoDB of your choice.
 ## Login needs a User
 Once you have established the connection to your MongoDB. Open your MongoDB manually with for example MongoCompas. Create a Database named CapstoneOrderSystemDB and a Collection UserList. Now import the UserList.json. Afterwards you can use 3 test Accounts with different authorities. Each user has the password '1234'.
-Note that this has been updated in PR LimitAddOrderByAuthority
+Note that this has been updated in PR LimitAddOrderByAuthority.
+## Adding a example product list:
+If one wants to use an examplary product list the UserList.json can be imported in the CapstoneOrderSystemDB as a collection under the nae ProductList.
 ## Create Users (Only with users testLead)
 With the authority lead it is possible to create new users giving the tools inside the app.
 ## Product List in Hub (Only with user testPurchase):
