@@ -48,8 +48,9 @@ function AccountPage() {
 
     return (
         <div>
+            <h1>Manage Account:</h1>
             <div>
-                <h2>Manage your account</h2>
+                <h2>Your account</h2>
                 <p>Username: {ownUser.username} </p>
                 <p>Authorities: {ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
             </div>
