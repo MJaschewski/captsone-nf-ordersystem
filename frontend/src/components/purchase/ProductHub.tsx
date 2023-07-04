@@ -24,12 +24,15 @@ function ProductHub() {
         <div>
             <h1>Manage Products</h1>
             <h2>List of Products:</h2>
-            {productList.map(currentProductBody => {
-                return <div key={currentProductBody.id + "Wrapper"}>
-                    <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
-                    <button onClick={() => navigate("/productHub/details/" + currentProductBody.id)}>Details</button>
-                </div>
-            })}
+            <div className="productHubProductList-Wrapper">
+                {productList.map(currentProductBody => {
+                    return <div key={currentProductBody.id + "Wrapper"} className="productBody-Wrapper">
+                        <ProductOpticalElement key={currentProductBody.id} productBody={currentProductBody}/>
+                        <button onClick={() => navigate("/productHub/details/" + currentProductBody.id)}>Details
+                        </button>
+                    </div>
+                })}
+            </div>
             <button className="button-submit-wrapper" onClick={() => navigate("/add_product")}>Add Product</button>
             <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Cancel</button>
         </div>

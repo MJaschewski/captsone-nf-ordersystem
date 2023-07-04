@@ -15,13 +15,19 @@ function EditProduct() {
     const [productName, setProductName] = useState<string>("")
     const [productPrice, setProductPrice] = useState<number>(0.00)
     const [productAccessLevel, setProductAccessLevel] = useState<string>("")
+    const [productImageURL, setProductImageURL] = useState<string>("")
 
     // eslint-disable-next-line
     useEffect(() => handleGetProductById(id), [])
 
     function handleProductSubmit(event: FormEvent) {
         event.preventDefault()
-        const productDTO: ProductDTO = {name: productName, price: productPrice, accessLevel: productAccessLevel}
+        const productDTO: ProductDTO = {
+            name: productName,
+            price: productPrice,
+            accessLevel: productAccessLevel,
+            imageURL: productImageURL
+        }
         axios.put('/api/productSystem/' + id, productDTO)
             .then(response => {
                 console.log(response.data)
@@ -42,6 +48,10 @@ function EditProduct() {
         setProductAccessLevel(event.target.value);
     }
 
+    function handleChangeProductImageURL(event: ChangeEvent<HTMLInputElement>) {
+        setProductImageURL(event.target.value);
+    }
+
     return (
         <div>
             <h1>Edit product: {productBody?.id}</h1>
@@ -54,9 +64,11 @@ function EditProduct() {
                                handleChangeProductName={handleChangeProductName}
                                handleChangeProductPrice={handleChangeProductPrice}
                                handleChangeProductAccessLevel={handleChangeProductAccessLevel}
+                               handleChangeProductImageURL={handleChangeProductImageURL}
                                productName={productName}
                                productPrice={productPrice}
                                accessLevel={accessLevel}
+                               productImageURL={productImageURL}
                                productAccessLevel={productAccessLevel}
                                buttonDescription={"Edit Product"}/>
             <button className="button-cancel-wrapper" onClick={() => navigate("/productHub")}>Cancel</button>

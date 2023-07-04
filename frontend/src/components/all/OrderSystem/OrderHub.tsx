@@ -22,18 +22,19 @@ function OrderHub() {
         <div className="Left-Align-Wrapper">
             <h1>Manage Your Orders</h1>
             <h2>List of Orders:</h2>
-            <ul>{orderList.map(currentOrderBody => (
-                    <li key={currentOrderBody.id}>
-                        <p>OrderId: {currentOrderBody.id}</p>
-                        <p>Created: {currentOrderBody.created}</p>
-                        <p>Status: {currentOrderBody.orderStatus}</p>
-                        <p>
-                            <button onClick={() => navigate("/orderHub/details/" + currentOrderBody.id)}>Details
-                            </button>
-                        </p>
-                    </li>
-                )
-            )}
+            <ul className="orderHubProductList-Wrapper">
+                {orderList.map(currentOrderBody => (
+                        <li key={currentOrderBody.id} className="orderListElement-Wrapper">
+                            <p>OrderId: {currentOrderBody.id}</p>
+                            <p>Created: {currentOrderBody.created}</p>
+                            <p>Status: {currentOrderBody.orderStatus}</p>
+                            <p>
+                                <button onClick={() => navigate("/orderHub/details/" + currentOrderBody.id)}>Details
+                                </button>
+                            </p>
+                        </li>
+                    )
+                )}
             </ul>
             <button className="button-submit-wrapper" onClick={() => navigate("/add_order")}>Add Order</button>
             <button className="button-cancel-wrapper" onClick={() => navigate("/")}> Cancel</button>

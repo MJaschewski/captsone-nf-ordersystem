@@ -11,6 +11,7 @@ function AddProduct() {
     const [productName, setProductName] = useState<string>("")
     const [productPrice, setProductPrice] = useState<number>(0.00)
     const [productAccessLevel, setProductAccessLevel] = useState<string>("")
+    const [productImageURL, setProductImageURL] = useState<string>("")
 
     function handleChangeProductName(event: ChangeEvent<HTMLInputElement>) {
         setProductName(event.target.value);
@@ -19,13 +20,23 @@ function AddProduct() {
     function handleChangeProductPrice(event: ChangeEvent<HTMLInputElement>) {
         setProductPrice(event.target.valueAsNumber);
     }
-    function handleChangeProductAccessLevel(event:ChangeEvent<HTMLInputElement>){
+
+    function handleChangeProductAccessLevel(event: ChangeEvent<HTMLInputElement>) {
         setProductAccessLevel(event.target.value);
     }
 
-    function handleSubmit (event: FormEvent){
+    function handleChangeProductImageURL(event: ChangeEvent<HTMLInputElement>) {
+        setProductImageURL(event.target.value);
+    }
+
+    function handleSubmit(event: FormEvent) {
         event.preventDefault()
-        const productDTO:ProductDTO = {name:productName,price:productPrice,accessLevel:productAccessLevel}
+        const productDTO: ProductDTO = {
+            name: productName,
+            price: productPrice,
+            accessLevel: productAccessLevel,
+            imageURL: productImageURL
+        }
         axios.post('api/productSystem', productDTO)
             .then(response => {
                 console.log(response.data)
@@ -40,10 +51,12 @@ function AddProduct() {
                                handleChangeProductName={handleChangeProductName}
                                handleChangeProductPrice={handleChangeProductPrice}
                                handleChangeProductAccessLevel={handleChangeProductAccessLevel}
+                               handleChangeProductImageURL={handleChangeProductImageURL}
                                productName={productName}
                                productPrice={productPrice}
                                accessLevel={accessLevel}
                                productAccessLevel={productAccessLevel}
+                               productImageURL={productImageURL}
                                buttonDescription={"Add Product"}/>
             <button className="button-cancel-wrapper" onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
