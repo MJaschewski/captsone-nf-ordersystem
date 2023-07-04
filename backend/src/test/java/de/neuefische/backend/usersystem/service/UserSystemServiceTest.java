@@ -12,6 +12,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -175,12 +177,29 @@ class UserSystemServiceTest {
         PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "newPassword");
         UserBody savedUser = new UserBody();
         savedUser.setUsername("username");
-        savedUser.setPassword("wrongPassword");
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        savedUser.setPassword(passwordEncoder.encode("wrongPassword"));
         //When
         when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
         //Then
         assertThrows(IllegalAccessException.class,
                 () -> userSystemService.changePassword(username, passwordChangeDTO), "Incorrect Password.");
+    }
+
+    @Test
+    void when_changePasswordShortNewPassword_then_throwException() {
+        //Given
+        String username = "username";
+        PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "short");
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername("username");
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        savedUser.setPassword(passwordEncoder.encode("oldPassword"));
+        //When
+        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
+        //Then
+        assertThrows(IllegalArgumentException.class,
+                () -> userSystemService.changePassword(username, passwordChangeDTO), "Password needs to be at least 8 digits long");
     }
 
     @Test
@@ -202,8 +221,9 @@ class UserSystemServiceTest {
         PasswordChangeDTO passwordChangeDTO = new PasswordChangeDTO("oldPassword", "newPassword");
         UserBody savedUser = new UserBody();
         savedUser.setUsername("username");
-        savedUser.setPassword("oldPassword");
-        String expected = "Password Changed.";
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        savedUser.setPassword(passwordEncoder.encode("oldPassword"));
+        String expected = "Password Changed";
         //When
         when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
         when(userRepository.save(savedUser)).thenReturn(savedUser);

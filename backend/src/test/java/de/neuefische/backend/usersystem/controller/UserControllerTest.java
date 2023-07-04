@@ -192,16 +192,18 @@ class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(authorities = "ALL")
+    @WithMockUser(username = "username", password = "passwordTest", authorities = "ALL")
     @Order(2)
     void when_changePassword_return200OkAndChangedPassword() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/userSystem/password")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("""
-                            {
-                                "oldPassword":"passwordTest",
-                                "newPassword":"testChangePassword"
-                            }
-                        """));
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                    {
+                                        "oldPassword":"passwordTest",
+                                        "newPassword":"testChangePassword"
+                                    }
+                                """).with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Password Changed and logged out"));
     }
 }

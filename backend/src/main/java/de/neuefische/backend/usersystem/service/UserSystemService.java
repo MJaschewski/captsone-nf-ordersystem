@@ -78,15 +78,15 @@ public class UserSystemService implements UserDetailsService {
 
     public String changePassword(String username, PasswordChangeDTO passwordChangeDTO) throws IllegalAccessException {
         UserBody savedUser = userRepository.findUserBodyByUsername(username).orElseThrow();
-        if (!savedUser.getPassword().equals(passwordChangeDTO.getOldPassword())) {
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        if (!passwordEncoder.matches(passwordChangeDTO.getOldPassword(), savedUser.getPassword())) {
             throw new IllegalAccessException("Incorrect Password.");
         }
         if (passwordChangeDTO.getNewPassword().length() < 8) {
             throw new IllegalArgumentException("Password needs to be at least 8 digits long");
         }
-        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
         savedUser.setPassword(passwordEncoder.encode(passwordChangeDTO.getNewPassword()));
         userRepository.save(savedUser);
-        return "Password Changed.";
+        return "Password Changed";
     }
 }
