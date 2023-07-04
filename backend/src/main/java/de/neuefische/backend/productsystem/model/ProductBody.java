@@ -16,4 +16,5 @@ public class ProductBody {
     private String name;
     private double price;
     private String accessLevel;
+    private String imageURL;
 }

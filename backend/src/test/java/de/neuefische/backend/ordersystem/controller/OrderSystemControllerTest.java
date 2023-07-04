@@ -55,7 +55,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -64,7 +65,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -81,7 +83,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -96,7 +99,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -123,7 +127,8 @@ class OrderSystemControllerTest {
                                             "id": "wrongId",
                                             "name": "testWrong",
                                             "price": 1244.99,
-                                            "accessLevel": "wrongLevel"
+                                            "accessLevel": "wrongLevel",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -143,7 +148,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -152,7 +158,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -169,7 +176,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -184,7 +192,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -204,25 +213,26 @@ class OrderSystemControllerTest {
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(content().json("""
-                                [
+                                                [
+                                                                        {
+                                                    "id": "%s",
+                                                    "productBodyList": [
                                                         {
-                                    "id": "%s",
-                                    "productBodyList": [
-                                        {
-                                            "id": "%s",
-                                            "name": "%s",
-                                            "price": 1244.99,
-                            "accessLevel": "%s"
-                        }
-                    ],
-                    "price": 1244.99,
-                    "created": "%s",
-                    "arrival": "%s",
-                    "approvalPurchase": false,
-                    "approvalLead": false,
-                    "orderStatus": "%s"
+                                                            "id": "%s",
+                                                            "name": "%s",
+                                                            "price": 1244.99,
+                                                            "accessLevel": "%s",
+                                                            "imageURL":"TestURL"
                                         }
-                ]
+                                    ],
+                                    "price": 1244.99,
+                                    "created": "%s",
+                                    "arrival": "%s",
+                                    "approvalPurchase": false,
+                                    "approvalLead": false,
+                                    "orderStatus": "%s"
+                                                        }
+                                ]
                 """.formatted(addedOrder.getId()
                         ,addedOrder.getProductBodyList().get(0).getId()
                         ,addedOrder.getProductBodyList().get(0).getName()
@@ -245,7 +255,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -254,7 +265,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -271,7 +283,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -286,7 +299,9 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
+                                    
                                 }
                             ],
                             "price": 1244.99,
@@ -312,7 +327,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -336,7 +352,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -345,7 +362,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -362,7 +380,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -377,7 +396,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -403,7 +423,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -443,7 +464,8 @@ class OrderSystemControllerTest {
                                             "id": "wrongId",
                                             "name": "testWrong",
                                             "price": 1244.99,
-                                            "accessLevel": "wrongLevel"
+                                            "accessLevel": "wrongLevel",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -463,7 +485,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -472,7 +495,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -489,7 +513,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -504,7 +529,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -529,13 +555,15 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         },
                                         {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -552,13 +580,15 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 },
                                 {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 2489.98,
@@ -603,7 +633,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -612,7 +643,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -629,7 +661,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -644,7 +677,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -670,7 +704,8 @@ class OrderSystemControllerTest {
                                             "id": "wrongId",
                                             "name": "testWrong",
                                             "price": 1244.99,
-                                            "accessLevel": "wrongLevel"
+                                            "accessLevel": "wrongLevel",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -692,7 +727,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -701,7 +737,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -718,7 +755,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -733,7 +771,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -759,7 +798,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -784,7 +824,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -793,7 +834,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -810,7 +852,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -825,7 +868,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -851,7 +895,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -886,7 +931,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -895,7 +941,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -912,7 +959,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -927,7 +975,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -960,7 +1009,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -969,7 +1019,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -986,7 +1037,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -1001,7 +1053,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -1045,7 +1098,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -1054,7 +1108,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -1072,7 +1127,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -1087,7 +1143,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -1117,7 +1174,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -1170,7 +1228,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -1179,7 +1238,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -1196,7 +1256,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -1211,7 +1272,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -1239,7 +1301,8 @@ class OrderSystemControllerTest {
                                                     "id": "%s",
                                                     "name": "%s",
                                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                                    "accessLevel": "%s",
+                                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -1284,7 +1347,8 @@ class OrderSystemControllerTest {
                                 {
                                     "name":"test",
                                     "price":1244.99,
-                                    "accessLevel":"ALL"
+                                    "accessLevel":"ALL",
+                                    "imageURL":"TestURL"
                                 }
                                 """)
                         .with(csrf()))
@@ -1293,7 +1357,8 @@ class OrderSystemControllerTest {
                         {
                             "name":"test",
                             "price":1244.99,
-                            "accessLevel":"ALL"
+                            "accessLevel":"ALL",
+                            "imageURL":"TestURL"
                         }
                         """
                 )).andReturn();
@@ -1311,7 +1376,8 @@ class OrderSystemControllerTest {
                                             "id": "%s",
                                             "name": "%s",
                                             "price": 1244.99,
-                                            "accessLevel": "%s"
+                                            "accessLevel": "%s",
+                                            "imageURL":"TestURL"
                                         }
                                         ]
                                     }
@@ -1326,7 +1392,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,
@@ -1393,7 +1460,8 @@ class OrderSystemControllerTest {
                                     "id": "%s",
                                     "name": "%s",
                                     "price": 1244.99,
-                                    "accessLevel": "%s"
+                                    "accessLevel": "%s",
+                                    "imageURL":"TestURL"
                                 }
                             ],
                             "price": 1244.99,

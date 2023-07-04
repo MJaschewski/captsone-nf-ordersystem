@@ -29,6 +29,7 @@ public class ProductSystemService {
         newProduct.setId(generateIdService.generateProductUUID());
         newProduct.setName(productDTO.getName());
         newProduct.setPrice(productDTO.getPrice());
+        newProduct.setImageURL(productDTO.getImageURL());
 
         return productRepository.save(newProduct);
     }
@@ -51,6 +52,7 @@ public class ProductSystemService {
         savedProduct.setAccessLevel(AccessLevel.valueOf(productDTO.getAccessLevel()).toString());
         savedProduct.setPrice(productDTO.getPrice());
         savedProduct.setName(productDTO.getName());
+        savedProduct.setImageURL(productDTO.getImageURL());
         return productRepository.save(savedProduct);
     }
 
