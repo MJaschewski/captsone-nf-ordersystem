@@ -25,7 +25,7 @@ function OrderHub() {
             <ul className="orderHubProductList-Wrapper">
                 {orderList.map(currentOrderBody => (
                         <li key={currentOrderBody.id} className="orderListElement-Wrapper">
-                            <p>OrderId: {currentOrderBody.id}</p>
+                            <h3>OrderId: {currentOrderBody.id}</h3>
                             <p>Created: {currentOrderBody.created}</p>
                             <p>Status: {currentOrderBody.orderStatus}</p>
                             <p>

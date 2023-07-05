@@ -26,7 +26,7 @@ function ApproveOrder() {
 
             <ul className="orderHubProductList-Wrapper">{orderList.map(currentOrderBody => (
                 <li key={currentOrderBody.id} className="orderListElement-Wrapper">
-                    <p>OrderId: {currentOrderBody.id}</p>
+                    <h3>OrderId: {currentOrderBody.id}</h3>
                     <p>Owner: {currentOrderBody.owner}</p>
                     <p>Approval Purchase: {currentOrderBody.approvalPurchase.toString()} </p>
                     <p>Approval Lead: {currentOrderBody.approvalLead.toString()} </p>

@@ -52,7 +52,8 @@ function AccountPage() {
             <div>
                 <h2>Your account</h2>
                 <p>Username: {ownUser.username} </p>
-                <p>Authorities: {ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
+                <h3>Authorities:</h3>
+                <p>{ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
             </div>
             {!showPasswordChange
                 ? <button onClick={() => setShowPasswordChange(true)}>Change Password?</button>
