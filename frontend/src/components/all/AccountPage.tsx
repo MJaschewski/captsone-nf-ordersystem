@@ -56,7 +56,7 @@ function AccountPage() {
                 <p>{ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
             </div>
             {!showPasswordChange
-                ? <button onClick={() => setShowPasswordChange(true)}>Change Password?</button>
+                ? <button onClick={() => setShowPasswordChange(true)}>Change Password</button>
                 : <div className="passwordChange-Wrapper">
                     <h2>Password Change:</h2>
                     <form onSubmit={handleChangePasswordSubmit}>
