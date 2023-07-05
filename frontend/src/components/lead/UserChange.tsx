@@ -48,24 +48,26 @@ function UserChange(props: Props) {
                     {authorities.map((auth) => (
                         auth === "ALL"
                             ?
-                            <div key={auth}>
+                            <label key={auth} className="checkbox-Wrapper">
+                                {auth}
                                 <input type="checkbox"
                                        name="AccesLevel"
                                        value={auth}
                                        onClick={() => handleNewAuthorities(auth)}
                                        defaultChecked
                                 />
-                                <label>{auth}</label>
-                            </div>
+                                <span className="checkmark"></span>
+                            </label>
                             :
-                            <div key={auth}>
+                            <label key={auth} className="checkbox-Wrapper">
+                                {auth}
                                 <input type="checkbox"
                                        name="AccesLevel"
                                        value={auth}
                                        onClick={() => handleNewAuthorities(auth)}
                                 />
-                                <label>{auth}</label>
-                            </div>
+                                <span className="checkmark"></span>
+                            </label>
                     ))}
                 </label>
                 <button className="button-submit-wrapper">Change Authorities</button>
