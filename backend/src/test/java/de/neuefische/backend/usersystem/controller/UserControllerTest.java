@@ -33,7 +33,7 @@ class UserControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(username = "username", password = "password", authorities = "All")
+    @WithMockUser(username = "username", authorities = "All")
     void when_loginCorrectUser_then_return200AndUsername() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/userSystem/login")
                         .with(csrf()))
@@ -48,7 +48,7 @@ class UserControllerTest {
 
     @Test
     @DirtiesContext
-    @WithMockUser(username = "username", password = "password")
+    @WithMockUser(username = "username")
     void when_logout_then_return200AndMessage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/userSystem/logout")
                         .with(csrf()))
@@ -202,8 +202,63 @@ class UserControllerTest {
                                         "oldPassword":"passwordTest",
                                         "newPassword":"testChangePassword"
                                     }
-                                """).with(csrf()))
+                                """)
+                        .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Password Changed and logged out"));
+    }
+
+    @Test
+    @WithMockUser(username = "testLead", authorities = "ALL")
+    @Order(3)
+    void when_changeAuthoritesNoLead_then_return403() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/userSystem/authority")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"username",
+                                    "authorities":["ALL"]
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "testLead", authorities = {"ALL", "LEAD"})
+    @Order(3)
+    void when_changeAuthoritesNoAll_then_return403() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/userSystem/authority")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"username",
+                                    "authorities":["LEAD"]
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithMockUser(username = "testLead", authorities = {"ALL", "LEAD"})
+    @Order(3)
+    void when_changeAuthorites_then_returnLoginDTO() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put("/api/userSystem/authority")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "username":"username",
+                                    "authorities":["ALL","LEAD"]
+                                }
+                                """)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("""
+                        {
+                                "username":"username",
+                                "authorities":["ALL","LEAD"]
+                        }
+                        """));
     }
 }
