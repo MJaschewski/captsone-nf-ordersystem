@@ -100,4 +100,14 @@ public class UserSystemService implements UserDetailsService {
         userRepository.save(savedUser);
         return new LoginDTO(savedUser.getUsername(), savedUser.getRoles().stream().map(Object::toString).toList());
     }
+
+    public String deleteUser(String usernameLead, String password, String username) throws IllegalAccessException {
+        UserBody leadUser = userRepository.findUserBodyByUsername(usernameLead).orElseThrow();
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        if (!passwordEncoder.matches(leadUser.getPassword(), password) || !leadUser.getRoles().contains(new SimpleGrantedAuthority("LEAD"))) {
+            throw new IllegalAccessException("Wrong password or no authority.");
+        }
+        userRepository.deleteById(userRepository.findUserBodyByUsername(username).orElseThrow().getId());
+        return "User " + username + " deleted.";
+    }
 }

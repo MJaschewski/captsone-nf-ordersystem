@@ -74,4 +74,9 @@ public class UserController {
         return userSystemService.changeAuthorities(SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList(), loginDTO);
     }
 
+    @DeleteMapping("/delete/{username}")
+    public String deleteUser(@PathVariable String username, @RequestBody String password) throws IllegalAccessException {
+        return userSystemService.deleteUser(SecurityContextHolder.getContext().getAuthentication().getName(), password, username);
+    }
+
 }
