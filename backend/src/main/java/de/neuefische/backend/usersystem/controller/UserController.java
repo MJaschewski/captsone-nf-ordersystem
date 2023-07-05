@@ -68,4 +68,10 @@ public class UserController {
         SecurityContextHolder.clearContext();
         return result + " and logged out";
     }
+
+    @PutMapping("/authority")
+    public LoginDTO changeAuthorities(@RequestBody LoginDTO loginDTO) throws IllegalAccessException {
+        return userSystemService.changeAuthorities(SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList(), loginDTO);
+    }
+
 }
