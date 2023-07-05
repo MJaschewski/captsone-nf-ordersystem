@@ -44,7 +44,7 @@ public class SecurityConfig {
                                 )))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("api/userSystem/login").authenticated()
+                        .requestMatchers("api/userSystem/login").permitAll()
                         .requestMatchers("api/userSystem/logout").authenticated()
                         .requestMatchers("api/userSystem/password").authenticated()
                         .requestMatchers("api/userSystem/register").hasAuthority(ROLE_LEAD)
