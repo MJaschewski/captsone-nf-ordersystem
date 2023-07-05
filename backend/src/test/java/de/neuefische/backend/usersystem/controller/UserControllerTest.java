@@ -267,7 +267,10 @@ class UserControllerTest {
     @Order(3)
     void when_deleteUserWrongPassword_then_return403() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/userSystem/delete/" + "username")
-                        .content("wrong")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {"password":"wrong" }
+                                """)
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
@@ -277,7 +280,10 @@ class UserControllerTest {
     @Order(3)
     void when_deleteUserNoLead_then_return403() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/userSystem/delete/" + "username")
-                        .content("testChangePassword")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {"password":"testChangePassword" }
+                                """)
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
@@ -287,7 +293,10 @@ class UserControllerTest {
     @Order(4)
     void when_deleteUser_then_return200OkAndMessage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/userSystem/delete/" + "username")
-                        .content("testChangePassword")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                        {"password":"testChangePassword" }
+                                """)
                         .with(csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("User username deleted."));
