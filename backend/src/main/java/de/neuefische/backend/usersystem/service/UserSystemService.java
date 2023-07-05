@@ -104,10 +104,10 @@ public class UserSystemService implements UserDetailsService {
     public String deleteUser(String usernameLead, String password, String username) throws IllegalAccessException {
         UserBody leadUser = userRepository.findUserBodyByUsername(usernameLead).orElseThrow();
         PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
-        if (!passwordEncoder.matches(leadUser.getPassword(), password) || !leadUser.getRoles().contains(new SimpleGrantedAuthority("LEAD"))) {
+        if (!passwordEncoder.matches(password, leadUser.getPassword()) || !leadUser.getRoles().contains(new SimpleGrantedAuthority("LEAD"))) {
             throw new IllegalAccessException("Wrong password or no authority.");
         }
-        userRepository.deleteById(userRepository.findUserBodyByUsername(username).orElseThrow().getId());
+        userRepository.delete(userRepository.findUserBodyByUsername(username).orElseThrow());
         return "User " + username + " deleted.";
     }
 }

@@ -275,4 +275,75 @@ class UserSystemServiceTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    void when_deleteUserWrongUsernameLead_then_throwException() {
+        //Given
+        String leadUser = "leadUser";
+        String password = "password";
+        String userToDelete = "user";
+        //When
+        when(userRepository.findUserBodyByUsername(leadUser)).thenReturn(Optional.empty());
+        //Then
+        assertThrows(NoSuchElementException.class,
+                () -> userSystemService.deleteUser(leadUser, password, userToDelete));
+    }
+
+    @Test
+    void when_deleteUserWrongPassword_then_throwException() {
+        //Given
+        String leadUser = "leadUser";
+        String password = "password";
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        String savedPassword = passwordEncoder.encode("wrong");
+        String userToDelete = "user";
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername(leadUser);
+        savedUser.setPassword(savedPassword);
+        savedUser.setRoles(List.of(new SimpleGrantedAuthority("LEAD")));
+        when(userRepository.findUserBodyByUsername(leadUser)).thenReturn(Optional.of(savedUser));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> userSystemService.deleteUser(leadUser, password, userToDelete));
+    }
+
+    @Test
+    void when_deleteUserNoLead_then_throwException() {
+        //Given
+        String leadUser = "leadUser";
+        String password = "password";
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        String savedPassword = passwordEncoder.encode(password);
+        String userToDelete = "user";
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername(leadUser);
+        savedUser.setPassword(savedPassword);
+        savedUser.setRoles(List.of(new SimpleGrantedAuthority("ALL")));
+        when(userRepository.findUserBodyByUsername(leadUser)).thenReturn(Optional.of(savedUser));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> userSystemService.deleteUser(leadUser, password, userToDelete));
+    }
+
+    @Test
+    void when_deleteUser_then_returnMessage() throws IllegalAccessException {
+        //Given
+        String leadUser = "leadUser";
+        String password = "password";
+        PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
+        String savedPassword = passwordEncoder.encode(password);
+        String userToDelete = "user";
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername(leadUser);
+        savedUser.setPassword(savedPassword);
+        savedUser.setRoles(List.of(new SimpleGrantedAuthority("LEAD")));
+        when(userRepository.findUserBodyByUsername(leadUser)).thenReturn(Optional.of(savedUser));
+        UserBody userBodyDelete = new UserBody();
+        when(userRepository.findUserBodyByUsername(userToDelete)).thenReturn(Optional.of(userBodyDelete));
+        doNothing().doThrow(new RuntimeException()).when(userRepository).delete(userBodyDelete);
+        String expected = "User " + userToDelete + " deleted.";
+        //When
+        String actual = userSystemService.deleteUser(leadUser, password, userToDelete);
+        //Then
+        assertEquals(expected, actual);
+    }
 }
