@@ -261,4 +261,35 @@ class UserControllerTest {
                         }
                         """));
     }
+
+    @Test
+    @WithMockUser(username = "username", authorities = {"ALL", "LEAD"})
+    @Order(3)
+    void when_deleteUserWrongPassword_then_return403() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/userSystem/delete/" + "username")
+                        .content("wrong")
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "username", authorities = {"ALL"})
+    @Order(3)
+    void when_deleteUserNoLead_then_return403() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/userSystem/delete/" + "username")
+                        .content("testChangePassword")
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(username = "username", authorities = {"ALL", "LEAD"})
+    @Order(4)
+    void when_deleteUser_then_return200OkAndMessage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/userSystem/delete/" + "username")
+                        .content("testChangePassword")
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("User username deleted."));
+    }
 }
