@@ -8,7 +8,7 @@ type Props = {
 }
 
 function UserChange(props: Props) {
-    const accessLevel = ["ALL", "PURCHASE", "LEAD"]
+    const authorities = ["ALL", "PURCHASE", "LEAD"]
     const [newAuthorities, setNewAuthorities] = useState<string[]>(["ALL"]);
 
     function handleNewAuthorities(authority: string) {
@@ -45,26 +45,26 @@ function UserChange(props: Props) {
             <h2>Change Authorites:</h2>
             <form onSubmit={handleChangeAuthorities}>
                 <label>
-                    {accessLevel.map((currentLevel) => (
-                        currentLevel === "ALL"
+                    {authorities.map((auth) => (
+                        auth === "ALL"
                             ?
-                            <div key={currentLevel}>
+                            <div key={auth}>
                                 <input type="checkbox"
                                        name="AccesLevel"
-                                       value={currentLevel}
-                                       onClick={() => handleNewAuthorities(currentLevel)}
+                                       value={auth}
+                                       onClick={() => handleNewAuthorities(auth)}
                                        defaultChecked
                                 />
-                                <label>{currentLevel}</label>
+                                <label>{auth}</label>
                             </div>
                             :
-                            <div key={currentLevel}>
+                            <div key={auth}>
                                 <input type="checkbox"
                                        name="AccesLevel"
-                                       value={currentLevel}
-                                       onClick={() => handleNewAuthorities(currentLevel)}
+                                       value={auth}
+                                       onClick={() => handleNewAuthorities(auth)}
                                 />
-                                <label>{currentLevel}</label>
+                                <label>{auth}</label>
                             </div>
                     ))}
                 </label>
