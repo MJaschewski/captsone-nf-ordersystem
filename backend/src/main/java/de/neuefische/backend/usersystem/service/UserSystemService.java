@@ -57,7 +57,7 @@ public class UserSystemService implements UserDetailsService {
         userBody.setUsername(userDTO.getUsername());
         userBody.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userBody.setId(generateIdService.generateUserUUID());
-        userBody.setRoles(userDTO.getAuthorities().stream().map(roles -> new SimpleGrantedAuthority(roles)).toList());
+        userBody.setRoles(userDTO.getAuthorities().stream().map(SimpleGrantedAuthority::new).toList());
 
         userRepository.save(userBody);
 
@@ -88,5 +88,16 @@ public class UserSystemService implements UserDetailsService {
         savedUser.setPassword(passwordEncoder.encode(passwordChangeDTO.getNewPassword()));
         userRepository.save(savedUser);
         return "Password Changed";
+    }
+
+    public LoginDTO changeAuthorities(List<String> authorites, LoginDTO loginDTO) throws IllegalAccessException {
+        authorityLeadCheck(authorites);
+        UserBody savedUser = userRepository.findUserBodyByUsername(loginDTO.getUsername()).orElseThrow();
+        if (!loginDTO.getAuthorities().contains("ALL")) {
+            throw new IllegalArgumentException("Authorities must contain ALL");
+        }
+        savedUser.setRoles(loginDTO.getAuthorities().stream().map(SimpleGrantedAuthority::new).toList());
+        userRepository.save(savedUser);
+        return new LoginDTO(savedUser.getUsername(), savedUser.getRoles().stream().map(Object::toString).toList());
     }
 }

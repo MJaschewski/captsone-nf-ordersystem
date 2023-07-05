@@ -23,6 +23,7 @@ function OrderDetails() {
 
     return (
         <div className="Left-Align-Wrapper">
+            <h1>Order Details:</h1>
             {orderBody !== undefined ?
                 <OrderOpticalElement orderBody={orderBody}/>
                 : <></>}

@@ -50,7 +50,10 @@ function FormProductSubmit(props: Props) {
                     <input type="text" name="productImageURL" value={props.productImageURL}
                            onChange={props.handleChangeProductImageURL}/>
                 </label>
-                <button className="button-submit-wrapper">{props.buttonDescription}</button>
+                <p>
+                    <button className="button-submit-wrapper">{props.buttonDescription}</button>
+                </p>
+
             </form>
         </div>
     );

@@ -233,4 +233,46 @@ class UserSystemServiceTest {
         verify(userRepository).save(savedUser);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void when_changeAuthorityNoLead_then_throwException() {
+        //Given
+        List<String> authorities = List.of("ALL");
+        LoginDTO loginDTO = new LoginDTO("username", List.of("ALL", "PURCHASE"));
+        //When & Then
+        assertThrows(IllegalAccessException.class,
+                () -> userSystemService.changeAuthorities(authorities, loginDTO));
+    }
+
+    @Test
+    void when_changeAuthorityWrongUsername_then_throwException() {
+        //Given
+        List<String> authorities = List.of("ALL", "LEAD");
+        LoginDTO loginDTO = new LoginDTO("username", List.of("ALL", "PURCHASE"));
+        //When
+        when(userRepository.findUserBodyByUsername("username")).thenReturn(Optional.empty());
+        //Then
+        assertThrows(NoSuchElementException.class,
+                () -> userSystemService.changeAuthorities(authorities, loginDTO));
+    }
+
+    @Test
+    void when_changeAuthority_then_returnLoginDTO() throws IllegalAccessException {
+        //Given
+        List<String> authorities = List.of("ALL", "LEAD");
+        String username = "username";
+        LoginDTO expected = new LoginDTO(username, List.of("ALL", "PURCHASE"));
+        UserBody savedUser = new UserBody();
+        savedUser.setUsername(username);
+        UserBody changedBody = new UserBody();
+        changedBody.setUsername(username);
+        changedBody.setRoles(expected.getAuthorities().stream().map(SimpleGrantedAuthority::new).toList());
+        //When
+        when(userRepository.findUserBodyByUsername(username)).thenReturn(Optional.of(savedUser));
+        when(userRepository.save(changedBody)).thenReturn(changedBody);
+        LoginDTO actual = userSystemService.changeAuthorities(authorities, expected);
+        //Then
+        assertEquals(expected, actual);
+    }
+
 }

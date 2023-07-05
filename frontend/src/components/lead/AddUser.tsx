@@ -37,6 +37,7 @@ function AddUser() {
 
     return (
         <div>
+            <h1>Add User</h1>
             <form onSubmit={handleUserSubmit}>
                 <h3>Enter Username</h3>
                 <label htmlFor="username">
@@ -53,24 +54,26 @@ function AddUser() {
                     {accessLevel.map((currentLevel) => (
                         currentLevel === "ALL"
                             ?
-                            <div key={currentLevel}>
+                            <label key={currentLevel} className="checkbox-Wrapper">
+                                {currentLevel}
                                 <input type="checkbox"
                                        name="AccesLevel"
                                        value={currentLevel}
                                        onClick={() => handleNewAuthorities(currentLevel)}
                                        defaultChecked
                                 />
-                                <label>{currentLevel}</label>
-                            </div>
+                                <span className="checkmark"></span>
+                            </label>
                             :
-                            <div key={currentLevel}>
+                            <label key={currentLevel} className="checkbox-Wrapper">
+                                {currentLevel}
                                 <input type="checkbox"
                                        name="AccesLevel"
                                        value={currentLevel}
                                        onClick={() => handleNewAuthorities(currentLevel)}
                                 />
-                                <label>{currentLevel}</label>
-                            </div>
+                                <span className="checkmark"></span>
+                            </label>
                     ))}
                 </label>
                 <button className="button-submit-wrapper">Create User</button>

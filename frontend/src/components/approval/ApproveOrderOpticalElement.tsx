@@ -44,7 +44,7 @@ function ApproveOrderOpticalElement(props: Props) {
             {props.orderBody.orderStatus !== "ORDERED"
                 ? <div>
                     <button className="button-submit-wrapper" onClick={handleApproval}>Approve Order</button>
-                    <button className="button-cancel-wrapper" onClick={handleDisapproval}>Reject Order</button>
+                    <button className="button-cancel-wrapper" onClick={handleDisapproval}>Reject</button>
                 </div>
                 : <></>
             }

@@ -48,13 +48,15 @@ function AccountPage() {
 
     return (
         <div>
+            <h1>Manage Account:</h1>
             <div>
-                <h2>Manage your account</h2>
+                <h2>Your account</h2>
                 <p>Username: {ownUser.username} </p>
-                <p>Authorities: {ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
+                <h3>Authorities:</h3>
+                <p>{ownUser.authorities.map(auth => <p key={"p" + auth}>{auth}</p>)} </p>
             </div>
             {!showPasswordChange
-                ? <button onClick={() => setShowPasswordChange(true)}>Change Password?</button>
+                ? <button onClick={() => setShowPasswordChange(true)}>Change Password</button>
                 : <div className="passwordChange-Wrapper">
                     <h2>Password Change:</h2>
                     <form onSubmit={handleChangePasswordSubmit}>

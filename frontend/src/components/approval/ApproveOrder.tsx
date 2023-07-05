@@ -23,18 +23,19 @@ function ApproveOrder() {
         <div>
             <h1>Approve Orders</h1>
             <h2>List of Orders:</h2>
-            <ul>{orderList.map(currentOrderBody => (
-                    <li key={currentOrderBody.id}>
-                        <p>OrderId: {currentOrderBody.id}</p>
-                        <p>Owner: {currentOrderBody.owner}</p>
-                        <p>Approval Purchase: {currentOrderBody.approvalPurchase.toString()} </p>
-                        <p>Approval Lead: {currentOrderBody.approvalLead.toString()} </p>
-                        <p>Status: {currentOrderBody.orderStatus}</p>
-                        <p>
-                            <button
-                                onClick={() => navigate("/orderHub/approval/details/" + currentOrderBody.id)}>Details
-                            </button>
-                        </p>
+
+            <ul className="orderHubProductList-Wrapper">{orderList.map(currentOrderBody => (
+                <li key={currentOrderBody.id} className="orderListElement-Wrapper">
+                    <h3>OrderId: {currentOrderBody.id}</h3>
+                    <p>Owner: {currentOrderBody.owner}</p>
+                    <p>Approval Purchase: {currentOrderBody.approvalPurchase.toString()} </p>
+                    <p>Approval Lead: {currentOrderBody.approvalLead.toString()} </p>
+                    <p>Status: {currentOrderBody.orderStatus}</p>
+                    <p>
+                        <button
+                            onClick={() => navigate("/orderHub/approval/details/" + currentOrderBody.id)}>Details
+                        </button>
+                    </p>
                     </li>
                 )
             )}
