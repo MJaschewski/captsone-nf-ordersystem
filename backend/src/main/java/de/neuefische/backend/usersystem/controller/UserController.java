@@ -2,6 +2,7 @@ package de.neuefische.backend.usersystem.controller;
 
 import de.neuefische.backend.usersystem.model.LoginDTO;
 import de.neuefische.backend.usersystem.model.PasswordChangeDTO;
+import de.neuefische.backend.usersystem.model.PasswordDTO;
 import de.neuefische.backend.usersystem.model.UserRegistrationDTO;
 import de.neuefische.backend.usersystem.service.UserSystemService;
 import jakarta.servlet.http.HttpSession;
@@ -72,6 +73,11 @@ public class UserController {
     @PutMapping("/authority")
     public LoginDTO changeAuthorities(@RequestBody LoginDTO loginDTO) throws IllegalAccessException {
         return userSystemService.changeAuthorities(SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().map(Object::toString).toList(), loginDTO);
+    }
+
+    @DeleteMapping("/delete/{username}")
+    public String deleteUser(@PathVariable String username, @RequestBody PasswordDTO passwordDTO) throws IllegalAccessException {
+        return userSystemService.deleteUser(SecurityContextHolder.getContext().getAuthentication().getName(), passwordDTO.getPassword(), username);
     }
 
 }

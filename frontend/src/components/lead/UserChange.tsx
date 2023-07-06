@@ -10,6 +10,8 @@ type Props = {
 function UserChange(props: Props) {
     const authorities = ["ALL", "PURCHASE", "LEAD"]
     const [newAuthorities, setNewAuthorities] = useState<string[]>(["ALL"]);
+    const [showDeleteUser, setShowDeleteUser] = useState(false);
+    const [password, setPassword] = useState<string>("")
 
     function handleNewAuthorities(authority: string) {
         const index = newAuthorities.indexOf(authority);
@@ -28,6 +30,15 @@ function UserChange(props: Props) {
         axios.put('/api/userSystem/authority', userSimpleBody)
             .then(response => console.log(response.data))
             .then(() => props.handleShowChangeUser(userSimpleBody))
+            .catch(error => console.log(error))
+    }
+
+    function handleDeleteUser(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        const passwordDTO = {password: password};
+        axios.delete('/api/userSystem/delete/' + props.user.username, {data: passwordDTO})
+            .then(r => console.log(r.data))
+            .then(() => props.handleShowChangeUser({username: "", authorities: []}))
             .catch(error => console.log(error))
     }
 
@@ -72,6 +83,20 @@ function UserChange(props: Props) {
                 </label>
                 <button className="button-submit-wrapper">Change Authorities</button>
             </form>
+            {!showDeleteUser
+                ? <button className="button-cancel-wrapper" onClick={() => setShowDeleteUser(true)}>Delete User</button>
+                : <div className="Left-Align-Wrapper">
+                    <h3>Do you really want to delete User {props.user.username}?</h3>
+                    <form onSubmit={handleDeleteUser}>
+                        <label>
+                            <p>Enter Password to Delete User:</p>
+                            <input type="password" onChange={event => setPassword(event.target.value)}/>
+                        </label>
+                        <button className="button-submit-wrapper"> Yes</button>
+                    </form>
+                    <button className="button-cancel-wrapper" onClick={() => setShowDeleteUser(false)}> No</button>
+                </div>
+            }
             <button className="button-cancel-wrapper"
                     onClick={() => props.handleShowChangeUser({username: "", authorities: []})}> Back
             </button>
