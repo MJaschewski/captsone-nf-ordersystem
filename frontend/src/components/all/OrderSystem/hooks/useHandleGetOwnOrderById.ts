@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {OrderBodyType} from "../OrderBodyType";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export default function useHandleGetOwnOrderById() {
     const [orderBody, setOrderBody] = useState<OrderBodyType>()
@@ -12,7 +13,16 @@ export default function useHandleGetOwnOrderById() {
                 .then(data => {
                     setOrderBody(data);
                 })
-                .catch(error => console.log(error))
+                .catch(error => toast.error(error.message, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                }))
         }
     }
 

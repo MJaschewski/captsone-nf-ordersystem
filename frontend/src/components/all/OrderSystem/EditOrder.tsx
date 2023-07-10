@@ -6,6 +6,7 @@ import {OrderDTO} from "./OrderDTO";
 import axios from "axios";
 import useHandleGetOwnOrderById from "./hooks/useHandleGetOwnOrderById";
 import FormProductListSubmit from "./FormProductListSubmit";
+import {toast} from "react-toastify";
 
 function EditOrder() {
     const navigate = useNavigate();
@@ -26,9 +27,29 @@ function EditOrder() {
         event.preventDefault()
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.put('/api/orderSystem/' + id, orderDTO)
-            .then(response => console.log(response.data))
+            .then(response =>
+                toast.success("Order: " + response.data.id + " edited.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
+            )
             .then(() => navigate("/orderHub"))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     return (
