@@ -17,7 +17,7 @@ export default function useHookLogin() {
                 }
             })
             .catch(error => {
-                toast.error("Loin failed: " + error.response.status);
+                toast.error("Login failed: " + error.response.status);
                 secureLocalStorage.setItem("username", "Anonymous User.")
                     secureLocalStorage.setItem("authorities", "None")
                 }
