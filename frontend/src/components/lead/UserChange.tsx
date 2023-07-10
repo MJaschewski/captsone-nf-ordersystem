@@ -32,7 +32,7 @@ function UserChange(props: Props) {
             .then(response =>
                 toast.success("User " + response.data.username + " edited."))
             .then(() => props.handleShowChangeUser(userSimpleBody))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     function handleDeleteUser(event: FormEvent<HTMLFormElement>) {
@@ -42,7 +42,7 @@ function UserChange(props: Props) {
             .then(response =>
                 toast.success(response.data))
             .then(() => props.handleShowChangeUser({username: "", authorities: []}))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

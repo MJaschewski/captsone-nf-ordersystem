@@ -34,7 +34,7 @@ function EditProduct() {
                 toast.success("Product " + response.data.name + " edited.")
             })
             .then(() => navigate("/productHub/details/" + id))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     function handleChangeProductName(event: ChangeEvent<HTMLInputElement>) {

@@ -44,7 +44,7 @@ function AccountPage() {
             .then(response =>
                 toast.success(response.data))
             .then(() => setShowPasswordChange(false))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
 
     }
 

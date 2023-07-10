@@ -31,7 +31,7 @@ function EditOrder() {
                 toast.success("Order: " + response.data.id + " edited.")
             )
             .then(() => navigate("/orderHub"))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

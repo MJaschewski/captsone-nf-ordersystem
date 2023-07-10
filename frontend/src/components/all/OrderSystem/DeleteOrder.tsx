@@ -13,7 +13,7 @@ function DeleteOrder() {
             .then(response =>
                 toast.success(response.data))
             .then(() => navigate("/orderHub"))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

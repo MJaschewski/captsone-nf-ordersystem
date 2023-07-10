@@ -19,7 +19,7 @@ function UserHub() {
             .then(data => {
                 setUserList(data)
             })
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     function handleShowChangeUser(userBody: UserSimpleBody) {

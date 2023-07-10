@@ -23,7 +23,7 @@ function AddUser() {
             .then(response =>
                 toast.success("User: " + response.data.username + " added."))
             .then(() => navigate("/userHub"))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     function handleNewAuthorities(authority: string) {

@@ -22,7 +22,7 @@ function AddOrder() {
             .then(response =>
                 toast.success("Order: " + response.data.id + " added."))
             .then(() => navigate("/orderHub"))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

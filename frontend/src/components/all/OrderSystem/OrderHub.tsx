@@ -16,7 +16,7 @@ function OrderHub() {
             .then(data => {
                 setOrderList(data);
             })
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

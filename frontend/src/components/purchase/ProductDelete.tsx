@@ -11,7 +11,7 @@ function ProductDelete() {
         axios.delete('/api/productSystem/' + id)
             .then(response => toast.success(response.data))
             .then(() => navigate("/productHub"))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

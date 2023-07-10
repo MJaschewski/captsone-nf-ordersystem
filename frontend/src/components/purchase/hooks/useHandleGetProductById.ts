@@ -13,7 +13,7 @@ export default function useHandleGetProductById() {
                 .then(data => {
                     setProductBody(data);
                 })
-                .catch(error => toast.error(error.message))
+                .catch(error => toast.error(error.response.status + ": " + error.response.data))
         }
     }
 

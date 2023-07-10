@@ -24,7 +24,7 @@ function ApproveOrderOpticalElement(props: Props) {
             .then(response =>
                 toast.success(response.data))
             .then(() => navigate("/orderHub/approval"))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

@@ -19,7 +19,7 @@ function OrderDetails() {
         axios.put("/api/orderSystem/own/send/" + id)
             .then(response => toast.success(response.data))
             .then(() => handleGetOwnOrderById(id))
-            .catch(error => toast.error(error.message))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (
