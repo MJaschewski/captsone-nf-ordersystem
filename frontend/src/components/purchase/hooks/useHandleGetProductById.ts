@@ -6,7 +6,7 @@ export default function useHandleGetProductById() {
     const [productBody, setProductBody] = useState<ProductBodyType>()
 
     function handleGetProductById(id: string | undefined) {
-        if (id != undefined) {
+        if (id !== undefined) {
             axios.get('/api/productSystem/' + id)
                 .then(response => response.data)
                 .then(data => {
