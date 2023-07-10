@@ -17,7 +17,7 @@ function LoginPage(props: Props) {
             await props.login(username, password);
             navigate("/");
         } catch (error) {
-            toast.error("login failed.")
+            toast.error("Login failed.")
         }
     }
 
