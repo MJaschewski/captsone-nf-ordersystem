@@ -1,6 +1,7 @@
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 type RegisterDTO = {
     username: string,
@@ -19,9 +20,28 @@ function AddUser() {
         event.preventDefault();
         const registerDTO: RegisterDTO = {username: newUsername, password: newPassword, authorities: newAuthorities};
         axios.post('/api/userSystem/register', registerDTO)
-            .then(response => console.log(response))
+            .then(response =>
+                toast.success("User: " + response.data.username + " added.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                }))
             .then(() => navigate("/userHub"))
-            .catch(error => console.log(error));
+            .catch(error => toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     function handleNewAuthorities(authority: string) {

@@ -3,6 +3,7 @@ import axios from "axios";
 import {UserSimpleBody} from "../UserSimpleBodyType";
 import UserList from "./UserList";
 import UserChange from "./UserChange";
+import {toast} from "react-toastify";
 
 
 function UserHub() {
@@ -18,7 +19,16 @@ function UserHub() {
             .then(data => {
                 setUserList(data)
             })
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     function handleShowChangeUser(userBody: UserSimpleBody) {
