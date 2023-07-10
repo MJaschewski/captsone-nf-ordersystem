@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {OrderBodyType} from "../all/OrderSystem/OrderBodyType";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 function ApproveOrder() {
     const navigate = useNavigate();
@@ -14,9 +15,17 @@ function ApproveOrder() {
             .then(response => response.data)
             .then(data => {
                 setOrderList(data);
-                console.log(data)
             })
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     return (

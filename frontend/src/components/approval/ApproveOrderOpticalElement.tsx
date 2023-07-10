@@ -2,6 +2,7 @@ import React from 'react';
 import {OrderBodyType} from '../all/OrderSystem/OrderBodyType';
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 type Props = {
     orderBody: OrderBodyType
@@ -12,14 +13,54 @@ function ApproveOrderOpticalElement(props: Props) {
 
     function handleApproval() {
         axios.put("/api/orderSystem/approve/" + props.orderBody.id)
+            .then(response =>
+                toast.success("Order: " + response.data.id + " approved.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                }))
             .then(() => navigate("/orderHub/approval"))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     function handleDisapproval() {
         axios.put("/api/orderSystem/disapprove/" + props.orderBody.id)
+            .then(response =>
+                toast.success(response.data, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                }))
             .then(() => navigate("/orderHub/approval"))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            }))
     }
 
     return (
