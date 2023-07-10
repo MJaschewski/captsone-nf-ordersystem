@@ -39,8 +39,7 @@ function AddProduct() {
             imageURL: productImageURL
         }
         axios.post('api/productSystem', productDTO)
-            .then(response =>
-                toast.success("Product " + response.data.name + " added."))
+            .then(response => toast.success("Product " + response.data.name + " added."))
             .then(() => navigate("/productHub"))
             .catch(error => toast.error(error.message))
     }

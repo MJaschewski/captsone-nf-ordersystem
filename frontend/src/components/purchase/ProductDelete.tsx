@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 function ProductDelete() {
     const navigate = useNavigate();
@@ -8,9 +9,9 @@ function ProductDelete() {
 
     function handleDeletion() {
         axios.delete('/api/productSystem/' + id)
-            .then(response => console.log(response.data))
+            .then(response => toast.success(response.data))
             .then(() => navigate("/productHub"))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.message))
     }
 
     return (
