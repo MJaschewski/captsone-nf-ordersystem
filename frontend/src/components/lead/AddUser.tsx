@@ -21,27 +21,9 @@ function AddUser() {
         const registerDTO: RegisterDTO = {username: newUsername, password: newPassword, authorities: newAuthorities};
         axios.post('/api/userSystem/register', registerDTO)
             .then(response =>
-                toast.success("User: " + response.data.username + " added.", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success("User: " + response.data.username + " added."))
             .then(() => navigate("/userHub"))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     function handleNewAuthorities(authority: string) {

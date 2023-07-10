@@ -14,53 +14,17 @@ function ApproveOrderOpticalElement(props: Props) {
     function handleApproval() {
         axios.put("/api/orderSystem/approve/" + props.orderBody.id)
             .then(response =>
-                toast.success("Order: " + response.data.id + " approved.", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success("Order: " + response.data.id + " approved."))
             .then(() => navigate("/orderHub/approval"))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     function handleDisapproval() {
         axios.put("/api/orderSystem/disapprove/" + props.orderBody.id)
             .then(response =>
-                toast.success(response.data, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success(response.data))
             .then(() => navigate("/orderHub/approval"))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     return (

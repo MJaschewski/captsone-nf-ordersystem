@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {ProductBodyType} from "../ProductBodyType";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export default function useHandleGetProductById() {
     const [productBody, setProductBody] = useState<ProductBodyType>()
@@ -12,7 +13,7 @@ export default function useHandleGetProductById() {
                 .then(data => {
                     setProductBody(data);
                 })
-                .catch(error => console.log(error))
+                .catch(error => toast.error(error.message))
         }
     }
 

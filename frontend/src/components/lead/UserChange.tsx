@@ -30,27 +30,9 @@ function UserChange(props: Props) {
         const userSimpleBody: UserSimpleBody = {username: props.user.username, authorities: newAuthorities}
         axios.put('/api/userSystem/authority', userSimpleBody)
             .then(response =>
-                toast.success("User " + response.data.username + " edited.", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success("User " + response.data.username + " edited."))
             .then(() => props.handleShowChangeUser(userSimpleBody))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     function handleDeleteUser(event: FormEvent<HTMLFormElement>) {
@@ -58,27 +40,9 @@ function UserChange(props: Props) {
         const passwordDTO = {password: password};
         axios.delete('/api/userSystem/delete/' + props.user.username, {data: passwordDTO})
             .then(response =>
-                toast.success(response.data, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success(response.data))
             .then(() => props.handleShowChangeUser({username: "", authorities: []}))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     return (

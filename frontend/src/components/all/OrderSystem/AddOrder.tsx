@@ -20,27 +20,9 @@ function AddOrder() {
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.post('/api/orderSystem', orderDTO)
             .then(response =>
-                toast.success("Order: " + response.data.id + " added.", {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success("Order: " + response.data.id + " added."))
             .then(() => navigate("/orderHub"))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     return (

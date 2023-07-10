@@ -11,27 +11,9 @@ function DeleteOrder() {
     function handleDeletion() {
         axios.delete('/api/orderSystem/' + id)
             .then(response =>
-                toast.success(response.data, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success(response.data))
             .then(() => navigate("/orderHub"))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
     }
 
     return (

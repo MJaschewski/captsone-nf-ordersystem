@@ -11,41 +11,14 @@ export default function useHookLogin() {
                 if (response.status === 200) {
                     secureLocalStorage.setItem("username", response.data.username)
                     secureLocalStorage.setItem("authorities", JSON.stringify(response.data.authorities))
-                    toast.success('Logged in.', {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    toast.success('Logged in.');
                 } else {
-                    toast.error(response.status + ": " + response.statusText, {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
+                    toast.error(response.status + ": " + response.statusText);
                 }
             })
             .catch(error => {
-                    toast.error(error.message, {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "light",
-                    });
-                    secureLocalStorage.setItem("username", "Anonymous User.")
+                toast.error(error.message);
+                secureLocalStorage.setItem("username", "Anonymous User.")
                     secureLocalStorage.setItem("authorities", "None")
                 }
             )

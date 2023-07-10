@@ -42,27 +42,9 @@ function AccountPage() {
         const passwordChangeDTO: PasswordChangeDTO = {oldPassword: oldPassword, newPassword: newPassword}
         axios.put('/api/userSystem/password', passwordChangeDTO)
             .then(response =>
-                toast.success(response.data, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                }))
+                toast.success(response.data))
             .then(() => setShowPasswordChange(false))
-            .catch(error => toast.error(error.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-            }))
+            .catch(error => toast.error(error.message))
 
     }
 
