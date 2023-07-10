@@ -5,6 +5,7 @@ import {OrderDTO} from "./OrderDTO";
 import useHandleOrderProductList from "./hooks/useHandleOrderProductList";
 import useHandleValidProductList from "./hooks/useHandleValidProductList";
 import FormProductListSubmit from "./FormProductListSubmit";
+import {toast} from "react-toastify";
 
 function AddOrder() {
     const navigate = useNavigate();
@@ -18,9 +19,10 @@ function AddOrder() {
         event.preventDefault()
         const orderDTO: OrderDTO = {productBodyList: orderProductList}
         axios.post('/api/orderSystem', orderDTO)
-            .then(response => console.log(response.data))
+            .then(response =>
+                toast.success("Order: " + response.data.id + " added."))
             .then(() => navigate("/orderHub"))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

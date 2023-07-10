@@ -5,6 +5,7 @@ import {ProductDTO} from "./ProductDTOType";
 import axios from "axios";
 import ProductOpticalElement from "./ProductOpticalElement";
 import FormProductSubmit from "./FormProductSubmit";
+import {toast} from "react-toastify";
 
 
 function EditProduct() {
@@ -30,10 +31,10 @@ function EditProduct() {
         }
         axios.put('/api/productSystem/' + id, productDTO)
             .then(response => {
-                console.log(response.data)
+                toast.success("Product " + response.data.name + " edited.")
             })
             .then(() => navigate("/productHub/details/" + id))
-            .catch(error => console.log(error));
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     function handleChangeProductName(event: ChangeEvent<HTMLInputElement>) {

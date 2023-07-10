@@ -1,5 +1,6 @@
 import axios from "axios";
 import secureLocalStorage from "react-secure-storage";
+import {toast} from "react-toastify";
 
 
 export default function useHookLogin() {
@@ -10,15 +11,15 @@ export default function useHookLogin() {
                 if (response.status === 200) {
                     secureLocalStorage.setItem("username", response.data.username)
                     secureLocalStorage.setItem("authorities", JSON.stringify(response.data.authorities))
+                    toast.success('Logged in.');
                 } else {
-                    secureLocalStorage.setItem("username", "Anonymous User.")
-                    secureLocalStorage.setItem("authorities", "None")
+                    toast.error(response.status + ": " + response.statusText);
                 }
             })
             .catch(error => {
-                    console.log(error)
+                toast.error("Loin failed: " + error.response.status);
                 secureLocalStorage.setItem("username", "Anonymous User.")
-                secureLocalStorage.setItem("authorities", "None")
+                    secureLocalStorage.setItem("authorities", "None")
                 }
             )
     }

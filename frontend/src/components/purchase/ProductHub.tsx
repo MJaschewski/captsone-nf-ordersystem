@@ -3,6 +3,7 @@ import axios from "axios";
 import {ProductBodyType} from "./ProductBodyType";
 import ProductOpticalElement from "./ProductOpticalElement";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 
 function ProductHub() {
@@ -17,7 +18,7 @@ function ProductHub() {
             .then(data => {
                 setProductList(data);
             })
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

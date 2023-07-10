@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {OrderBodyType} from "./OrderBodyType";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 function OrderHub() {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ function OrderHub() {
             .then(data => {
                 setOrderList(data);
             })
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

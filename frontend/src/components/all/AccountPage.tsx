@@ -3,6 +3,7 @@ import {useNavigate} from "react-router-dom";
 import {UserSimpleBody} from "../UserSimpleBodyType";
 import secureLocalStorage from "react-secure-storage";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 type PasswordChangeDTO = {
     oldPassword: string,
@@ -40,9 +41,10 @@ function AccountPage() {
         event.preventDefault();
         const passwordChangeDTO: PasswordChangeDTO = {oldPassword: oldPassword, newPassword: newPassword}
         axios.put('/api/userSystem/password', passwordChangeDTO)
-            .then(response => console.log(response.data))
+            .then(response =>
+                toast.success(response.data))
             .then(() => setShowPasswordChange(false))
-            .catch(error => console.log(error));
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
 
     }
 

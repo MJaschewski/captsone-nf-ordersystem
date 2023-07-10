@@ -2,6 +2,7 @@ import React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 
 import axios from "axios";
+import {toast} from "react-toastify";
 
 function DeleteOrder() {
     const navigate = useNavigate();
@@ -9,9 +10,10 @@ function DeleteOrder() {
 
     function handleDeletion() {
         axios.delete('/api/orderSystem/' + id)
-            .then(response => console.log(response.data))
+            .then(response =>
+                toast.success(response.data))
             .then(() => navigate("/orderHub"))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

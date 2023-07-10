@@ -3,6 +3,7 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import {ProductDTO} from "./ProductDTOType";
 import FormProductSubmit from "./FormProductSubmit";
+import {toast} from "react-toastify";
 
 
 function AddProduct() {
@@ -38,11 +39,9 @@ function AddProduct() {
             imageURL: productImageURL
         }
         axios.post('api/productSystem', productDTO)
-            .then(response => {
-                console.log(response.data)
-            })
+            .then(response => toast.success("Product " + response.data.name + " added."))
             .then(() => navigate("/productHub"))
-            .catch(error => console.log(error));
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
     return (
         <div>

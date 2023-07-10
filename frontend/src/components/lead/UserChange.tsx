@@ -1,6 +1,7 @@
 import React, {FormEvent, useState} from 'react';
 import {UserSimpleBody} from "../UserSimpleBodyType";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 type Props = {
     user: UserSimpleBody
@@ -28,18 +29,20 @@ function UserChange(props: Props) {
         event.preventDefault();
         const userSimpleBody: UserSimpleBody = {username: props.user.username, authorities: newAuthorities}
         axios.put('/api/userSystem/authority', userSimpleBody)
-            .then(response => console.log(response.data))
+            .then(response =>
+                toast.success("User " + response.data.username + " edited."))
             .then(() => props.handleShowChangeUser(userSimpleBody))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     function handleDeleteUser(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         const passwordDTO = {password: password};
         axios.delete('/api/userSystem/delete/' + props.user.username, {data: passwordDTO})
-            .then(r => console.log(r.data))
+            .then(response =>
+                toast.success(response.data))
             .then(() => props.handleShowChangeUser({username: "", authorities: []}))
-            .catch(error => console.log(error))
+            .catch(error => toast.error(error.response.status + ": " + error.response.data))
     }
 
     return (

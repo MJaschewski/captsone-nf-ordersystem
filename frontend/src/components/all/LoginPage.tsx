@@ -1,5 +1,6 @@
 import React, {FormEvent, useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 type Props = {
     login: (username: string, password: string) => Promise<void>
@@ -16,7 +17,7 @@ function LoginPage(props: Props) {
             await props.login(username, password);
             navigate("/");
         } catch (error) {
-            console.error("Login error", error)
+            toast.error("Login failed.")
         }
     }
 

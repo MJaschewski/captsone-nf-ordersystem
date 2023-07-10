@@ -23,6 +23,9 @@ import UserHub from "./components/lead/UserHub";
 import ProtectedRoutesLead from "./components/ProtectedRoutesLead";
 import AddUser from "./components/lead/AddUser";
 import AccountPage from "./components/all/AccountPage";
+import 'react-toastify/dist/ReactToastify.css';
+import {ToastContainer} from "react-toastify";
+import React from "react";
 
 
 function App() {
@@ -63,6 +66,20 @@ function App() {
                         </Route>
                     </Route>
                 </Routes>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            {/* Same as */}
+            <ToastContainer/>
         </div>
   );
 }
