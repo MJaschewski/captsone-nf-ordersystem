@@ -17,6 +17,7 @@ function EditProduct() {
     const [productPrice, setProductPrice] = useState<number>(0.00)
     const [productAccessLevel, setProductAccessLevel] = useState<string>("")
     const [productImageURL, setProductImageURL] = useState<string>("")
+    const [load, setLoad] = useState(true)
 
     // eslint-disable-next-line
     useEffect(() => handleGetProductById(id), [])
@@ -53,6 +54,21 @@ function EditProduct() {
         setProductImageURL(event.target.value);
     }
 
+    function displayAfterLoad() {
+        if (productBody !== undefined) {
+            if (load) {
+                setProductName(productBody.name)
+                setProductPrice(productBody.price)
+                setProductImageURL(productBody.imageURL)
+                setProductAccessLevel(productBody.accessLevel)
+                setLoad(false)
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+
     return (
         <div>
             <h1>Edit product</h1>
@@ -61,17 +77,20 @@ function EditProduct() {
                 <ProductOpticalElement productBody={productBody}/>
                 : <></>}
             <h2>Edit Product:</h2>
-            <FormProductSubmit handleSubmit={handleProductSubmit}
-                               handleChangeProductName={handleChangeProductName}
-                               handleChangeProductPrice={handleChangeProductPrice}
-                               handleChangeProductAccessLevel={handleChangeProductAccessLevel}
-                               handleChangeProductImageURL={handleChangeProductImageURL}
-                               productName={productName}
-                               productPrice={productPrice}
-                               accessLevel={accessLevel}
-                               productImageURL={productImageURL}
-                               productAccessLevel={productAccessLevel}
-                               buttonDescription={"Edit Product"}/>
+            {displayAfterLoad()
+                ? <FormProductSubmit handleSubmit={handleProductSubmit}
+                                     handleChangeProductName={handleChangeProductName}
+                                     handleChangeProductPrice={handleChangeProductPrice}
+                                     handleChangeProductAccessLevel={handleChangeProductAccessLevel}
+                                     handleChangeProductImageURL={handleChangeProductImageURL}
+                                     productName={productName}
+                                     productPrice={productPrice}
+                                     accessLevel={accessLevel}
+                                     productImageURL={productImageURL}
+                                     productAccessLevel={productAccessLevel}
+                                     buttonDescription={"Edit Product"}/>
+                : <></>}
+
             <button className="button-cancel-wrapper" onClick={() => navigate("/productHub")}>Cancel</button>
         </div>
     );
