@@ -36,7 +36,7 @@ function App() {
     return (
         <div className="App">
             <header className="App-Header">
-                <h1>Order Approve & Supply</h1>
+                <h1>Order Management System</h1>
             </header>
                 <Routes>
                     <Route path={"/login"} element={<LoginPage login={login}/>}/>
