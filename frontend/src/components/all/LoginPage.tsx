@@ -25,13 +25,15 @@ function LoginPage(props: Props) {
         <div className="Main-Page-Wrapper">
             <h2>Please Login:</h2>
             <form onSubmit={loginOnSubmit} className="form-login-wrapper">
-                <label>
-                    Username:
-                    <input type="text" onChange={event => setUsername(event.target.value)}/>
+                <label className="Input-Login-Label">
+                    <label>Username:</label>
+                    <input className="Input-Login-Element" type="text"
+                           onChange={event => setUsername(event.target.value)}/>
                 </label>
                 <label>
-                    Password:
-                    <input type="password" onChange={event => setPassword(event.target.value)}/>
+                    <label>Password:</label>
+                    <input className="Input-Login-Element" type="password"
+                           onChange={event => setPassword(event.target.value)}/>
                 </label>
                 <button>Login</button>
             </form>
