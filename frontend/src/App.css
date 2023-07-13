@@ -31,7 +31,20 @@
 
 .form-login-wrapper {
     display: flex;
+    gap: 5px;
     flex-direction: column;
+
+}
+
+.Input-Login-Label {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Input-Login-Element {
+    width: 200px;
+    margin: 2px;
+    padding: 2px;
 }
 
 header h1 {
